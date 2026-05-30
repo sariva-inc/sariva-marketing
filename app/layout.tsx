@@ -7,26 +7,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Sariva.ai - AI Platform Engineering for Intelligent Infrastructure',
-  description: 'Sariva helps organizations design, automate, and scale AI-ready cloud platforms using AWS, platform engineering, and intelligent infrastructure patterns.',
+  title: 'Sariva — AI operator for Kafka and Flink',
+  description: 'Sariva is an AI operator for Apache Kafka and Apache Flink. Available in Slack, CLI, and REST API. Ask questions in plain English. Get answers with context. Execute changes with an audit trail.',
   generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
 }
 
 export default function RootLayout({
