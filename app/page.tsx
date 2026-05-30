@@ -153,14 +153,10 @@ const Hero = () => {
             <div className="eyebrow mb-4">AI PLATFORM · FOR STREAMING INFRASTRUCTURE</div>
 
             <h1 className="text-[clamp(2.4rem,9vw,4.2rem)] leading-[1.05] tracking-[-0.03em] font-semibold text-[#0a0a0a] mb-6">
-              Operate <span className="relative inline-block">
-                <span className="absolute inset-0 bg-[#eef1fe] -z-10" style={{ height: '0.36em', top: '0.45em' }}>
-                </span>
+              Operate <span className="relative inline-block" style={{ backgroundImage: 'linear-gradient(transparent 60%, #EEF1FE 60%)', backgroundRepeat: 'repeat-x', backgroundSize: '100% 100%', backgroundPosition: '0 0' }}>
                 Kafka
               </span>
-              {' '}and <span className="relative inline-block">
-                <span className="absolute inset-0 bg-[#eef1fe] -z-10" style={{ height: '0.36em', top: '0.45em' }}>
-                </span>
+              {' '}and <span className="relative inline-block" style={{ backgroundImage: 'linear-gradient(transparent 60%, #EEF1FE 60%)', backgroundRepeat: 'repeat-x', backgroundSize: '100% 100%', backgroundPosition: '0 0' }}>
                 Flink
               </span>
               {' '}through conversation.
