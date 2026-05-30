@@ -551,7 +551,7 @@ const Footer = () => {
           <div className="space-y-2 text-xs font-mono text-[#737373]">
             <div className="font-medium text-[#0a0a0a]">Sariva Inc.</div>
             <div>Ontario, Canada</div>
-            <div>© 2026 Sariva Inc.</div>
+            <div>© {new Date().getFullYear()} Sariva Inc.</div>
           </div>
 
           <a
