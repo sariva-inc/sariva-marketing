@@ -232,7 +232,7 @@ const Hero = () => {
                       className="w-8 h-8 rounded flex items-center justify-center text-xs font-semibold text-white flex-shrink-0"
                       style={{ backgroundColor: msg.type === 'user' ? currentScenario.user.color : '#2a48f0' }}
                     >
-                      {msg.type === 'user' ? currentScenario.user.avatar : 'S'}
+                      {msg.type === 'user' && currentScenario.user.avatar}
                     </div>
                     <div className="flex-1">
                       <div className="font-semibold text-[#0a0a0a]">
