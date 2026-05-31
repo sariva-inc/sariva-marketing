@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 
 // ============================================================================
-// Sariva — sariva.ai marketing landing page (v2)
-// Tighter type scale · no section numbering · condensed vertical rhythm
+// Sariva — sariva.ai marketing landing page (v3)
+// New tagline · cleaned hero highlight · added Coverage section · tighter copy
 // Reference aesthetic: Linear / Resend / Anthropic — restrained, architectural
 // ============================================================================
 
@@ -20,11 +20,12 @@ const C = {
   line: "#E5E5E2",
   lineSoft: "#EFEFEC",
   azul: "#2A48F0",
+  azulDeep: "#1E36C9",
   azulSoft: "#EEF1FE",
   green: "#16A34A",
 } as const;
 
-// ── Container — 1180px max with fluid padding ───────────────────────────────
+// ── Container ───────────────────────────────────────────────────────────────
 function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={`mx-auto w-full max-w-[1180px] px-5 sm:px-6 md:px-8 lg:px-10 ${className}`}>
@@ -33,7 +34,7 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// ── Eyebrow — small Azul line + uppercase label (no more "01") ──────────────
+// ── Eyebrow — small Azul line + uppercase label ─────────────────────────────
 function Eyebrow({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
@@ -52,28 +53,19 @@ function Eyebrow({ label }: { label: string }) {
   );
 }
 
-// ── Section title — tighter scale (max 2.25rem instead of 3.2rem) ───────────
-function SectionTitle({ children }: { children: React.ReactNode }) {
+// ── Section title ───────────────────────────────────────────────────────────
+function SectionTitle({ children, maxCh = 22 }: { children: React.ReactNode; maxCh?: number }) {
   return (
     <h2
-      className="font-semibold tracking-[-0.025em] leading-[1.15] max-w-[22ch]"
-      style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.25rem)", color: C.ink }}
-    >
-      {children}
-    </h2>
-  );
-}
-
-// ── Marker-style highlighter for "Kafka" and "Flink" in hero ────────────────
-function Highlight({ children }: { children: React.ReactNode }) {
-  return (
-    <span
+      className="font-semibold tracking-[-0.025em] leading-[1.15]"
       style={{
-        backgroundImage: `linear-gradient(transparent 62%, ${C.azulSoft} 62%, ${C.azulSoft} 92%, transparent 92%)`,
+        fontSize: "clamp(1.5rem, 2.4vw, 2.25rem)",
+        color: C.ink,
+        maxWidth: `${maxCh}ch`,
       }}
     >
       {children}
-    </span>
+    </h2>
   );
 }
 
@@ -165,7 +157,7 @@ function Avatar({ bg, letters }: { bg: string; letters: string }) {
   );
 }
 
-// ── Slack mock — auto-rotating tabs, prominent presence ─────────────────────
+// ── Slack mock with auto-rotating tabs ──────────────────────────────────────
 function SlackMock() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -362,6 +354,7 @@ export default function Page() {
             <div className="hidden md:flex items-center gap-7 text-[0.88rem]" style={{ color: C.ink3 }}>
               <a href="#product" className="hover:text-black transition-colors">Product</a>
               <a href="#capabilities" className="hover:text-black transition-colors">Capabilities</a>
+              <a href="#coverage" className="hover:text-black transition-colors">Coverage</a>
               <a href="#how-it-works" className="hover:text-black transition-colors">How it works</a>
               <a href="#contact" className="hover:text-black transition-colors">Contact</a>
             </div>
@@ -390,30 +383,34 @@ export default function Page() {
             <div>
               <div className="mb-6">
                 <span
-                  className="inline-flex items-center px-3 py-1 rounded-full font-mono font-medium text-[0.72rem] uppercase tracking-[0.14em]"
+                  className="inline-flex items-center px-3 py-1 rounded-full font-mono font-semibold text-[0.72rem] uppercase tracking-[0.16em]"
                   style={{
                     background: C.azulSoft,
                     color: C.azul,
-                    border: `1px solid rgba(42,72,240,0.18)`,
+                    border: `1px solid rgba(42,72,240,0.22)`,
                   }}
                 >
-                  AI Platform · For Streaming Infrastructure
+                  Ops AI · Kafka &amp; Flink
                 </span>
               </div>
               <h1
-                className="font-semibold tracking-[-0.025em] leading-[1.1] mb-6"
+                className="font-semibold tracking-[-0.025em] leading-[1.08] mb-6"
                 style={{ fontSize: "clamp(1.85rem, 3.8vw, 3rem)", color: C.ink }}
               >
-                Operate <Highlight>Kafka</Highlight> and <Highlight>Flink</Highlight> through conversation.
+                Operate{" "}
+                <span style={{ color: C.azul }}>Kafka</span>
+                {" "}and{" "}
+                <span style={{ color: C.azul }}>Flink</span>
+                {" "}through conversation.
               </h1>
               <p
                 className="leading-[1.65] max-w-[38em] mb-7"
                 style={{ fontSize: "1rem", color: C.ink3 }}
               >
                 Sariva is an AI operator for Apache Kafka and Apache Flink. Available
-                today in Slack, CLI, and REST API — Microsoft Teams and web UI on the
-                roadmap. Ask in plain English. Get answers with context. Execute changes
-                with an audit trail.
+                today in Slack, CLI, REST API, and MCP — Microsoft Teams and web UI on
+                the roadmap. Ask in plain English. Get answers with context. Execute
+                changes through GitOps with a full audit trail.
               </p>
               <div className="flex flex-wrap gap-2.5">
                 <a
@@ -433,7 +430,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* Right: Slack mock — now equal weight to the hero copy */}
+            {/* Right: Slack mock */}
             <div className="w-full">
               <SlackMock />
             </div>
@@ -445,8 +442,8 @@ export default function Page() {
       <section id="product" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Product" />
-          <SectionTitle>
-            The gap between knowing your platform and asking it a question — closed.
+          <SectionTitle maxCh={26}>
+            The gap between knowing your streaming platform and asking it a question — closed.
           </SectionTitle>
           <div
             className="grid md:grid-cols-2 gap-8 lg:gap-12 mt-8 leading-[1.7]"
@@ -454,22 +451,23 @@ export default function Page() {
           >
             <p>
               Streaming infrastructure is unforgiving. A consumer group falls behind, a
-              Flink job fails over, a Schema Registry compatibility check breaks a deploy
-              — and the answer is buried across Confluent Cloud, kubectl, Prometheus,
-              CloudWatch, and three Slack threads from last quarter.
+              Flink job fails over, a Schema Registry compatibility check breaks a deploy,
+              a PrivateLink endpoint stops resolving — and the answer is buried across
+              Confluent Cloud, kubectl, Prometheus, CloudWatch, and three Slack threads
+              from last quarter.
             </p>
             <p>
               Sariva sits between your team and the streaming stack. It speaks the
               language of platform engineers — partitions, lag, commits, ACLs, IRSA,
-              mTLS, KRaft, retention, FLE — and translates intent into safe, audited
-              operations. Self-hosted in your VPC. Explicit about what it touches.
-              Never auto-discovers.
+              mTLS, KRaft, retention, FLE, Tableflow — and translates intent into safe,
+              audited operations. Self-hosted in your VPC. Explicit about what it
+              touches. Never auto-discovers.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* ─────────────────────── CAPABILITIES ─────────────────────── */}
+      {/* ─────────────────────── CAPABILITIES (3 cards) ─────────────────────── */}
       <section id="capabilities" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Capabilities" />
@@ -481,7 +479,7 @@ export default function Page() {
                 tag: "Observability Agent",
                 title: "Ask anything about what's running.",
                 body:
-                  "Consumer lag, broker health, partition skew, Flink job state, connector status, Schema Registry compatibility, KRaft controller behavior. Pulls live from Confluent Cloud Metrics, Prometheus, Kafka Exporter, CloudWatch.",
+                  "Consumer lag, broker health, partition skew, Flink job state, connector status, Schema Registry compatibility, KRaft controller behavior. Pulls live from Confluent Cloud Metrics, Prometheus, Kafka Exporter, and CloudWatch.",
                 bullets: [
                   "Live consumer group lag",
                   "Broker & cluster health",
@@ -493,7 +491,7 @@ export default function Page() {
                 tag: "Deployment Agent",
                 title: "Make changes safely, with an audit trail.",
                 body:
-                  "Topic creation, ACL grants, connector deployment, Flink statement submission, Tableflow, MSK → Confluent Cloud migration. Generates Terraform, opens a pull request in your GitOps repo, never holds long-lived cloud credentials.",
+                  "Topic creation, ACL grants, connector deployment, Flink statement submission, Tableflow setup, MSK → Confluent Cloud migration. Generates Terraform, opens a pull request in your GitOps repo, never holds long-lived cloud credentials.",
                 bullets: [
                   "Terraform-backed, multi-cloud",
                   "GitOps pull-request flow",
@@ -505,10 +503,10 @@ export default function Page() {
                 tag: "Knowledge Base",
                 title: "Runbooks that ship with the platform.",
                 body:
-                  "Validated playbooks for Kafka, Flink, networking, FLE, Tableflow, onboarding, managed connectors — invoked by the agents when a known failure pattern is detected. Tier-promoted only after a second independent occurrence.",
+                  "Validated playbooks for Kafka, Flink, networking, FLE, Tableflow, onboarding, and managed connectors — invoked by the agents when a known failure pattern is detected. Tier-promoted only after a second independent occurrence.",
                 bullets: [
-                  "Observability · Deployment · Flink",
-                  "Networking · FLE · Tableflow",
+                  "8 runbook categories shipped",
+                  "Validated against real incidents",
                   "Versioned, indexed, tiered",
                   "Extensible per customer",
                 ],
@@ -545,8 +543,77 @@ export default function Page() {
         </Container>
       </section>
 
+      {/* ─────────────────────── COVERAGE (new — what we operate) ─────────────────────── */}
+      <section id="coverage" style={{ background: C.cloud }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Coverage" />
+          <SectionTitle maxCh={28}>
+            Built for the full Kafka and Flink stack.
+          </SectionTitle>
+          <p
+            className="mt-5 leading-[1.65] max-w-[58ch]"
+            style={{ fontSize: "0.95rem", color: C.ink3 }}
+          >
+            Sariva is multi-flavor, multi-cloud, and multi-channel from day one. No
+            other operator covers this surface — PrivateLink, FLE, Flink ops, and
+            Tableflow are where competitors stop.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-10">
+            {[
+              {
+                title: "Streaming platforms",
+                body:
+                  "Confluent Cloud · Confluent Platform · Apache Kafka · AWS MSK · Strimzi · CFK · Redpanda.",
+              },
+              {
+                title: "Stream processing",
+                body:
+                  "Apache Flink · Confluent Flink · Tableflow + Iceberg · Schema Registry · Confluent Connect.",
+              },
+              {
+                title: "Networking",
+                body:
+                  "PrivateLink · VPC Peering · Transit Gateway · mTLS · IRSA. End-to-end connectivity diagnosis.",
+              },
+              {
+                title: "Security & encryption",
+                body:
+                  "Field Level Encryption (FLE) · RBAC · ACLs · API key rotation · KMS integration.",
+              },
+              {
+                title: "Interfaces",
+                body:
+                  "Slack · CLI · REST API · MCP server for Claude Code, Cursor, and Streaming Agents.",
+              },
+              {
+                title: "Deployment",
+                body:
+                  "Helm chart on customer EKS · Terraform · GitOps pull-request flow · multi-cloud (AWS, GCP, Azure).",
+              },
+            ].map((tile, i) => (
+              <div
+                key={i}
+                className="rounded-[10px] p-5"
+                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+              >
+                <div
+                  className="font-mono font-medium text-[0.68rem] uppercase tracking-[0.14em] mb-2"
+                  style={{ color: C.azul }}
+                >
+                  {tile.title}
+                </div>
+                <p className="text-[0.88rem] leading-[1.6]" style={{ color: C.ink3 }}>
+                  {tile.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       {/* ─────────────────────── HOW IT WORKS ─────────────────────── */}
-      <section id="how-it-works" style={{ background: C.cloud }}>
+      <section id="how-it-works" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="How it works" />
           <SectionTitle>From channel to cluster in three steps.</SectionTitle>
@@ -563,7 +630,7 @@ export default function Page() {
                 step: "Step 2",
                 title: "Talk to Sariva",
                 body:
-                  "Ask questions, request changes, investigate incidents in Slack, CLI, or via API. Sariva understands streaming-specific concepts and disambiguates across environments before acting. Every action is RBAC-checked and logged.",
+                  "Ask questions, request changes, investigate incidents in Slack, CLI, REST, or MCP. Sariva understands streaming-specific concepts and disambiguates across environments before acting. Every action is RBAC-checked and logged.",
               },
               {
                 step: "Step 3",
@@ -596,7 +663,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── TRUST & CONTROL ─────────────────────── */}
-      <section style={{ background: C.chalk }}>
+      <section style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Trust & Control" />
           <SectionTitle>Designed for platform teams that own production.</SectionTitle>
@@ -638,7 +705,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CONTACT ─────────────────────── */}
-      <section id="contact" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
+      <section id="contact" style={{ background: C.chalk, borderTop: `1px solid ${C.lineSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Contact" />
           <SectionTitle>Get in touch.</SectionTitle>
