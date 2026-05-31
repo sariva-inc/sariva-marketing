@@ -3,27 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 
 // ============================================================================
-// Sariva — sariva.ai marketing landing page
-// Self-contained: drop into app/page.tsx of the Next.js project
-// Assumes Tailwind + Geist fonts configured in layout.tsx (v0 default)
+// Sariva — sariva.ai marketing landing page (v2)
+// Tighter type scale · no section numbering · condensed vertical rhythm
+// Reference aesthetic: Linear / Resend / Anthropic — restrained, architectural
 // ============================================================================
 
 // ── Palette (Chaldean-aligned) ──────────────────────────────────────────────
 const C = {
-  cloud: "#FAFAF9",      // root 5 — primary background
-  chalk: "#F4F4F1",      // root 5 — soft section background
-  surface: "#FFFFFF",    // cards
-  ink: "#0A0A0A",        // root 8 — primary text
-  ink2: "#262626",       // body emphasis on dark
-  ink3: "#525252",       // secondary text, eyebrow labels
-  ink4: "#737373",       // tertiary text
-  line: "#E5E5E2",       // borders
-  azul: "#2A48F0",       // root 8 — accent (Star of the Magi compound 17)
-  azulSoft: "#EEF1FE",   // marker highlight
-  green: "#16A34A",      // status dot
+  cloud: "#FAFAF9",
+  chalk: "#F4F4F1",
+  surface: "#FFFFFF",
+  ink: "#0A0A0A",
+  ink2: "#262626",
+  ink3: "#525252",
+  ink4: "#737373",
+  line: "#E5E5E2",
+  lineSoft: "#EFEFEC",
+  azul: "#2A48F0",
+  azulSoft: "#EEF1FE",
+  green: "#16A34A",
 } as const;
 
-// ── Reusable container — 1180px max-width with fluid padding ────────────────
+// ── Container — 1180px max with fluid padding ───────────────────────────────
 function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={`mx-auto w-full max-w-[1180px] px-5 sm:px-6 md:px-8 lg:px-10 ${className}`}>
@@ -32,27 +33,18 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// ── Section eyebrow ("01" + "PRODUCT") ──────────────────────────────────────
-function Eyebrow({ number, label }: { number?: string; label: string }) {
+// ── Eyebrow — small Azul line + uppercase label (no more "01") ──────────────
+function Eyebrow({ label }: { label: string }) {
   return (
-    <div className="flex items-baseline gap-4 mb-9">
-      {number && (
-        <span
-          className="font-mono font-semibold tracking-tight leading-none"
-          style={{
-            color: C.azul,
-            fontSize: "clamp(1.5rem, 2.5vw, 1.85rem)",
-          }}
-        >
-          {number}
-        </span>
-      )}
+    <div className="flex items-center gap-3 mb-5">
       <span
-        className="font-mono font-medium uppercase tracking-[0.1em]"
-        style={{
-          color: C.ink3,
-          fontSize: "clamp(0.92rem, 1.1vw, 1.05rem)",
-        }}
+        className="block h-px w-7 shrink-0"
+        style={{ background: C.azul }}
+        aria-hidden
+      />
+      <span
+        className="font-mono font-medium uppercase tracking-[0.14em]"
+        style={{ color: C.ink3, fontSize: "0.76rem" }}
       >
         {label}
       </span>
@@ -60,24 +52,24 @@ function Eyebrow({ number, label }: { number?: string; label: string }) {
   );
 }
 
-// ── Section title (consistent across all sections) ──────────────────────────
+// ── Section title — tighter scale (max 2.25rem instead of 3.2rem) ───────────
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h2
-      className="font-semibold tracking-[-0.03em] leading-[1.1] max-w-[22ch]"
-      style={{ fontSize: "clamp(1.65rem, 3.4vw, 2.55rem)", color: C.ink }}
+      className="font-semibold tracking-[-0.025em] leading-[1.15] max-w-[22ch]"
+      style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.25rem)", color: C.ink }}
     >
       {children}
     </h2>
   );
 }
 
-// ── Marker-style highlighter for hero "Kafka" and "Flink" ───────────────────
+// ── Marker-style highlighter for "Kafka" and "Flink" in hero ────────────────
 function Highlight({ children }: { children: React.ReactNode }) {
   return (
     <span
       style={{
-        backgroundImage: `linear-gradient(transparent 58%, ${C.azulSoft} 58%, ${C.azulSoft} 92%, transparent 92%)`,
+        backgroundImage: `linear-gradient(transparent 62%, ${C.azulSoft} 62%, ${C.azulSoft} 92%, transparent 92%)`,
       }}
     >
       {children}
@@ -123,7 +115,7 @@ const SCENARIOS: Scenario[] = [
         <div className="flex items-center gap-1.5">
           Status: <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: C.green }} /> Healthy
         </div>
-        <div style={{ color: C.ink3 }}>Lag is within normal range. Processing rate ~2.4k msgs/sec.</div>
+        <div style={{ color: C.ink3 }}>Lag within normal range. Processing ~2.4k msgs/sec.</div>
       </div>
     ),
   },
@@ -135,11 +127,11 @@ const SCENARIOS: Scenario[] = [
     botTime: "11:18 AM",
     botMsg: (
       <div className="space-y-1.5">
-        <div>3 restarts in the last 15 min on <Code>flink-fraud-detector</Code> (cluster <Code>prod-flink-1</Code>).</div>
+        <div>3 restarts in the last 15 min on <Code>flink-fraud-detector</Code> (<Code>prod-flink-1</Code>).</div>
         <div>Root cause: <B>OOMKilled</B> — task manager hit the 4 GB memory limit.</div>
         <div>Top input: <Code>payment-events</Code> at 8.2k msgs/sec (3× baseline).</div>
-        <div>Suggested fix: raise <Code>taskmanager.memory.process.size</Code> from 4 GB → 6 GB.</div>
-        <div style={{ color: C.ink3 }}>Want me to open a PR with the change? (<Code>infra/flink/fraud-detector.tf</Code>)</div>
+        <div>Suggested fix: raise <Code>taskmanager.memory.process.size</Code> 4 GB → 6 GB.</div>
+        <div style={{ color: C.ink3 }}>Want me to open a PR? (<Code>infra/flink/fraud-detector.tf</Code>)</div>
       </div>
     ),
   },
@@ -152,28 +144,28 @@ const SCENARIOS: Scenario[] = [
     botMsg: (
       <div className="space-y-1.5">
         <div>Planning <Code>dev-payments-kafka</Code>:</div>
-        <div>Basic tier · us-east-1 · 3 brokers · KRaft mode · Schema Registry attached</div>
+        <div>Basic tier · us-east-1 · 3 brokers · KRaft · Schema Registry attached</div>
         <div>Cost estimate: <B>~$240 / month</B></div>
-        <div>RBAC inherits from <Code>payments-team</Code> group (existing).</div>
-        <div style={{ color: C.ink3 }}>I&apos;ll open a PR at <Code>infra/clusters/dev-payments-kafka.tf</Code>. Reply <Code>proceed</Code> and I&apos;ll commit.</div>
+        <div>RBAC inherits from <Code>payments-team</Code> (existing).</div>
+        <div style={{ color: C.ink3 }}>PR at <Code>infra/clusters/dev-payments-kafka.tf</Code>. Reply <Code>proceed</Code> to commit.</div>
       </div>
     ),
   },
 ];
 
-// ── Avatar — colored square with white initials/letter ──────────────────────
+// ── Avatar ──────────────────────────────────────────────────────────────────
 function Avatar({ bg, letters }: { bg: string; letters: string }) {
   return (
     <div
       className="flex-shrink-0 rounded-md flex items-center justify-center font-semibold text-white"
-      style={{ background: bg, width: 36, height: 36, fontSize: letters.length === 1 ? 16 : 13 }}
+      style={{ background: bg, width: 34, height: 34, fontSize: letters.length === 1 ? 15 : 12 }}
     >
       {letters}
     </div>
   );
 }
 
-// ── Slack mock with auto-rotating tabs ──────────────────────────────────────
+// ── Slack mock — auto-rotating tabs, prominent presence ─────────────────────
 function SlackMock() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -181,7 +173,9 @@ function SlackMock() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const prefersReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced || paused || locked) {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
@@ -215,11 +209,11 @@ function SlackMock() {
                 setActive(i);
                 setLocked(true);
               }}
-              className="px-3.5 py-1.5 rounded-full text-[0.85rem] font-medium transition-colors"
+              className="px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-colors"
               style={{
-                background: isActive ? C.ink : C.chalk,
+                background: isActive ? C.ink : "transparent",
                 color: isActive ? "#FFFFFF" : C.ink3,
-                border: isActive ? `1px solid ${C.ink}` : `1px solid ${C.line}`,
+                border: `1px solid ${isActive ? C.ink : C.line}`,
               }}
               aria-pressed={isActive}
             >
@@ -235,9 +229,8 @@ function SlackMock() {
         style={{
           background: C.surface,
           border: `1px solid ${C.line}`,
-          transform: "rotate(-0.3deg)",
           boxShadow:
-            "0 20px 40px -20px rgba(10,10,10,0.18), 0 50px 100px -40px rgba(42,72,240,0.18)",
+            "0 24px 48px -24px rgba(10,10,10,0.16), 0 60px 120px -50px rgba(42,72,240,0.16)",
         }}
       >
         {/* Top bar */}
@@ -246,44 +239,42 @@ function SlackMock() {
           style={{ background: C.chalk, borderBottom: `1px solid ${C.line}` }}
         >
           <div className="flex gap-1.5">
-            <span className="w-3 h-3 rounded-full" style={{ background: "#EF4444" }} />
-            <span className="w-3 h-3 rounded-full" style={{ background: "#F59E0B" }} />
-            <span className="w-3 h-3 rounded-full" style={{ background: "#22C55E" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#EF4444" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#F59E0B" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#22C55E" }} />
           </div>
-          <span className="font-mono text-[0.78rem]" style={{ color: C.ink4 }}>
+          <span className="font-mono text-[0.72rem]" style={{ color: C.ink4 }}>
             #kafka-ops
           </span>
         </div>
 
         {/* Messages */}
-        <div className="p-5 space-y-4 text-[0.92rem]" style={{ color: C.ink2 }}>
-          {/* User message */}
+        <div className="p-5 space-y-4 text-[0.88rem]" style={{ color: C.ink2 }}>
           <div className="flex gap-3">
             <Avatar bg={s.user.bg} letters={s.user.initials} />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="font-semibold" style={{ color: C.ink }}>{s.user.name}</span>
-                <span className="text-[0.78rem]" style={{ color: C.ink4 }}>{s.user.time}</span>
+                <span className="text-[0.72rem]" style={{ color: C.ink4 }}>{s.user.time}</span>
               </div>
-              <div>{s.userMsg}</div>
+              <div className="leading-[1.55]">{s.userMsg}</div>
             </div>
           </div>
 
-          {/* Bot message */}
           <div className="flex gap-3">
             <Avatar bg={C.azul} letters="S" />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="font-semibold" style={{ color: C.ink }}>Sariva</span>
                 <span
-                  className="text-[0.65rem] font-mono px-1.5 py-0.5 rounded"
+                  className="text-[0.6rem] font-mono px-1.5 py-0.5 rounded"
                   style={{ background: C.chalk, color: C.ink3 }}
                 >
                   APP
                 </span>
-                <span className="text-[0.78rem]" style={{ color: C.ink4 }}>{s.botTime}</span>
+                <span className="text-[0.72rem]" style={{ color: C.ink4 }}>{s.botTime}</span>
               </div>
-              {s.botMsg}
+              <div className="leading-[1.55]">{s.botMsg}</div>
             </div>
           </div>
         </div>
@@ -307,7 +298,6 @@ function NotifyForm() {
     }
     setStatus("loading");
     setMsg("");
-    // Simulated submit — replace with real API call later
     await new Promise((r) => setTimeout(r, 600));
     setStatus("ok");
     setMsg("Thanks — we'll be in touch.");
@@ -324,7 +314,7 @@ function NotifyForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
           aria-label="Email address"
-          className="flex-1 px-4 py-3 rounded-md text-[0.95rem] outline-none"
+          className="flex-1 px-4 py-3 rounded-md text-[0.92rem] outline-none"
           style={{
             background: "rgba(255,255,255,0.06)",
             border: "1px solid rgba(255,255,255,0.14)",
@@ -334,7 +324,7 @@ function NotifyForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="px-6 py-3 rounded-md font-medium text-[0.95rem] transition-opacity disabled:opacity-60"
+          className="px-6 py-3 rounded-md font-medium text-[0.92rem] transition-opacity disabled:opacity-60"
           style={{ background: C.azul, color: "#FFFFFF" }}
         >
           {status === "loading" ? "Sending…" : "Notify me"}
@@ -342,7 +332,7 @@ function NotifyForm() {
       </div>
       {msg && (
         <p
-          className="mt-3 text-[0.85rem]"
+          className="mt-3 text-[0.82rem]"
           style={{ color: status === "ok" ? "#86EFAC" : "#FCA5A5" }}
           role="status"
         >
@@ -362,14 +352,14 @@ export default function Page() {
       {/* ─────────────────────── NAV ─────────────────────── */}
       <nav
         className="sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(250,250,249,0.85)", borderBottom: `1px solid ${C.line}` }}
+        style={{ background: "rgba(250,250,249,0.82)", borderBottom: `1px solid ${C.line}` }}
       >
         <Container>
-          <div className="flex items-center justify-between h-16">
-            <a href="#top" className="font-medium text-[1.05rem]" style={{ color: C.ink }}>
+          <div className="flex items-center justify-between h-14">
+            <a href="#top" className="font-semibold text-[1rem] tracking-[-0.01em]" style={{ color: C.ink }}>
               Sariva
             </a>
-            <div className="hidden md:flex items-center gap-7 text-[0.9rem]" style={{ color: C.ink3 }}>
+            <div className="hidden md:flex items-center gap-7 text-[0.88rem]" style={{ color: C.ink3 }}>
               <a href="#product" className="hover:text-black transition-colors">Product</a>
               <a href="#capabilities" className="hover:text-black transition-colors">Capabilities</a>
               <a href="#how-it-works" className="hover:text-black transition-colors">How it works</a>
@@ -377,7 +367,7 @@ export default function Page() {
             </div>
             <a
               href="#contact"
-              className="px-4 py-2 rounded-md text-[0.85rem] font-medium transition-opacity hover:opacity-90"
+              className="px-3.5 py-1.5 rounded-md text-[0.82rem] font-medium transition-opacity hover:opacity-90"
               style={{ background: C.ink, color: "#FFFFFF" }}
             >
               Get early access
@@ -391,51 +381,51 @@ export default function Page() {
         id="top"
         className="relative overflow-hidden"
         style={{
-          background: `${C.cloud} radial-gradient(1100px 500px at 85% -10%, ${C.azulSoft} 0%, transparent 60%)`,
+          background: `${C.cloud} radial-gradient(900px 420px at 88% -10%, ${C.azulSoft} 0%, transparent 55%)`,
         }}
       >
-        <Container className="py-20 md:py-28 lg:py-32">
-          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+        <Container className="pt-16 pb-20 md:pt-20 md:pb-24">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             {/* Left: copy */}
             <div>
-              <div className="mb-8">
+              <div className="mb-6">
                 <span
-                  className="inline-flex items-center px-4 py-1.5 rounded-full font-mono font-medium text-[0.82rem] uppercase tracking-[0.1em]"
+                  className="inline-flex items-center px-3 py-1 rounded-full font-mono font-medium text-[0.72rem] uppercase tracking-[0.14em]"
                   style={{
                     background: C.azulSoft,
                     color: C.azul,
-                    border: `1px solid rgba(42,72,240,0.22)`,
+                    border: `1px solid rgba(42,72,240,0.18)`,
                   }}
                 >
                   AI Platform · For Streaming Infrastructure
                 </span>
               </div>
               <h1
-                className="font-semibold tracking-[-0.03em] leading-[1.05] mb-7"
-                style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.2rem)", color: C.ink }}
+                className="font-semibold tracking-[-0.025em] leading-[1.1] mb-6"
+                style={{ fontSize: "clamp(1.85rem, 3.8vw, 3rem)", color: C.ink }}
               >
                 Operate <Highlight>Kafka</Highlight> and <Highlight>Flink</Highlight> through conversation.
               </h1>
               <p
-                className="text-[1.1rem] leading-[1.6] max-w-[36em] mb-9"
-                style={{ color: C.ink3 }}
+                className="leading-[1.65] max-w-[38em] mb-7"
+                style={{ fontSize: "1rem", color: C.ink3 }}
               >
-                Sariva is an AI operator for Apache Kafka and Apache Flink. Available today
-                in Slack, CLI, and REST API — Microsoft Teams and web UI on the roadmap.
-                Ask questions in plain English. Get answers with context. Execute changes
+                Sariva is an AI operator for Apache Kafka and Apache Flink. Available
+                today in Slack, CLI, and REST API — Microsoft Teams and web UI on the
+                roadmap. Ask in plain English. Get answers with context. Execute changes
                 with an audit trail.
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 <a
                   href="#contact"
-                  className="px-5 py-3 rounded-md text-[0.95rem] font-medium transition-opacity hover:opacity-90"
+                  className="px-4 py-2.5 rounded-md text-[0.9rem] font-medium transition-opacity hover:opacity-90"
                   style={{ background: C.ink, color: "#FFFFFF" }}
                 >
                   Get early access →
                 </a>
                 <a
                   href="mailto:hello@sariva.ai"
-                  className="px-5 py-3 rounded-md text-[0.95rem] font-mono font-medium transition-colors"
+                  className="px-4 py-2.5 rounded-md text-[0.9rem] font-mono font-medium transition-colors hover:bg-[#F4F4F1]"
                   style={{ border: `1px solid ${C.line}`, color: C.ink, background: "transparent" }}
                 >
                   hello@sariva.ai
@@ -443,7 +433,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* Right: Slack mock */}
+            {/* Right: Slack mock — now equal weight to the hero copy */}
             <div className="w-full">
               <SlackMock />
             </div>
@@ -451,14 +441,17 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── SECTION 01 · PRODUCT ─────────────────────── */}
-      <section id="product" style={{ background: C.cloud }}>
-        <Container className="py-20 md:py-28">
-          <Eyebrow number="01" label="Product" />
+      {/* ─────────────────────── PRODUCT ─────────────────────── */}
+      <section id="product" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Product" />
           <SectionTitle>
-            The gap between knowing your streaming platform and asking it a question — gone.
+            The gap between knowing your platform and asking it a question — closed.
           </SectionTitle>
-          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 mt-10 text-[1.02rem] leading-[1.7]" style={{ color: C.ink3 }}>
+          <div
+            className="grid md:grid-cols-2 gap-8 lg:gap-12 mt-8 leading-[1.7]"
+            style={{ fontSize: "0.95rem", color: C.ink3 }}
+          >
             <p>
               Streaming infrastructure is unforgiving. A consumer group falls behind, a
               Flink job fails over, a Schema Registry compatibility check breaks a deploy
@@ -476,19 +469,19 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── SECTION 02 · CAPABILITIES ─────────────────────── */}
+      {/* ─────────────────────── CAPABILITIES ─────────────────────── */}
       <section id="capabilities" style={{ background: C.chalk }}>
-        <Container className="py-20 md:py-28">
-          <Eyebrow number="02" label="Capabilities" />
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Capabilities" />
           <SectionTitle>Two agents. One conversation.</SectionTitle>
 
-          <div className="grid md:grid-cols-3 gap-5 mt-12">
+          <div className="grid md:grid-cols-3 gap-4 mt-10">
             {[
               {
                 tag: "Observability Agent",
                 title: "Ask anything about what's running.",
                 body:
-                  "Consumer lag, broker health, partition skew, Flink job state, connector status, Schema Registry compatibility, KRaft controller behavior. Pulls live from Confluent Cloud Metrics, Prometheus, Kafka Exporter, CloudWatch — answers in your interface of choice with the metric, the cluster, and the next action.",
+                  "Consumer lag, broker health, partition skew, Flink job state, connector status, Schema Registry compatibility, KRaft controller behavior. Pulls live from Confluent Cloud Metrics, Prometheus, Kafka Exporter, CloudWatch.",
                 bullets: [
                   "Live consumer group lag",
                   "Broker & cluster health",
@@ -500,7 +493,7 @@ export default function Page() {
                 tag: "Deployment Agent",
                 title: "Make changes safely, with an audit trail.",
                 body:
-                  "Topic creation, ACL grants, connector deployment, Flink statement submission, Tableflow, MSK→Confluent Cloud migration. Generates Terraform, opens a pull request in your GitOps repo, and never holds long-lived cloud credentials at runtime.",
+                  "Topic creation, ACL grants, connector deployment, Flink statement submission, Tableflow, MSK → Confluent Cloud migration. Generates Terraform, opens a pull request in your GitOps repo, never holds long-lived cloud credentials.",
                 bullets: [
                   "Terraform-backed, multi-cloud",
                   "GitOps pull-request flow",
@@ -512,7 +505,7 @@ export default function Page() {
                 tag: "Knowledge Base",
                 title: "Runbooks that ship with the platform.",
                 body:
-                  "Validated playbooks for Kafka, Flink, networking, FLE, Tableflow, onboarding, managed connectors — invoked by the agents when a known failure pattern is detected. Tier-promoted only after a second independent occurrence resolves with the procedure.",
+                  "Validated playbooks for Kafka, Flink, networking, FLE, Tableflow, onboarding, managed connectors — invoked by the agents when a known failure pattern is detected. Tier-promoted only after a second independent occurrence.",
                 bullets: [
                   "Observability · Deployment · Flink",
                   "Networking · FLE · Tableflow",
@@ -523,25 +516,25 @@ export default function Page() {
             ].map((card, i) => (
               <article
                 key={i}
-                className="rounded-[10px] p-7 transition-all hover:-translate-y-0.5"
+                className="rounded-[10px] p-6 transition-transform hover:-translate-y-0.5"
                 style={{
                   background: C.surface,
                   border: `1px solid ${C.line}`,
                 }}
               >
                 <span
-                  className="inline-block font-mono font-medium text-[0.7rem] uppercase tracking-[0.08em] px-2 py-1 rounded mb-5"
+                  className="inline-block font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] px-2 py-1 rounded mb-4"
                   style={{ background: C.azulSoft, color: C.azul }}
                 >
                   {card.tag}
                 </span>
-                <h3 className="text-[1.18rem] font-semibold leading-snug mb-3" style={{ color: C.ink }}>
+                <h3 className="text-[1.05rem] font-semibold leading-snug mb-2.5" style={{ color: C.ink }}>
                   {card.title}
                 </h3>
-                <p className="text-[0.95rem] leading-[1.65] mb-5" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.6] mb-4" style={{ color: C.ink3 }}>
                   {card.body}
                 </p>
-                <ul className="font-mono text-[0.82rem] space-y-1.5" style={{ color: C.ink4 }}>
+                <ul className="font-mono text-[0.78rem] space-y-1.5" style={{ color: C.ink4 }}>
                   {card.bullets.map((b, j) => (
                     <li key={j}>— {b}</li>
                   ))}
@@ -552,44 +545,48 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── SECTION 03 · HOW IT WORKS ─────────────────────── */}
+      {/* ─────────────────────── HOW IT WORKS ─────────────────────── */}
       <section id="how-it-works" style={{ background: C.cloud }}>
-        <Container className="py-20 md:py-28">
-          <Eyebrow number="03" label="How it works" />
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="How it works" />
           <SectionTitle>From channel to cluster in three steps.</SectionTitle>
 
-          <div className="grid md:grid-cols-3 gap-10 lg:gap-14 mt-12">
+          <div className="grid md:grid-cols-3 gap-4 mt-10">
             {[
               {
-                n: "01",
+                step: "Step 1",
                 title: "Register your environment",
                 body:
-                  "Connect Confluent Cloud organizations, Kafka/Flink clusters, EKS, and observability sources through an explicit onboarding flow. No auto-discovery — Sariva only operates what you register.",
+                  "Connect Confluent Cloud organizations, Kafka and Flink clusters, EKS, and observability sources through an explicit onboarding flow. No auto-discovery — Sariva only operates what you register.",
               },
               {
-                n: "02",
+                step: "Step 2",
                 title: "Talk to Sariva",
                 body:
                   "Ask questions, request changes, investigate incidents in Slack, CLI, or via API. Sariva understands streaming-specific concepts and disambiguates across environments before acting. Every action is RBAC-checked and logged.",
               },
               {
-                n: "03",
+                step: "Step 3",
                 title: "Execute or review",
                 body:
                   "Read operations return instantly with context. Write operations open a pull request against your GitOps repo, with the diff, the rationale, and the runbook reference. You approve. Sariva applies.",
               },
             ].map((s) => (
-              <div key={s.n}>
+              <div
+                key={s.step}
+                className="rounded-[10px] p-6"
+                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+              >
                 <div
-                  className="font-mono font-semibold text-[1.4rem] mb-3"
+                  className="font-mono font-medium text-[0.7rem] uppercase tracking-[0.14em] mb-3"
                   style={{ color: C.azul }}
                 >
-                  {s.n}
+                  {s.step}
                 </div>
-                <h3 className="text-[1.15rem] font-semibold mb-3" style={{ color: C.ink }}>
+                <h3 className="text-[1.05rem] font-semibold mb-2.5" style={{ color: C.ink }}>
                   {s.title}
                 </h3>
-                <p className="text-[0.98rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
                   {s.body}
                 </p>
               </div>
@@ -598,13 +595,13 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── SECTION 04 · TRUST & CONTROL ─────────────────────── */}
+      {/* ─────────────────────── TRUST & CONTROL ─────────────────────── */}
       <section style={{ background: C.chalk }}>
-        <Container className="py-20 md:py-28">
-          <Eyebrow number="04" label="Trust & Control" />
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Trust & Control" />
           <SectionTitle>Designed for platform teams that own production.</SectionTitle>
 
-          <div className="grid md:grid-cols-2 gap-5 mt-12">
+          <div className="grid md:grid-cols-2 gap-4 mt-10">
             {[
               {
                 title: "Self-hosted in your VPC",
@@ -625,13 +622,13 @@ export default function Page() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="rounded-[10px] p-7"
+                className="rounded-[10px] p-6"
                 style={{ background: C.surface, border: `1px solid ${C.line}` }}
               >
-                <h3 className="text-[1.1rem] font-semibold mb-2.5" style={{ color: C.ink }}>
+                <h3 className="text-[1.05rem] font-semibold mb-2.5" style={{ color: C.ink }}>
                   {item.title}
                 </h3>
-                <p className="text-[0.95rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
                   {item.body}
                 </p>
               </div>
@@ -640,14 +637,13 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── SECTION 05 · CONTACT ─────────────────────── */}
-      <section id="contact" style={{ background: C.cloud }}>
-        <Container className="py-20 md:py-28">
-          <Eyebrow number="05" label="Contact" />
+      {/* ─────────────────────── CONTACT ─────────────────────── */}
+      <section id="contact" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Contact" />
           <SectionTitle>Get in touch.</SectionTitle>
 
-          {/* Three contact cards */}
-          <div className="grid md:grid-cols-3 gap-4 mt-12">
+          <div className="grid md:grid-cols-3 gap-3 mt-10">
             {[
               { label: "General", email: "hello@sariva.ai", hint: "Questions, intros, anything else." },
               { label: "Sales", email: "sales@sariva.ai", hint: "Early access, pricing, design partners." },
@@ -656,19 +652,19 @@ export default function Page() {
               <a
                 key={card.email}
                 href={`mailto:${card.email}`}
-                className="block rounded-[10px] p-6 transition-all hover:-translate-y-0.5"
+                className="block rounded-[10px] p-5 transition-transform hover:-translate-y-0.5"
                 style={{ background: C.surface, border: `1px solid ${C.line}` }}
               >
                 <div
-                  className="font-mono font-medium text-[0.72rem] uppercase tracking-[0.1em] mb-2"
+                  className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.14em] mb-2"
                   style={{ color: C.ink4 }}
                 >
                   {card.label}
                 </div>
-                <div className="font-semibold text-[1.05rem] mb-2" style={{ color: C.ink }}>
+                <div className="font-semibold text-[1rem] mb-1.5" style={{ color: C.ink }}>
                   {card.email}
                 </div>
-                <div className="text-[0.88rem]" style={{ color: C.ink4 }}>
+                <div className="text-[0.82rem]" style={{ color: C.ink4 }}>
                   {card.hint}
                 </div>
               </a>
@@ -677,16 +673,16 @@ export default function Page() {
 
           {/* Notify banner */}
           <div
-            className="mt-10 rounded-2xl p-8 md:p-12"
+            className="mt-8 rounded-2xl p-7 md:p-10"
             style={{ background: C.ink }}
           >
-            <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
               <div>
-                <h3 className="text-[1.5rem] font-semibold leading-snug mb-3" style={{ color: "#FFFFFF" }}>
+                <h3 className="font-semibold leading-snug mb-2" style={{ color: "#FFFFFF", fontSize: "1.3rem" }}>
                   Or get notified when we open up.
                 </h3>
-                <p className="text-[0.95rem] leading-[1.6]" style={{ color: "rgba(255,255,255,0.6)" }}>
-                  We&apos;ll email you when Sariva is available for new design partners.
+                <p className="text-[0.9rem] leading-[1.6]" style={{ color: "rgba(255,255,255,0.6)" }}>
+                  We&apos;ll email when Sariva is available for new design partners.
                   No marketing list, no noise.
                 </p>
               </div>
@@ -698,17 +694,16 @@ export default function Page() {
 
       {/* ─────────────────────── FOOTER ─────────────────────── */}
       <footer style={{ background: C.cloud, borderTop: `1px solid ${C.line}` }}>
-        <Container className="py-10">
-          <div className="grid md:grid-cols-3 gap-6 items-start md:items-center text-center md:text-left">
-            <div className="font-medium text-[1rem]" style={{ color: C.ink }}>
+        <Container className="py-8">
+          <div className="grid md:grid-cols-3 gap-4 items-start md:items-center text-center md:text-left">
+            <div className="font-semibold text-[0.95rem]" style={{ color: C.ink }}>
               Sariva
             </div>
-            <div className="font-mono text-[0.78rem] flex flex-col md:items-center gap-1" style={{ color: C.ink4 }}>
-              <span>Sariva Inc.</span>
-              <span>Ontario, Canada</span>
+            <div className="font-mono text-[0.72rem] flex flex-col md:items-center gap-0.5" style={{ color: C.ink4 }}>
+              <span>Sariva Inc. · Ontario, Canada</span>
               <span>© {new Date().getFullYear()} Sariva Inc.</span>
             </div>
-            <div className="font-mono text-[0.85rem] md:text-right" style={{ color: C.ink3 }}>
+            <div className="font-mono text-[0.78rem] md:text-right" style={{ color: C.ink3 }}>
               <a href="mailto:hello@sariva.ai" className="hover:text-black transition-colors">
                 hello@sariva.ai
               </a>
