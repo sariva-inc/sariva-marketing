@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { Instrument_Serif } from "next/font/google";
 
 // ============================================================================
-// Sariva — sariva.ai marketing landing page (v5)
-// Typography fix: Instrument Serif strictly for hero h1 + section h2 only.
-// Card titles in Geist semibold. Single italic accent in hero only.
-// Competitive section reframed educational (not aggressive). Interceptor
-// roadmap surfaced on the Datadog card per D-22-AJ.
+// Sariva — sariva.ai marketing landing page (v6)
+// Adds: Confluent in nav, NEW Toil section (concrete time-sucks),
+// explicit support matrix (replaces Coverage tiles), alignment fix on
+// competitive cards.
 // ============================================================================
 
 const instrumentSerif = Instrument_Serif({
@@ -44,7 +43,7 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// ── PulseMark — 3-ring Pulse glyph, stronger contrast (D-22-AN) ─────────────
+// ── PulseMark — 3-ring Pulse glyph ──────────────────────────────────────────
 function PulseMark({ size = 22, color = C.azul }: { size?: number; color?: string }) {
   return (
     <svg
@@ -193,7 +192,6 @@ const SCENARIOS: Scenario[] = [
   },
 ];
 
-// ── Avatar ──────────────────────────────────────────────────────────────────
 function Avatar({ bg, letters }: { bg: string; letters: string }) {
   return (
     <div
@@ -205,7 +203,6 @@ function Avatar({ bg, letters }: { bg: string; letters: string }) {
   );
 }
 
-// ── Slack mock ──────────────────────────────────────────────────────────────
 function SlackMock() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -319,7 +316,6 @@ function SlackMock() {
   );
 }
 
-// ── Notify form ─────────────────────────────────────────────────────────────
 function NotifyForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
@@ -379,6 +375,70 @@ function NotifyForm() {
   );
 }
 
+// ── Support matrix data ─────────────────────────────────────────────────────
+const SUPPORT_MATRIX: { label: string; items: string }[] = [
+  {
+    label: "Kafka flavors",
+    items: "Confluent Cloud · Confluent Platform · Apache Kafka (self-managed) · AWS MSK · Strimzi · Confluent for Kubernetes (CFK) · Redpanda",
+  },
+  {
+    label: "Stream processing",
+    items: "Apache Flink · Confluent Flink · Tableflow + Apache Iceberg · Schema Registry (Confluent + Apicurio) · Confluent Connect (managed + self-hosted)",
+  },
+  {
+    label: "Clouds",
+    items: "AWS (deepest integration) · GCP · Azure · multi-cloud / hybrid",
+  },
+  {
+    label: "Networking",
+    items: "AWS PrivateLink · VPC Peering · Transit Gateway · mTLS · IRSA · public endpoints",
+  },
+  {
+    label: "Security",
+    items: "Field Level Encryption (FLE) · RBAC · ACLs · API key rotation · AWS KMS · Confluent Cloud audit logs",
+  },
+  {
+    label: "Interfaces",
+    items: "Slack · CLI · REST API · MCP server (for Claude Code, Cursor, Confluent Streaming Agents) — Microsoft Teams + web UI on roadmap",
+  },
+  {
+    label: "Git providers",
+    items: "GitHub · GitHub Enterprise — GitLab + Bitbucket on roadmap",
+  },
+  {
+    label: "Deployment",
+    items: "Helm chart on customer EKS / GKE / AKS · Terraform-backed · GitOps pull-request flow",
+  },
+];
+
+// ── Toil section data ───────────────────────────────────────────────────────
+const TOIL_ITEMS: { title: string; body: string; estimate: string }[] = [
+  {
+    title: "Standing up Confluent for Kubernetes (CFK) on AWS EKS",
+    body:
+      "IRSA roles, storage classes, brokers, controllers, Kafka Connect, Schema Registry, monitoring stack, certificates, mTLS. Then making it survive a rolling upgrade. Then replicating it across staging and production with the same configuration drift-free.",
+    estimate: "3–5 days the first time, 1–2 days per cluster after",
+  },
+  {
+    title: "Configuring networking for Confluent Cloud",
+    body:
+      "PrivateLink endpoints across VPCs, security group routing, DNS resolution for the bootstrap, NLB target health, Transit Gateway routes, IAM policies for cross-account access. Most of it is YAML and console clicking copy-pasted from a runbook someone wrote two quarters ago.",
+    estimate: "About a week per environment, longer if anything goes wrong",
+  },
+  {
+    title: "Enabling Tableflow and Field Level Encryption",
+    body:
+      "Iceberg catalog wiring, S3 bucket permissions, KMS key policies, FLE encryption rules per topic, key rotation schedules, schema-to-encryption mapping. Every team learns this from scratch — there's no canonical template that fits a real production deployment.",
+    estimate: "2–4 days per topic family, plus the rotation runbook",
+  },
+  {
+    title: "Writing production-grade Terraform for Confluent Cloud",
+    body:
+      "Most teams write one cluster's worth of Terraform inline, then copy-paste it for the next cluster. Production-scale structure — modules per resource type, environments via workspaces, secrets in a remote backend, state locking, drift detection, dependency graphs — rarely happens until something breaks expensively.",
+    estimate: "A multi-week project that gets deferred indefinitely",
+  },
+];
+
 // ────────────────────────────────────────────────────────────────────────────
 // PAGE
 // ────────────────────────────────────────────────────────────────────────────
@@ -401,21 +461,35 @@ export default function Page() {
                 Sariva
               </span>
             </a>
-            <div className="hidden md:flex items-center gap-7 text-[0.88rem]" style={{ color: C.ink3 }}>
+            <div className="hidden md:flex items-center gap-6 text-[0.86rem]" style={{ color: C.ink3 }}>
               <a href="#product" className="hover:text-black transition-colors">Product</a>
+              <a href="#toil" className="hover:text-black transition-colors">Toil</a>
               <a href="#capabilities" className="hover:text-black transition-colors">Capabilities</a>
               <a href="#coverage" className="hover:text-black transition-colors">Coverage</a>
               <a href="#different" className="hover:text-black transition-colors">Why Sariva</a>
+              <a href="#confluent" className="hover:text-black transition-colors">Confluent</a>
               <a href="#use-cases" className="hover:text-black transition-colors">Use cases</a>
               <a href="#contact" className="hover:text-black transition-colors">Contact</a>
             </div>
-            <a
-              href="#contact"
-              className="px-3.5 py-1.5 rounded-md text-[0.82rem] font-medium transition-opacity hover:opacity-90"
-              style={{ background: C.ink, color: "#FFFFFF" }}
-            >
-              Get early access
-            </a>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <a
+                href="https://docs.sariva.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex items-center gap-1 text-[0.86rem] transition-colors hover:text-black"
+                style={{ color: C.ink3 }}
+              >
+                Docs
+                <span aria-hidden style={{ fontSize: "0.78em", opacity: 0.65 }}>↗</span>
+              </a>
+              <a
+                href="#contact"
+                className="px-3.5 py-1.5 rounded-md text-[0.82rem] font-medium transition-opacity hover:opacity-90"
+                style={{ background: C.ink, color: "#FFFFFF" }}
+              >
+                Get early access
+              </a>
+            </div>
           </div>
         </Container>
       </nav>
@@ -557,8 +631,67 @@ export default function Page() {
         </Container>
       </section>
 
+      {/* ─────────────────────── TOIL (NEW) ─────────────────────── */}
+      <section id="toil" style={{ background: C.chalk }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Toil" />
+          <SectionTitle maxCh={28}>
+            Where the hours actually go.
+          </SectionTitle>
+          <p
+            className="mt-6 leading-[1.7] max-w-[62ch]"
+            style={{ fontSize: "1rem", color: C.ink3 }}
+          >
+            Streaming infrastructure is unforgiving, but the work behind it is
+            repetitive. Most of what an SRE or Kafka engineer does in a week is
+            well-understood, well-documented, and the same as last week — just slow and
+            error-prone by hand. These are the tasks Sariva absorbs.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-4 mt-10">
+            {TOIL_ITEMS.map((item, i) => (
+              <article
+                key={i}
+                className="rounded-[10px] p-6"
+                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+              >
+                <div className="flex items-baseline gap-2 mb-3">
+                  <span
+                    className="font-mono font-semibold"
+                    style={{ color: C.azul, fontSize: "0.78rem" }}
+                  >
+                    0{i + 1}
+                  </span>
+                </div>
+                <CardTitle>{item.title}</CardTitle>
+                <p className="text-[0.9rem] leading-[1.65] mb-4" style={{ color: C.ink3 }}>
+                  {item.body}
+                </p>
+                <div
+                  className="font-mono text-[0.74rem] pt-3"
+                  style={{ color: C.ink4, borderTop: `1px solid ${C.lineSoft}` }}
+                >
+                  <span style={{ color: C.azul, marginRight: "0.5em" }}>↳</span>
+                  {item.estimate}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <p
+            className="mt-12 leading-[1.7] max-w-[62ch]"
+            style={{ fontSize: "1rem", color: C.ink2 }}
+          >
+            Sariva does this work — or guides you through it step by step — in minutes,
+            not days. Every action is a runbook. Every change is a PR. Every decision is
+            auditable. The patterns we encode today are the ones your team would have
+            written eventually, but now don&apos;t have to.
+          </p>
+        </Container>
+      </section>
+
       {/* ─────────────────────── CAPABILITIES ─────────────────────── */}
-      <section id="capabilities" style={{ background: C.chalk }}>
+      <section id="capabilities" style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Capabilities" />
           <SectionTitle>Two agents. One conversation.</SectionTitle>
@@ -631,77 +764,67 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── COVERAGE ─────────────────────── */}
-      <section id="coverage" style={{ background: C.cloud }}>
+      {/* ─────────────────────── COVERAGE (explicit support matrix) ─────────────────────── */}
+      <section id="coverage" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
-          <Eyebrow label="Coverage" />
-          <SectionTitle maxCh={28}>
-            Built for the full Kafka and Flink stack.
+          <Eyebrow label="Support matrix" />
+          <SectionTitle maxCh={30}>
+            What we support, explicitly.
           </SectionTitle>
           <p
-            className="mt-5 leading-[1.65] max-w-[58ch]"
+            className="mt-5 leading-[1.65] max-w-[60ch]"
             style={{ fontSize: "0.95rem", color: C.ink3 }}
           >
-            Multi-flavor, multi-cloud, multi-channel. No other operator covers this
-            surface — PrivateLink, FLE, Flink ops, and Tableflow are where competitors
-            stop.
+            No fine print, no asterisks. If something is on the roadmap, we say so.
+            Below is the full surface Sariva operates against today.
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-10">
-            {[
-              {
-                title: "Streaming platforms",
-                body:
-                  "Confluent Cloud · Confluent Platform · Apache Kafka · AWS MSK · Strimzi · CFK · Redpanda.",
-              },
-              {
-                title: "Stream processing",
-                body:
-                  "Apache Flink · Confluent Flink · Tableflow + Iceberg · Schema Registry · Confluent Connect.",
-              },
-              {
-                title: "Networking",
-                body:
-                  "PrivateLink · VPC Peering · Transit Gateway · mTLS · IRSA. End-to-end connectivity diagnosis.",
-              },
-              {
-                title: "Security & encryption",
-                body:
-                  "Field Level Encryption (FLE) · RBAC · ACLs · API key rotation · KMS integration.",
-              },
-              {
-                title: "Interfaces",
-                body:
-                  "Slack · CLI · REST API · MCP server for Claude Code, Cursor, and Confluent Streaming Agents.",
-              },
-              {
-                title: "Deployment",
-                body:
-                  "Helm chart on customer EKS · Terraform · GitOps pull-request flow · multi-cloud (AWS, GCP, Azure).",
-              },
-            ].map((tile, i) => (
+          <div
+            className="mt-10 rounded-[10px] overflow-hidden"
+            style={{ background: C.surface, border: `1px solid ${C.line}` }}
+          >
+            {SUPPORT_MATRIX.map((row, i) => (
               <div
-                key={i}
-                className="rounded-[10px] p-5"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                key={row.label}
+                className="grid md:grid-cols-[210px_1fr] gap-2 md:gap-8 px-5 md:px-7 py-5"
+                style={{
+                  borderTop: i === 0 ? "none" : `1px solid ${C.lineSoft}`,
+                }}
               >
                 <div
-                  className="font-mono font-medium text-[0.68rem] uppercase tracking-[0.14em] mb-2"
-                  style={{ color: C.azul }}
+                  className="font-mono font-medium uppercase tracking-[0.12em]"
+                  style={{ color: C.azul, fontSize: "0.72rem", paddingTop: "0.1rem" }}
                 >
-                  {tile.title}
+                  {row.label}
                 </div>
-                <p className="text-[0.88rem] leading-[1.6]" style={{ color: C.ink3 }}>
-                  {tile.body}
-                </p>
+                <div
+                  className="text-[0.92rem] leading-[1.6]"
+                  style={{ color: C.ink2 }}
+                >
+                  {row.items}
+                </div>
               </div>
             ))}
           </div>
+
+          <p
+            className="mt-8 font-mono text-[0.78rem]"
+            style={{ color: C.ink4 }}
+          >
+            ↳ Missing a flavor, cloud, or git provider? Email{" "}
+            <a
+              href="mailto:hello@sariva.ai"
+              style={{ color: C.azul, textDecoration: "underline" }}
+            >
+              hello@sariva.ai
+            </a>
+            {" "}— roadmap is driven by design partners.
+          </p>
         </Container>
       </section>
 
-      {/* ─────────────────────── WHY SARIVA (reframed — educational) ─────────────────────── */}
-      <section id="different" style={{ background: C.chalk }}>
+      {/* ─────────────────────── WHY SARIVA ─────────────────────── */}
+      <section id="different" style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Why Sariva" />
           <SectionTitle maxCh={30}>
@@ -728,14 +851,14 @@ export default function Page() {
               },
               {
                 vs: "vs Exploration UIs",
-                them: "Lenses · Control Center",
+                them: "Lenses.io",
                 title: "UIs visualize. Sariva resolves.",
                 body:
                   "Lenses.io, Confluent Control Center, and Kafka UI are excellent at showing topology, lag charts, message browsers, and lineage. They tell you what's running. Sariva is the autonomous operator that responds when the dashboard turns red — investigates root cause, applies the right runbook, drafts the PR, and ships the fix.",
               },
               {
                 vs: "vs Observability suites",
-                them: "Datadog DSM · Grafana",
+                them: "Datadog DSM",
                 title: "Observability informs. Sariva acts.",
                 body:
                   "Datadog DSM traces messages through pipelines with per-stage latency — powerful, but it requires the full Datadog APM stack and bills per host. Sariva consumes your existing observability as input today. Post-beta we ship native end-to-end app tracing via Kafka client interceptors — one config line per app, no code change, no per-host pricing — bundled into the operations layer.",
@@ -746,7 +869,7 @@ export default function Page() {
                 className="rounded-[10px] p-6"
                 style={{ background: C.surface, border: `1px solid ${C.line}` }}
               >
-                <div className="flex items-baseline justify-between mb-3">
+                <div className="flex items-start justify-between gap-3 mb-3">
                   <span
                     className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] px-2 py-1 rounded"
                     style={{ background: C.azulSoft, color: C.azul }}
@@ -754,8 +877,8 @@ export default function Page() {
                     {c.vs}
                   </span>
                   <span
-                    className="font-mono text-[0.7rem]"
-                    style={{ color: C.ink4 }}
+                    className="font-mono text-[0.7rem] text-right whitespace-nowrap"
+                    style={{ color: C.ink4, paddingTop: "0.25rem" }}
                   >
                     {c.them}
                   </span>
@@ -779,7 +902,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CONFLUENT ECOSYSTEM ─────────────────────── */}
-      <section style={{ background: C.cloud }}>
+      <section id="confluent" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Confluent ecosystem" />
           <SectionTitle maxCh={32}>
@@ -836,7 +959,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── USE CASES ─────────────────────── */}
-      <section id="use-cases" style={{ background: C.chalk }}>
+      <section id="use-cases" style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Use cases" />
           <SectionTitle maxCh={28}>
@@ -910,7 +1033,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── HOW IT WORKS ─────────────────────── */}
-      <section id="how-it-works" style={{ background: C.cloud }}>
+      <section id="how-it-works" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="How it works" />
           <SectionTitle>From channel to cluster in three steps.</SectionTitle>
@@ -958,7 +1081,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── TRUST & CONTROL ─────────────────────── */}
-      <section style={{ background: C.chalk }}>
+      <section style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Trust & Control" />
           <SectionTitle>Designed for platform teams that own production.</SectionTitle>
@@ -998,7 +1121,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CONTACT ─────────────────────── */}
-      <section id="contact" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
+      <section id="contact" style={{ background: C.chalk, borderTop: `1px solid ${C.lineSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Contact" />
           <SectionTitle>Get in touch.</SectionTitle>
