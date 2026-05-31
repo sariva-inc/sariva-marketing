@@ -1,12 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Instrument_Serif } from "next/font/google";
 
 // ============================================================================
-// Sariva — sariva.ai marketing landing page (v3)
-// New tagline · cleaned hero highlight · added Coverage section · tighter copy
-// Reference aesthetic: Linear / Resend / Anthropic — restrained, architectural
+// Sariva — sariva.ai marketing landing page (v4)
+// Instrument Serif headlines + 3-ring Pulse glyph + Azul accent
+// New sections: expanded Product, How Sariva is different, Confluent ecosystem,
+// Use cases. Aligned with D-22-AN typography decision.
 // ============================================================================
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 // ── Palette (Chaldean-aligned) ──────────────────────────────────────────────
 const C = {
@@ -34,7 +43,24 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// ── Eyebrow — small Azul line + uppercase label ─────────────────────────────
+// ── PulseMark — 3-ring Pulse glyph per D-22-AN ──────────────────────────────
+function PulseMark({ size = 22, color = C.azul }: { size?: number; color?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden
+      style={{ display: "inline-block", verticalAlign: "middle" }}
+    >
+      <circle cx="12" cy="12" r="11" fill="none" stroke={color} strokeWidth="1" opacity="0.18" />
+      <circle cx="12" cy="12" r="7.5" fill="none" stroke={color} strokeWidth="1" opacity="0.45" />
+      <circle cx="12" cy="12" r="3.5" fill={color} />
+    </svg>
+  );
+}
+
+// ── Eyebrow ─────────────────────────────────────────────────────────────────
 function Eyebrow({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
@@ -53,13 +79,16 @@ function Eyebrow({ label }: { label: string }) {
   );
 }
 
-// ── Section title ───────────────────────────────────────────────────────────
+// ── Section title — Instrument Serif ────────────────────────────────────────
 function SectionTitle({ children, maxCh = 22 }: { children: React.ReactNode; maxCh?: number }) {
   return (
     <h2
-      className="font-semibold tracking-[-0.025em] leading-[1.15]"
+      className={instrumentSerif.className}
       style={{
-        fontSize: "clamp(1.5rem, 2.4vw, 2.25rem)",
+        fontSize: "clamp(1.85rem, 3vw, 2.6rem)",
+        fontWeight: 400,
+        letterSpacing: "-0.015em",
+        lineHeight: 1.12,
         color: C.ink,
         maxWidth: `${maxCh}ch`,
       }}
@@ -157,7 +186,7 @@ function Avatar({ bg, letters }: { bg: string; letters: string }) {
   );
 }
 
-// ── Slack mock with auto-rotating tabs ──────────────────────────────────────
+// ── Slack mock ──────────────────────────────────────────────────────────────
 function SlackMock() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -190,7 +219,6 @@ function SlackMock() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      {/* Tab pills */}
       <div className="flex flex-wrap gap-2 mb-4">
         {SCENARIOS.map((sc, i) => {
           const isActive = i === active;
@@ -215,7 +243,6 @@ function SlackMock() {
         })}
       </div>
 
-      {/* Slack window */}
       <div
         className="rounded-xl overflow-hidden"
         style={{
@@ -225,7 +252,6 @@ function SlackMock() {
             "0 24px 48px -24px rgba(10,10,10,0.16), 0 60px 120px -50px rgba(42,72,240,0.16)",
         }}
       >
-        {/* Top bar */}
         <div
           className="flex items-center justify-between px-4 py-2.5"
           style={{ background: C.chalk, borderBottom: `1px solid ${C.line}` }}
@@ -240,7 +266,6 @@ function SlackMock() {
           </span>
         </div>
 
-        {/* Messages */}
         <div className="p-5 space-y-4 text-[0.88rem]" style={{ color: C.ink2 }}>
           <div className="flex gap-3">
             <Avatar bg={s.user.bg} letters={s.user.initials} />
@@ -339,6 +364,8 @@ function NotifyForm() {
 // PAGE
 // ────────────────────────────────────────────────────────────────────────────
 export default function Page() {
+  const serifFont = instrumentSerif.style.fontFamily;
+
   return (
     <div className="font-sans antialiased" style={{ background: C.cloud, color: C.ink }}>
       {/* ─────────────────────── NAV ─────────────────────── */}
@@ -348,14 +375,18 @@ export default function Page() {
       >
         <Container>
           <div className="flex items-center justify-between h-14">
-            <a href="#top" className="font-semibold text-[1rem] tracking-[-0.01em]" style={{ color: C.ink }}>
-              Sariva
+            <a href="#top" className="inline-flex items-center gap-2.5 text-[1.15rem]" style={{ color: C.ink }}>
+              <PulseMark size={20} color={C.azul} />
+              <span className={instrumentSerif.className} style={{ fontWeight: 400, letterSpacing: "-0.01em" }}>
+                Sariva
+              </span>
             </a>
             <div className="hidden md:flex items-center gap-7 text-[0.88rem]" style={{ color: C.ink3 }}>
               <a href="#product" className="hover:text-black transition-colors">Product</a>
               <a href="#capabilities" className="hover:text-black transition-colors">Capabilities</a>
               <a href="#coverage" className="hover:text-black transition-colors">Coverage</a>
-              <a href="#how-it-works" className="hover:text-black transition-colors">How it works</a>
+              <a href="#different" className="hover:text-black transition-colors">Why Sariva</a>
+              <a href="#use-cases" className="hover:text-black transition-colors">Use cases</a>
               <a href="#contact" className="hover:text-black transition-colors">Contact</a>
             </div>
             <a
@@ -379,7 +410,6 @@ export default function Page() {
       >
         <Container className="pt-16 pb-20 md:pt-20 md:pb-24">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            {/* Left: copy */}
             <div>
               <div className="mb-6">
                 <span
@@ -394,23 +424,30 @@ export default function Page() {
                 </span>
               </div>
               <h1
-                className="font-semibold tracking-[-0.025em] leading-[1.08] mb-6"
-                style={{ fontSize: "clamp(1.85rem, 3.8vw, 3rem)", color: C.ink }}
+                className={instrumentSerif.className}
+                style={{
+                  fontSize: "clamp(2.2rem, 4.4vw, 3.6rem)",
+                  fontWeight: 400,
+                  letterSpacing: "-0.015em",
+                  lineHeight: 1.08,
+                  color: C.ink,
+                  marginBottom: "1.5rem",
+                }}
               >
                 Operate{" "}
                 <span style={{ color: C.azul }}>Kafka</span>
                 {" "}and{" "}
                 <span style={{ color: C.azul }}>Flink</span>
-                {" "}through conversation.
+                {" "}through <em style={{ fontStyle: "italic" }}>conversation</em>.
               </h1>
               <p
                 className="leading-[1.65] max-w-[38em] mb-7"
                 style={{ fontSize: "1rem", color: C.ink3 }}
               >
-                Sariva is an AI operator for Apache Kafka and Apache Flink. Available
-                today in Slack, CLI, REST API, and MCP — Microsoft Teams and web UI on
-                the roadmap. Ask in plain English. Get answers with context. Execute
-                changes through GitOps with a full audit trail.
+                Sariva is the AI operator for Apache Kafka and Apache Flink — a senior
+                streaming engineer in your Slack, CLI, REST, and MCP surfaces. Ask in
+                plain English. Diagnose incidents end-to-end. Execute changes through
+                GitOps with a full audit trail. Self-hosted in your VPC.
               </p>
               <div className="flex flex-wrap gap-2.5">
                 <a
@@ -430,7 +467,6 @@ export default function Page() {
               </div>
             </div>
 
-            {/* Right: Slack mock */}
             <div className="w-full">
               <SlackMock />
             </div>
@@ -438,36 +474,70 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── PRODUCT ─────────────────────── */}
+      {/* ─────────────────────── PRODUCT (expanded) ─────────────────────── */}
       <section id="product" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
         <Container className="py-16 md:py-20">
-          <Eyebrow label="Product" />
+          <Eyebrow label="The problem" />
           <SectionTitle maxCh={26}>
-            The gap between knowing your streaming platform and asking it a question — closed.
+            Streaming ops is harder than it looks.
           </SectionTitle>
-          <div
-            className="grid md:grid-cols-2 gap-8 lg:gap-12 mt-8 leading-[1.7]"
-            style={{ fontSize: "0.95rem", color: C.ink3 }}
+
+          <p
+            className="mt-6 leading-[1.7] max-w-[62ch]"
+            style={{ fontSize: "1.02rem", color: C.ink3 }}
           >
-            <p>
-              Streaming infrastructure is unforgiving. A consumer group falls behind, a
-              Flink job fails over, a Schema Registry compatibility check breaks a deploy,
-              a PrivateLink endpoint stops resolving — and the answer is buried across
-              Confluent Cloud, kubectl, Prometheus, CloudWatch, and three Slack threads
-              from last quarter.
-            </p>
-            <p>
-              Sariva sits between your team and the streaming stack. It speaks the
-              language of platform engineers — partitions, lag, commits, ACLs, IRSA,
-              mTLS, KRaft, retention, FLE, Tableflow — and translates intent into safe,
-              audited operations. Self-hosted in your VPC. Explicit about what it
-              touches. Never auto-discovers.
-            </p>
+            Kafka and Flink power the most critical pipelines in modern infrastructure —
+            payments, fraud detection, audit logs, machine learning feature stores. When
+            they break, revenue stops. When they degrade, customers churn silently. And
+            the engineers who can fix them are scarce, expensive, and burnt out.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mt-12">
+            {[
+              {
+                tag: "The fragmentation problem",
+                body:
+                  "Your streaming stack lives across Confluent Cloud, kubectl, Prometheus, CloudWatch, Schema Registry, GitHub, and three Slack threads from last quarter. Diagnosing a single incident means jumping between five tools to assemble a picture, then a sixth to act on it.",
+              },
+              {
+                tag: "The expertise problem",
+                body:
+                  "Kafka, Flink, and the streaming ecosystem demand specialist knowledge — partitions, KRaft, ISRs, watermarks, ACLs, FLE, PrivateLink, Tableflow. One senior streaming engineer costs $150–200K/year. Most teams have one, on call 24/7. Operations stop when they're on vacation.",
+              },
+              {
+                tag: "The change problem",
+                body:
+                  "Every change cascades. A topic partition increase reshuffles consumer assignment. An ACL grant rolls fleet-wide. A Schema Registry update breaks a downstream consumer two weeks later. Without an audit trail and a rollback path, you can't safely move fast.",
+              },
+            ].map((p, i) => (
+              <div key={i}>
+                <div
+                  className="font-mono font-medium uppercase tracking-[0.12em] mb-3"
+                  style={{ color: C.azul, fontSize: "0.74rem" }}
+                >
+                  {p.tag}
+                </div>
+                <p className="leading-[1.65]" style={{ fontSize: "0.94rem", color: C.ink3 }}>
+                  {p.body}
+                </p>
+              </div>
+            ))}
           </div>
+
+          <p
+            className="mt-12 leading-[1.7] max-w-[62ch]"
+            style={{ fontSize: "1.02rem", color: C.ink2 }}
+          >
+            Sariva collapses these three problems into one interface — <B>conversation</B>,
+            with full context, every action audited, every change executed through your
+            GitOps repo. It speaks the language of platform engineers — partitions, lag,
+            commits, ACLs, IRSA, mTLS, KRaft, retention, FLE, Tableflow — and translates
+            intent into safe, reversible operations.
+          </p>
         </Container>
       </section>
 
-      {/* ─────────────────────── CAPABILITIES (3 cards) ─────────────────────── */}
+      {/* ─────────────────────── CAPABILITIES ─────────────────────── */}
       <section id="capabilities" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Capabilities" />
@@ -526,7 +596,17 @@ export default function Page() {
                 >
                   {card.tag}
                 </span>
-                <h3 className="text-[1.05rem] font-semibold leading-snug mb-2.5" style={{ color: C.ink }}>
+                <h3
+                  className={instrumentSerif.className}
+                  style={{
+                    fontSize: "1.25rem",
+                    fontWeight: 400,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    color: C.ink,
+                    marginBottom: "0.75rem",
+                  }}
+                >
                   {card.title}
                 </h3>
                 <p className="text-[0.9rem] leading-[1.6] mb-4" style={{ color: C.ink3 }}>
@@ -543,7 +623,7 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── COVERAGE (new — what we operate) ─────────────────────── */}
+      {/* ─────────────────────── COVERAGE ─────────────────────── */}
       <section id="coverage" style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Coverage" />
@@ -554,9 +634,9 @@ export default function Page() {
             className="mt-5 leading-[1.65] max-w-[58ch]"
             style={{ fontSize: "0.95rem", color: C.ink3 }}
           >
-            Sariva is multi-flavor, multi-cloud, and multi-channel from day one. No
-            other operator covers this surface — PrivateLink, FLE, Flink ops, and
-            Tableflow are where competitors stop.
+            Multi-flavor, multi-cloud, multi-channel. No other operator covers this
+            surface — PrivateLink, FLE, Flink ops, and Tableflow are where competitors
+            stop.
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mt-10">
@@ -584,7 +664,7 @@ export default function Page() {
               {
                 title: "Interfaces",
                 body:
-                  "Slack · CLI · REST API · MCP server for Claude Code, Cursor, and Streaming Agents.",
+                  "Slack · CLI · REST API · MCP server for Claude Code, Cursor, and Confluent Streaming Agents.",
               },
               {
                 title: "Deployment",
@@ -612,8 +692,235 @@ export default function Page() {
         </Container>
       </section>
 
+      {/* ─────────────────────── DIFFERENT (NEW — competitive) ─────────────────────── */}
+      <section id="different" style={{ background: C.chalk }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Why Sariva" />
+          <SectionTitle maxCh={28}>
+            <em style={{ fontStyle: "italic" }}>Operations</em>, not exploration.
+          </SectionTitle>
+          <p
+            className="mt-5 leading-[1.7] max-w-[58ch]"
+            style={{ fontSize: "0.98rem", color: C.ink3 }}
+          >
+            Every streaming-data vendor has a UI. Every observability vendor has a Kafka
+            integration. Sariva is the only AI operator that diagnoses incidents
+            end-to-end, generates Terraform, and resolves the issue through your GitOps
+            repo — not just a graph that tells you something&apos;s wrong.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-4 mt-12">
+            {[
+              {
+                vs: "vs Governance proxies",
+                them: "Conduktor",
+                title: "We diagnose. They mask.",
+                body:
+                  "Conduktor sits as a proxy in front of Kafka — encryption, masking, audit, chargeback. That&apos;s governance infrastructure, not operations. Sariva sits beside Kafka, diagnoses why partitions are skewed, and opens the PR to fix it.",
+              },
+              {
+                vs: "vs Exploration UIs",
+                them: "Lenses · Control Center",
+                title: "We act. They display.",
+                body:
+                  "Lenses.io and Confluent Control Center show you topology, lag charts, and lineage graphs. Sariva tells you why a Flink job restarted, what changed in the Terraform plan, and which runbook applies — then opens the PR to remediate.",
+              },
+              {
+                vs: "vs Observability suites",
+                them: "Datadog DSM",
+                title: "We use them. We don't replace them.",
+                body:
+                  "Datadog DSM, Grafana, Prometheus collect metrics and traces. Sariva consumes those as inputs — and acts on them through GitOps. No new APM subscription, no vendor lock-in to a $31/host monitoring tier.",
+              },
+            ].map((c, i) => (
+              <article
+                key={i}
+                className="rounded-[10px] p-6"
+                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+              >
+                <div className="flex items-baseline justify-between mb-3">
+                  <span
+                    className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] px-2 py-1 rounded"
+                    style={{ background: C.azulSoft, color: C.azul }}
+                  >
+                    {c.vs}
+                  </span>
+                  <span
+                    className="font-mono text-[0.7rem]"
+                    style={{ color: C.ink4 }}
+                  >
+                    {c.them}
+                  </span>
+                </div>
+                <h3
+                  className={instrumentSerif.className}
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: 400,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    color: C.ink,
+                    marginBottom: "0.75rem",
+                  }}
+                >
+                  {c.title}
+                </h3>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                  {c.body}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <p
+            className="mt-12 italic text-center max-w-[52ch] mx-auto"
+            style={{
+              fontFamily: serifFont,
+              fontSize: "1.15rem",
+              lineHeight: 1.5,
+              color: C.ink3,
+            }}
+          >
+            &ldquo;Conduktor&apos;s MCP shows you metrics. Sariva&apos;s MCP diagnoses
+            the problem.&rdquo;
+          </p>
+        </Container>
+      </section>
+
+      {/* ─────────────────────── CONFLUENT (NEW — ecosystem) ─────────────────────── */}
+      <section style={{ background: C.cloud }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Confluent ecosystem" />
+          <SectionTitle maxCh={32}>
+            Sariva <em style={{ fontStyle: "italic" }}>operates</em> the platform.
+            Streaming Agents <em style={{ fontStyle: "italic" }}>run</em> on it.
+          </SectionTitle>
+          <p
+            className="mt-6 leading-[1.7] max-w-[64ch]"
+            style={{ fontSize: "1rem", color: C.ink3 }}
+          >
+            Confluent ships incredible infrastructure — Confluent Cloud, Flink on
+            Confluent Cloud, Tableflow + Iceberg, the Streaming Agents framework. Sariva
+            is purpose-built for teams that run Confluent at scale and need AI-native
+            operations to match. We deploy your topics through GitOps. We diagnose your
+            Flink job restarts. We watch your Tableflow sync health. We expose every
+            tool through MCP so Streaming Agents can call Sariva from within Flink SQL.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-4 mt-10">
+            {[
+              {
+                tag: "Multi-flavor first-class",
+                body:
+                  "Confluent Cloud, Confluent Platform on EKS, Confluent for Kubernetes, and Confluent Flink — all supported from day one alongside Apache Kafka, MSK, Strimzi, and Redpanda.",
+              },
+              {
+                tag: "Tableflow + Iceberg ops",
+                body:
+                  "Streaming-to-table sync, schema evolution, sync lag — territory no other operator covers. Tableflow runbooks ship with the platform; agents diagnose Iceberg consistency issues automatically.",
+              },
+              {
+                tag: "MCP closes the loop",
+                body:
+                  "Sariva's MCP server lets Confluent Streaming Agents call Sariva tools from inside Flink SQL — connecting stream processing to the ops layer. Diagnosis tools, runbook execution, deployment proposals — all callable from a Flink job.",
+              },
+            ].map((tile, i) => (
+              <div
+                key={i}
+                className="rounded-[10px] p-6"
+                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+              >
+                <div
+                  className="font-mono font-medium text-[0.68rem] uppercase tracking-[0.14em] mb-3"
+                  style={{ color: C.azul }}
+                >
+                  {tile.tag}
+                </div>
+                <p className="text-[0.92rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                  {tile.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ─────────────────────── USE CASES (NEW) ─────────────────────── */}
+      <section id="use-cases" style={{ background: C.chalk }}>
+        <Container className="py-16 md:py-20">
+          <Eyebrow label="Use cases" />
+          <SectionTitle maxCh={28}>
+            What it looks like in practice.
+          </SectionTitle>
+          <p
+            className="mt-5 leading-[1.65] max-w-[58ch]"
+            style={{ fontSize: "0.95rem", color: C.ink3 }}
+          >
+            Six common moments in a streaming team&apos;s week. Each one is a Slack
+            message away from resolution.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-4 mt-10">
+            {[
+              {
+                tag: "Consumer lag spike",
+                q: "@sariva orders-topic lag is at 2× baseline",
+                a: "Surfaces the root cause — hot partition from skewed `customer_id` hashing. Suggests a partitioning strategy with the cost / downtime tradeoff. Opens a PR if you say yes.",
+              },
+              {
+                tag: "Flink job OOM",
+                q: "@sariva why is fraud-detector restarting?",
+                a: "Diagnoses OOMKilled at 4 GB during peak load. Identifies `payment-events` as the 3× input spike. Proposes raising `taskmanager.memory.process.size` to 6 GB. PR includes the rollback plan.",
+              },
+              {
+                tag: "PrivateLink failure",
+                q: "@sariva producers can't reach CC after the AWS maintenance",
+                a: "Walks the diagnostic chain — NLB target health, endpoint service status, Confluent network attachment, DNS resolution. Surfaces stale ENI on the customer side. Includes the fix.",
+              },
+              {
+                tag: "Schema break",
+                q: "@sariva the deploy is failing on schema compatibility",
+                a: "Pinpoints the breaking change — `customer_id` type widened to long. Lists impacted consumer groups. Proposes a backward-compatible migration path with the version pinning steps.",
+              },
+              {
+                tag: "MSK → CC migration",
+                q: "@sariva plan a migration of payments-cluster from MSK to Confluent Cloud",
+                a: "Generates the full plan — replication setup, topic mapping, consumer cutover sequence, rollback paths, cost delta. Three-stage execution with a PR per stage. KB-DEP-009 runbook applied.",
+              },
+              {
+                tag: "New connector",
+                q: "@sariva add an S3 sink for analytics topics",
+                a: "Picks the right connector class. Generates the Terraform for the connector, IAM role, S3 bucket policy. Opens a PR with cost estimate, RBAC checks, and the rollback steps.",
+              },
+            ].map((u, i) => (
+              <article
+                key={i}
+                className="rounded-[10px] p-6"
+                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+              >
+                <div
+                  className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] mb-4 inline-block px-2 py-1 rounded"
+                  style={{ background: C.azulSoft, color: C.azul }}
+                >
+                  {u.tag}
+                </div>
+                <div
+                  className="font-mono text-[0.86rem] mb-3 leading-[1.55]"
+                  style={{ color: C.ink }}
+                >
+                  <span style={{ color: C.azul }}>›</span> {u.q}
+                </div>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                  {u.a}
+                </p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       {/* ─────────────────────── HOW IT WORKS ─────────────────────── */}
-      <section id="how-it-works" style={{ background: C.chalk }}>
+      <section id="how-it-works" style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="How it works" />
           <SectionTitle>From channel to cluster in three steps.</SectionTitle>
@@ -650,7 +957,17 @@ export default function Page() {
                 >
                   {s.step}
                 </div>
-                <h3 className="text-[1.05rem] font-semibold mb-2.5" style={{ color: C.ink }}>
+                <h3
+                  className={instrumentSerif.className}
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: 400,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    color: C.ink,
+                    marginBottom: "0.75rem",
+                  }}
+                >
                   {s.title}
                 </h3>
                 <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
@@ -663,7 +980,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── TRUST & CONTROL ─────────────────────── */}
-      <section style={{ background: C.cloud }}>
+      <section style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Trust & Control" />
           <SectionTitle>Designed for platform teams that own production.</SectionTitle>
@@ -692,7 +1009,17 @@ export default function Page() {
                 className="rounded-[10px] p-6"
                 style={{ background: C.surface, border: `1px solid ${C.line}` }}
               >
-                <h3 className="text-[1.05rem] font-semibold mb-2.5" style={{ color: C.ink }}>
+                <h3
+                  className={instrumentSerif.className}
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: 400,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    color: C.ink,
+                    marginBottom: "0.75rem",
+                  }}
+                >
                   {item.title}
                 </h3>
                 <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
@@ -705,7 +1032,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CONTACT ─────────────────────── */}
-      <section id="contact" style={{ background: C.chalk, borderTop: `1px solid ${C.lineSoft}` }}>
+      <section id="contact" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Contact" />
           <SectionTitle>Get in touch.</SectionTitle>
@@ -738,14 +1065,23 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Notify banner */}
           <div
             className="mt-8 rounded-2xl p-7 md:p-10"
             style={{ background: C.ink }}
           >
             <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
               <div>
-                <h3 className="font-semibold leading-snug mb-2" style={{ color: "#FFFFFF", fontSize: "1.3rem" }}>
+                <h3
+                  className={instrumentSerif.className}
+                  style={{
+                    color: "#FFFFFF",
+                    fontSize: "1.55rem",
+                    fontWeight: 400,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.2,
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   Or get notified when we open up.
                 </h3>
                 <p className="text-[0.9rem] leading-[1.6]" style={{ color: "rgba(255,255,255,0.6)" }}>
@@ -763,8 +1099,14 @@ export default function Page() {
       <footer style={{ background: C.cloud, borderTop: `1px solid ${C.line}` }}>
         <Container className="py-8">
           <div className="grid md:grid-cols-3 gap-4 items-start md:items-center text-center md:text-left">
-            <div className="font-semibold text-[0.95rem]" style={{ color: C.ink }}>
-              Sariva
+            <div className="inline-flex items-center gap-2 md:justify-start justify-center">
+              <PulseMark size={18} color={C.azul} />
+              <span
+                className={instrumentSerif.className}
+                style={{ fontSize: "1.05rem", fontWeight: 400, color: C.ink, letterSpacing: "-0.01em" }}
+              >
+                Sariva
+              </span>
             </div>
             <div className="font-mono text-[0.72rem] flex flex-col md:items-center gap-0.5" style={{ color: C.ink4 }}>
               <span>Sariva Inc. · Ontario, Canada</span>
