@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { Instrument_Serif } from "next/font/google";
 
 // ============================================================================
-// Sariva — sariva.ai marketing landing page (v4)
-// Instrument Serif headlines + 3-ring Pulse glyph + Azul accent
-// New sections: expanded Product, How Sariva is different, Confluent ecosystem,
-// Use cases. Aligned with D-22-AN typography decision.
+// Sariva — sariva.ai marketing landing page (v5)
+// Typography fix: Instrument Serif strictly for hero h1 + section h2 only.
+// Card titles in Geist semibold. Single italic accent in hero only.
+// Competitive section reframed educational (not aggressive). Interceptor
+// roadmap surfaced on the Datadog card per D-22-AJ.
 // ============================================================================
 
 const instrumentSerif = Instrument_Serif({
@@ -17,7 +18,7 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-// ── Palette (Chaldean-aligned) ──────────────────────────────────────────────
+// ── Palette ─────────────────────────────────────────────────────────────────
 const C = {
   cloud: "#FAFAF9",
   chalk: "#F4F4F1",
@@ -43,7 +44,7 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// ── PulseMark — 3-ring Pulse glyph per D-22-AN ──────────────────────────────
+// ── PulseMark — 3-ring Pulse glyph, stronger contrast (D-22-AN) ─────────────
 function PulseMark({ size = 22, color = C.azul }: { size?: number; color?: string }) {
   return (
     <svg
@@ -53,9 +54,9 @@ function PulseMark({ size = 22, color = C.azul }: { size?: number; color?: strin
       aria-hidden
       style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      <circle cx="12" cy="12" r="11" fill="none" stroke={color} strokeWidth="1" opacity="0.18" />
-      <circle cx="12" cy="12" r="7.5" fill="none" stroke={color} strokeWidth="1" opacity="0.45" />
-      <circle cx="12" cy="12" r="3.5" fill={color} />
+      <circle cx="12" cy="12" r="10.5" fill="none" stroke={color} strokeWidth="1.25" opacity="0.28" />
+      <circle cx="12" cy="12" r="7" fill="none" stroke={color} strokeWidth="1.25" opacity="0.6" />
+      <circle cx="12" cy="12" r="3.25" fill={color} />
     </svg>
   );
 }
@@ -79,7 +80,7 @@ function Eyebrow({ label }: { label: string }) {
   );
 }
 
-// ── Section title — Instrument Serif ────────────────────────────────────────
+// ── SectionTitle — Instrument Serif, h2 only ────────────────────────────────
 function SectionTitle({ children, maxCh = 22 }: { children: React.ReactNode; maxCh?: number }) {
   return (
     <h2
@@ -95,6 +96,24 @@ function SectionTitle({ children, maxCh = 22 }: { children: React.ReactNode; max
     >
       {children}
     </h2>
+  );
+}
+
+// ── CardTitle — Geist semibold (assertive, technical) ───────────────────────
+function CardTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h3
+      style={{
+        fontSize: "1.05rem",
+        fontWeight: 600,
+        letterSpacing: "-0.005em",
+        lineHeight: 1.35,
+        color: C.ink,
+        marginBottom: "0.65rem",
+      }}
+    >
+      {children}
+    </h3>
   );
 }
 
@@ -364,8 +383,6 @@ function NotifyForm() {
 // PAGE
 // ────────────────────────────────────────────────────────────────────────────
 export default function Page() {
-  const serifFont = instrumentSerif.style.fontFamily;
-
   return (
     <div className="font-sans antialiased" style={{ background: C.cloud, color: C.ink }}>
       {/* ─────────────────────── NAV ─────────────────────── */}
@@ -375,9 +392,12 @@ export default function Page() {
       >
         <Container>
           <div className="flex items-center justify-between h-14">
-            <a href="#top" className="inline-flex items-center gap-2.5 text-[1.15rem]" style={{ color: C.ink }}>
-              <PulseMark size={20} color={C.azul} />
-              <span className={instrumentSerif.className} style={{ fontWeight: 400, letterSpacing: "-0.01em" }}>
+            <a href="#top" className="inline-flex items-center gap-2.5" style={{ color: C.ink }}>
+              <PulseMark size={22} color={C.azul} />
+              <span
+                className={instrumentSerif.className}
+                style={{ fontSize: "1.2rem", fontWeight: 400, letterSpacing: "-0.01em" }}
+              >
                 Sariva
               </span>
             </a>
@@ -474,7 +494,7 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── PRODUCT (expanded) ─────────────────────── */}
+      {/* ─────────────────────── PRODUCT ─────────────────────── */}
       <section id="product" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="The problem" />
@@ -528,7 +548,7 @@ export default function Page() {
             className="mt-12 leading-[1.7] max-w-[62ch]"
             style={{ fontSize: "1.02rem", color: C.ink2 }}
           >
-            Sariva collapses these three problems into one interface — <B>conversation</B>,
+            Sariva collapses these three problems into one interface — conversation,
             with full context, every action audited, every change executed through your
             GitOps repo. It speaks the language of platform engineers — partitions, lag,
             commits, ACLs, IRSA, mTLS, KRaft, retention, FLE, Tableflow — and translates
@@ -596,19 +616,7 @@ export default function Page() {
                 >
                   {card.tag}
                 </span>
-                <h3
-                  className={instrumentSerif.className}
-                  style={{
-                    fontSize: "1.25rem",
-                    fontWeight: 400,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
-                    color: C.ink,
-                    marginBottom: "0.75rem",
-                  }}
-                >
-                  {card.title}
-                </h3>
+                <CardTitle>{card.title}</CardTitle>
                 <p className="text-[0.9rem] leading-[1.6] mb-4" style={{ color: C.ink3 }}>
                   {card.body}
                 </p>
@@ -692,21 +700,21 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── DIFFERENT (NEW — competitive) ─────────────────────── */}
+      {/* ─────────────────────── WHY SARIVA (reframed — educational) ─────────────────────── */}
       <section id="different" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Why Sariva" />
-          <SectionTitle maxCh={28}>
-            <em style={{ fontStyle: "italic" }}>Operations</em>, not exploration.
+          <SectionTitle maxCh={30}>
+            A different layer of the stack.
           </SectionTitle>
           <p
-            className="mt-5 leading-[1.7] max-w-[58ch]"
-            style={{ fontSize: "0.98rem", color: C.ink3 }}
+            className="mt-6 leading-[1.7] max-w-[62ch]"
+            style={{ fontSize: "1rem", color: C.ink3 }}
           >
-            Every streaming-data vendor has a UI. Every observability vendor has a Kafka
-            integration. Sariva is the only AI operator that diagnoses incidents
-            end-to-end, generates Terraform, and resolves the issue through your GitOps
-            repo — not just a graph that tells you something&apos;s wrong.
+            Streaming infrastructure has gateways, exploration UIs, and observability
+            tools — each excellent at what it does. Sariva isn&apos;t trying to replace
+            them. We sit alongside them as the operations layer: the senior engineer
+            who reads the dashboard, runs the runbook, and ships the fix.
           </p>
 
           <div className="grid md:grid-cols-3 gap-4 mt-12">
@@ -714,23 +722,23 @@ export default function Page() {
               {
                 vs: "vs Governance proxies",
                 them: "Conduktor",
-                title: "We diagnose. They mask.",
+                title: "Gateway proxies live in the data path.",
                 body:
-                  "Conduktor sits as a proxy in front of Kafka — encryption, masking, audit, chargeback. That&apos;s governance infrastructure, not operations. Sariva sits beside Kafka, diagnoses why partitions are skewed, and opens the PR to fix it.",
+                  "Conduktor and similar gateways sit between producers, consumers, and brokers — adding encryption, masking, audit, and chargeback. That's data-plane governance, and it's valuable. Sariva sits beside the cluster as an operator — diagnosing why a Flink job is restarting, walking the PrivateLink diagnostic chain, opening a PR to fix the broken Terraform. Different layer, complementary tools.",
               },
               {
                 vs: "vs Exploration UIs",
                 them: "Lenses · Control Center",
-                title: "We act. They display.",
+                title: "UIs visualize. Sariva resolves.",
                 body:
-                  "Lenses.io and Confluent Control Center show you topology, lag charts, and lineage graphs. Sariva tells you why a Flink job restarted, what changed in the Terraform plan, and which runbook applies — then opens the PR to remediate.",
+                  "Lenses.io, Confluent Control Center, and Kafka UI are excellent at showing topology, lag charts, message browsers, and lineage. They tell you what's running. Sariva is the autonomous operator that responds when the dashboard turns red — investigates root cause, applies the right runbook, drafts the PR, and ships the fix.",
               },
               {
                 vs: "vs Observability suites",
-                them: "Datadog DSM",
-                title: "We use them. We don't replace them.",
+                them: "Datadog DSM · Grafana",
+                title: "Observability informs. Sariva acts.",
                 body:
-                  "Datadog DSM, Grafana, Prometheus collect metrics and traces. Sariva consumes those as inputs — and acts on them through GitOps. No new APM subscription, no vendor lock-in to a $31/host monitoring tier.",
+                  "Datadog DSM traces messages through pipelines with per-stage latency — powerful, but it requires the full Datadog APM stack and bills per host. Sariva consumes your existing observability as input today. Post-beta we ship native end-to-end app tracing via Kafka client interceptors — one config line per app, no code change, no per-host pricing — bundled into the operations layer.",
               },
             ].map((c, i) => (
               <article
@@ -752,19 +760,7 @@ export default function Page() {
                     {c.them}
                   </span>
                 </div>
-                <h3
-                  className={instrumentSerif.className}
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: 400,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
-                    color: C.ink,
-                    marginBottom: "0.75rem",
-                  }}
-                >
-                  {c.title}
-                </h3>
+                <CardTitle>{c.title}</CardTitle>
                 <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
                   {c.body}
                 </p>
@@ -773,27 +769,21 @@ export default function Page() {
           </div>
 
           <p
-            className="mt-12 italic text-center max-w-[52ch] mx-auto"
-            style={{
-              fontFamily: serifFont,
-              fontSize: "1.15rem",
-              lineHeight: 1.5,
-              color: C.ink3,
-            }}
+            className="mt-10 leading-[1.65] max-w-[62ch]"
+            style={{ fontSize: "0.98rem", color: C.ink2 }}
           >
-            &ldquo;Conduktor&apos;s MCP shows you metrics. Sariva&apos;s MCP diagnoses
-            the problem.&rdquo;
+            Sariva isn&apos;t a gateway, a dashboard, or a metrics tier. We operate
+            across all of them.
           </p>
         </Container>
       </section>
 
-      {/* ─────────────────────── CONFLUENT (NEW — ecosystem) ─────────────────────── */}
+      {/* ─────────────────────── CONFLUENT ECOSYSTEM ─────────────────────── */}
       <section style={{ background: C.cloud }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Confluent ecosystem" />
           <SectionTitle maxCh={32}>
-            Sariva <em style={{ fontStyle: "italic" }}>operates</em> the platform.
-            Streaming Agents <em style={{ fontStyle: "italic" }}>run</em> on it.
+            Sariva operates the platform. Streaming Agents run on it.
           </SectionTitle>
           <p
             className="mt-6 leading-[1.7] max-w-[64ch]"
@@ -845,7 +835,7 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── USE CASES (NEW) ─────────────────────── */}
+      {/* ─────────────────────── USE CASES ─────────────────────── */}
       <section id="use-cases" style={{ background: C.chalk }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Use cases" />
@@ -957,19 +947,7 @@ export default function Page() {
                 >
                   {s.step}
                 </div>
-                <h3
-                  className={instrumentSerif.className}
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: 400,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
-                    color: C.ink,
-                    marginBottom: "0.75rem",
-                  }}
-                >
-                  {s.title}
-                </h3>
+                <CardTitle>{s.title}</CardTitle>
                 <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
                   {s.body}
                 </p>
@@ -1009,19 +987,7 @@ export default function Page() {
                 className="rounded-[10px] p-6"
                 style={{ background: C.surface, border: `1px solid ${C.line}` }}
               >
-                <h3
-                  className={instrumentSerif.className}
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: 400,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
-                    color: C.ink,
-                    marginBottom: "0.75rem",
-                  }}
-                >
-                  {item.title}
-                </h3>
+                <CardTitle>{item.title}</CardTitle>
                 <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
                   {item.body}
                 </p>
@@ -1072,13 +1038,12 @@ export default function Page() {
             <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
               <div>
                 <h3
-                  className={instrumentSerif.className}
                   style={{
                     color: "#FFFFFF",
-                    fontSize: "1.55rem",
-                    fontWeight: 400,
+                    fontSize: "1.35rem",
+                    fontWeight: 600,
                     letterSpacing: "-0.01em",
-                    lineHeight: 1.2,
+                    lineHeight: 1.3,
                     marginBottom: "0.5rem",
                   }}
                 >
@@ -1100,10 +1065,10 @@ export default function Page() {
         <Container className="py-8">
           <div className="grid md:grid-cols-3 gap-4 items-start md:items-center text-center md:text-left">
             <div className="inline-flex items-center gap-2 md:justify-start justify-center">
-              <PulseMark size={18} color={C.azul} />
+              <PulseMark size={20} color={C.azul} />
               <span
                 className={instrumentSerif.className}
-                style={{ fontSize: "1.05rem", fontWeight: 400, color: C.ink, letterSpacing: "-0.01em" }}
+                style={{ fontSize: "1.1rem", fontWeight: 400, color: C.ink, letterSpacing: "-0.01em" }}
               >
                 Sariva
               </span>
