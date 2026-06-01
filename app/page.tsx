@@ -1,37 +1,36 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Instrument_Serif } from "next/font/google";
 
 // ============================================================================
-// Sariva — sariva.ai marketing landing page (v6)
-// Adds: Confluent in nav, NEW Toil section (concrete time-sucks),
-// explicit support matrix (replaces Coverage tiles), alignment fix on
-// competitive cards.
+// Sariva — sariva.ai marketing landing page (v7)
+// Royal dark theme. Background #001949 (compound 23, Royal Star of the Lion).
+// All-Geist typography (no Instrument Serif). Pulse motif in hero.
+// Same 11-section structure as v6; visual layer flipped dark.
 // ============================================================================
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  style: ["normal", "italic"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// ── Palette ─────────────────────────────────────────────────────────────────
+// ── Palette (Royal — dark, numerology-validated) ────────────────────────────
 const C = {
-  cloud: "#FAFAF9",
-  chalk: "#F4F4F1",
-  surface: "#FFFFFF",
-  ink: "#0A0A0A",
-  ink2: "#262626",
-  ink3: "#525252",
-  ink4: "#737373",
-  line: "#E5E5E2",
-  lineSoft: "#EFEFEC",
-  azul: "#2A48F0",
-  azulDeep: "#1E36C9",
-  azulSoft: "#EEF1FE",
-  green: "#16A34A",
+  // Backgrounds
+  royal: "#001949",          // page bg — 23 → 5 (Royal Star of the Lion)
+  royalOnyx: "#011A50",      // section alternation
+  royalCarbon: "#012358",    // card surface — 19 → 1 (Sun)
+  royalBorder: "#1B3458",    // borders — 21 → 3 / 23 → 5 (Royal Star via M2)
+  royalBorderSoft: "#0F2A48", // soft dividers — 14 → 5 / 23 → 5
+
+  // Text on dark
+  mist: "#F8FAFC",           // headings — digit-sum 8 (life path)
+  mistText: "#DCE5F0",       // body — digit-sum 5 (Sariva root)
+  ash: "#B5C5D5",            // sub-text — 15 → 6 (Venus, trust)
+  ashMuted: "#8A9DB7",       // mono labels — 24 → 6 (Venus)
+
+  // Brand accent
+  azul: "#2A48F0",           // primary accent — 23 → 5 (Royal Star of the Lion)
+  brightMist: "#6E8DFA",     // accent words — 14 → 5
+  pillText: "#A0B5F5",       // pill text — 10 → 1 (Sun)
+
+  // Status
+  green: "#22C55E",
 } as const;
 
 // ── Container ───────────────────────────────────────────────────────────────
@@ -43,7 +42,7 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-// ── PulseMark — 3-ring Pulse glyph ──────────────────────────────────────────
+// ── PulseMark — 3-ring brand glyph ──────────────────────────────────────────
 function PulseMark({ size = 22, color = C.azul }: { size?: number; color?: string }) {
   return (
     <svg
@@ -53,9 +52,37 @@ function PulseMark({ size = 22, color = C.azul }: { size?: number; color?: strin
       aria-hidden
       style={{ display: "inline-block", verticalAlign: "middle" }}
     >
-      <circle cx="12" cy="12" r="10.5" fill="none" stroke={color} strokeWidth="1.25" opacity="0.28" />
-      <circle cx="12" cy="12" r="7" fill="none" stroke={color} strokeWidth="1.25" opacity="0.6" />
+      <circle cx="12" cy="12" r="10.5" fill="none" stroke={color} strokeWidth="1.25" opacity="0.42" />
+      <circle cx="12" cy="12" r="7" fill="none" stroke={color} strokeWidth="1.25" opacity="0.72" />
       <circle cx="12" cy="12" r="3.25" fill={color} />
+    </svg>
+  );
+}
+
+// ── HeroPulseMotif — ambient brand element in hero background ───────────────
+function HeroPulseMotif() {
+  return (
+    <svg
+      className="absolute pointer-events-none"
+      style={{ top: "-200px", right: "-180px" }}
+      width="680"
+      height="680"
+      viewBox="0 0 680 680"
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id="heroPulseFade" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={C.azul} stopOpacity="0.32" />
+          <stop offset="60%" stopColor={C.azul} stopOpacity="0.08" />
+          <stop offset="100%" stopColor={C.azul} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="340" cy="340" r="330" fill="none" stroke={C.azul} strokeWidth="1" opacity="0.09" />
+      <circle cx="340" cy="340" r="260" fill="none" stroke={C.azul} strokeWidth="1" opacity="0.14" />
+      <circle cx="340" cy="340" r="195" fill="none" stroke={C.azul} strokeWidth="1" opacity="0.22" />
+      <circle cx="340" cy="340" r="130" fill="none" stroke={C.azul} strokeWidth="1" opacity="0.30" />
+      <circle cx="340" cy="340" r="78" fill="url(#heroPulseFade)" />
+      <circle cx="340" cy="340" r="24" fill={C.azul} opacity="0.62" />
     </svg>
   );
 }
@@ -71,7 +98,7 @@ function Eyebrow({ label }: { label: string }) {
       />
       <span
         className="font-mono font-medium uppercase tracking-[0.14em]"
-        style={{ color: C.ink3, fontSize: "0.76rem" }}
+        style={{ color: C.ashMuted, fontSize: "0.76rem" }}
       >
         {label}
       </span>
@@ -79,17 +106,16 @@ function Eyebrow({ label }: { label: string }) {
   );
 }
 
-// ── SectionTitle — Instrument Serif, h2 only ────────────────────────────────
+// ── SectionTitle — Geist 700, dark theme ────────────────────────────────────
 function SectionTitle({ children, maxCh = 22 }: { children: React.ReactNode; maxCh?: number }) {
   return (
     <h2
-      className={instrumentSerif.className}
       style={{
         fontSize: "clamp(1.85rem, 3vw, 2.6rem)",
-        fontWeight: 400,
-        letterSpacing: "-0.015em",
-        lineHeight: 1.12,
-        color: C.ink,
+        fontWeight: 700,
+        letterSpacing: "-0.028em",
+        lineHeight: 1.1,
+        color: C.mist,
         maxWidth: `${maxCh}ch`,
       }}
     >
@@ -98,7 +124,7 @@ function SectionTitle({ children, maxCh = 22 }: { children: React.ReactNode; max
   );
 }
 
-// ── CardTitle — Geist semibold (assertive, technical) ───────────────────────
+// ── CardTitle ───────────────────────────────────────────────────────────────
 function CardTitle({ children }: { children: React.ReactNode }) {
   return (
     <h3
@@ -107,7 +133,7 @@ function CardTitle({ children }: { children: React.ReactNode }) {
         fontWeight: 600,
         letterSpacing: "-0.005em",
         lineHeight: 1.35,
-        color: C.ink,
+        color: C.mist,
         marginBottom: "0.65rem",
       }}
     >
@@ -129,14 +155,14 @@ type Scenario = {
 const Code = ({ children }: { children: React.ReactNode }) => (
   <code
     className="font-mono text-[0.85em] px-1.5 py-0.5 rounded"
-    style={{ background: C.chalk, border: `1px solid ${C.line}`, color: C.ink2 }}
+    style={{ background: C.royal, border: `1px solid ${C.royalBorder}`, color: C.mist }}
   >
     {children}
   </code>
 );
 
 const B = ({ children }: { children: React.ReactNode }) => (
-  <strong className="font-semibold" style={{ color: C.ink }}>{children}</strong>
+  <strong className="font-semibold" style={{ color: C.mist }}>{children}</strong>
 );
 
 const SCENARIOS: Scenario[] = [
@@ -154,7 +180,7 @@ const SCENARIOS: Scenario[] = [
         <div className="flex items-center gap-1.5">
           Status: <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: C.green }} /> Healthy
         </div>
-        <div style={{ color: C.ink3 }}>Lag within normal range. Processing ~2.4k msgs/sec.</div>
+        <div style={{ color: C.ash }}>Lag within normal range. Processing ~2.4k msgs/sec.</div>
       </div>
     ),
   },
@@ -170,7 +196,7 @@ const SCENARIOS: Scenario[] = [
         <div>Root cause: <B>OOMKilled</B> — task manager hit the 4 GB memory limit.</div>
         <div>Top input: <Code>payment-events</Code> at 8.2k msgs/sec (3× baseline).</div>
         <div>Suggested fix: raise <Code>taskmanager.memory.process.size</Code> 4 GB → 6 GB.</div>
-        <div style={{ color: C.ink3 }}>Want me to open a PR? (<Code>infra/flink/fraud-detector.tf</Code>)</div>
+        <div style={{ color: C.ash }}>Want me to open a PR? (<Code>infra/flink/fraud-detector.tf</Code>)</div>
       </div>
     ),
   },
@@ -186,7 +212,7 @@ const SCENARIOS: Scenario[] = [
         <div>Basic tier · us-east-1 · 3 brokers · KRaft · Schema Registry attached</div>
         <div>Cost estimate: <B>~$240 / month</B></div>
         <div>RBAC inherits from <Code>payments-team</Code> (existing).</div>
-        <div style={{ color: C.ink3 }}>PR at <Code>infra/clusters/dev-payments-kafka.tf</Code>. Reply <Code>proceed</Code> to commit.</div>
+        <div style={{ color: C.ash }}>PR at <Code>infra/clusters/dev-payments-kafka.tf</Code>. Reply <Code>proceed</Code> to commit.</div>
       </div>
     ),
   },
@@ -247,9 +273,9 @@ function SlackMock() {
               }}
               className="px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-colors"
               style={{
-                background: isActive ? C.ink : "transparent",
-                color: isActive ? "#FFFFFF" : C.ink3,
-                border: `1px solid ${isActive ? C.ink : C.line}`,
+                background: isActive ? C.mist : "transparent",
+                color: isActive ? C.royal : C.ash,
+                border: `1px solid ${isActive ? C.mist : C.royalBorder}`,
               }}
               aria-pressed={isActive}
             >
@@ -262,33 +288,33 @@ function SlackMock() {
       <div
         className="rounded-xl overflow-hidden"
         style={{
-          background: C.surface,
-          border: `1px solid ${C.line}`,
+          background: C.royalCarbon,
+          border: `1px solid ${C.royalBorder}`,
           boxShadow:
-            "0 24px 48px -24px rgba(10,10,10,0.16), 0 60px 120px -50px rgba(42,72,240,0.16)",
+            "0 24px 48px -24px rgba(0,0,0,0.5), 0 60px 120px -50px rgba(42,72,240,0.22)",
         }}
       >
         <div
           className="flex items-center justify-between px-4 py-2.5"
-          style={{ background: C.chalk, borderBottom: `1px solid ${C.line}` }}
+          style={{ background: C.royalOnyx, borderBottom: `1px solid ${C.royalBorder}` }}
         >
           <div className="flex gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#EF4444" }} />
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#F59E0B" }} />
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#22C55E" }} />
           </div>
-          <span className="font-mono text-[0.72rem]" style={{ color: C.ink4 }}>
+          <span className="font-mono text-[0.72rem]" style={{ color: C.ashMuted }}>
             #kafka-ops
           </span>
         </div>
 
-        <div className="p-5 space-y-4 text-[0.88rem]" style={{ color: C.ink2 }}>
+        <div className="p-5 space-y-4 text-[0.88rem]" style={{ color: C.mistText }}>
           <div className="flex gap-3">
             <Avatar bg={s.user.bg} letters={s.user.initials} />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-semibold" style={{ color: C.ink }}>{s.user.name}</span>
-                <span className="text-[0.72rem]" style={{ color: C.ink4 }}>{s.user.time}</span>
+                <span className="font-semibold" style={{ color: C.mist }}>{s.user.name}</span>
+                <span className="text-[0.72rem]" style={{ color: C.ashMuted }}>{s.user.time}</span>
               </div>
               <div className="leading-[1.55]">{s.userMsg}</div>
             </div>
@@ -298,14 +324,14 @@ function SlackMock() {
             <Avatar bg={C.azul} letters="S" />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-semibold" style={{ color: C.ink }}>Sariva</span>
+                <span className="font-semibold" style={{ color: C.mist }}>Sariva</span>
                 <span
                   className="text-[0.6rem] font-mono px-1.5 py-0.5 rounded"
-                  style={{ background: C.chalk, color: C.ink3 }}
+                  style={{ background: C.royalBorder, color: C.mistText }}
                 >
                   APP
                 </span>
-                <span className="text-[0.72rem]" style={{ color: C.ink4 }}>{s.botTime}</span>
+                <span className="text-[0.72rem]" style={{ color: C.ashMuted }}>{s.botTime}</span>
               </div>
               <div className="leading-[1.55]">{s.botMsg}</div>
             </div>
@@ -346,11 +372,11 @@ function NotifyForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
           aria-label="Email address"
-          className="flex-1 px-4 py-3 rounded-md text-[0.92rem] outline-none"
+          className="flex-1 px-4 py-3 rounded-md text-[0.92rem] outline-none transition-colors focus:border-[#6E8DFA]"
           style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.14)",
-            color: "#FFFFFF",
+            background: "rgba(248, 250, 252, 0.04)",
+            border: `1px solid ${C.royalBorder}`,
+            color: C.mist,
           }}
         />
         <button
@@ -372,6 +398,107 @@ function NotifyForm() {
         </p>
       )}
     </form>
+  );
+}
+
+// ── NavDropdown ─────────────────────────────────────────────────────────────
+type NavItem = { href: string; title: string; description?: string };
+
+function NavDropdown({ label, items }: { label: string; items: NavItem[] }) {
+  const [open, setOpen] = useState(false);
+  const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleEnter = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setOpen(true);
+  };
+  const handleLeave = () => {
+    closeTimerRef.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  useEffect(
+    () => () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    },
+    []
+  );
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center gap-1 transition-colors hover:text-white"
+        style={{ color: open ? "#FFFFFF" : C.ash, fontSize: "0.86rem" }}
+        aria-expanded={open}
+        aria-haspopup="true"
+      >
+        {label}
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 12 12"
+          aria-hidden
+          style={{
+            transition: "transform 200ms",
+            transform: open ? "rotate(180deg)" : "rotate(0)",
+            opacity: 0.7,
+          }}
+        >
+          <path
+            d="M2 4 L6 8 L10 4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute top-full left-0 pt-2" style={{ zIndex: 100 }}>
+          <div
+            className="rounded-[10px] overflow-hidden"
+            style={{
+              background: C.royalCarbon,
+              border: `1px solid ${C.royalBorder}`,
+              boxShadow:
+                "0 20px 50px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(42,72,240,0.10)",
+              minWidth: "300px",
+            }}
+          >
+            {items.map((item, i) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-3 transition-colors"
+                style={{
+                  borderTop: i > 0 ? `1px solid ${C.royalBorderSoft}` : "none",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              >
+                <div className="font-medium text-[0.88rem]" style={{ color: C.mist }}>
+                  {item.title}
+                </div>
+                {item.description && (
+                  <div
+                    className="text-[0.76rem] mt-0.5 leading-[1.45]"
+                    style={{ color: C.ash }}
+                  >
+                    {item.description}
+                  </div>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -444,48 +571,59 @@ const TOIL_ITEMS: { title: string; body: string; estimate: string }[] = [
 // ────────────────────────────────────────────────────────────────────────────
 export default function Page() {
   return (
-    <div className="font-sans antialiased" style={{ background: C.cloud, color: C.ink }}>
+    <div className="font-sans antialiased" style={{ background: C.royal, color: C.mist }}>
       {/* ─────────────────────── NAV ─────────────────────── */}
       <nav
         className="sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(250,250,249,0.82)", borderBottom: `1px solid ${C.line}` }}
+        style={{ background: "rgba(0, 25, 73, 0.82)", borderBottom: `1px solid ${C.royalBorder}` }}
       >
         <Container>
           <div className="flex items-center justify-between h-14">
-            <a href="#top" className="inline-flex items-center gap-2.5" style={{ color: C.ink }}>
+            <a href="#top" className="inline-flex items-center gap-2.5" style={{ color: C.mist }}>
               <PulseMark size={22} color={C.azul} />
-              <span
-                className={instrumentSerif.className}
-                style={{ fontSize: "1.2rem", fontWeight: 400, letterSpacing: "-0.01em" }}
-              >
+              <span style={{ fontSize: "1.15rem", fontWeight: 600, letterSpacing: "-0.01em" }}>
                 Sariva
               </span>
             </a>
-            <div className="hidden md:flex items-center gap-6 text-[0.86rem]" style={{ color: C.ink3 }}>
-              <a href="#product" className="hover:text-black transition-colors">Product</a>
-              <a href="#toil" className="hover:text-black transition-colors">Toil</a>
-              <a href="#capabilities" className="hover:text-black transition-colors">Capabilities</a>
-              <a href="#coverage" className="hover:text-black transition-colors">Coverage</a>
-              <a href="#different" className="hover:text-black transition-colors">Why Sariva</a>
-              <a href="#confluent" className="hover:text-black transition-colors">Confluent</a>
-              <a href="#use-cases" className="hover:text-black transition-colors">Use cases</a>
-              <a href="#contact" className="hover:text-black transition-colors">Contact</a>
+            <div
+              className="hidden md:flex items-center gap-7 text-[0.86rem]"
+              style={{ color: C.ash }}
+            >
+              <NavDropdown
+                label="Product"
+                items={[
+                  { href: "#product", title: "Overview", description: "The streaming ops problem" },
+                  { href: "#toil", title: "Toil", description: "Where SRE hours actually go" },
+                  { href: "#capabilities", title: "Capabilities", description: "Two agents and the runbook library" },
+                  { href: "#coverage", title: "Support matrix", description: "Flavors, clouds, git providers" },
+                  { href: "#how-it-works", title: "How it works", description: "Channel to cluster in three steps" },
+                ]}
+              />
+              <NavDropdown
+                label="Why Sariva"
+                items={[
+                  { href: "#different", title: "A different layer", description: "Vs gateways, UIs, observability" },
+                  { href: "#confluent", title: "Confluent ecosystem", description: "Where Sariva sits with Streaming Agents" },
+                  { href: "#use-cases", title: "Use cases", description: "Six common moments" },
+                  { href: "#trust", title: "Trust & Control", description: "Self-hosted, RBAC, audited" },
+                ]}
+              />
             </div>
             <div className="flex items-center gap-3 sm:gap-4">
               <a
                 href="https://docs.sariva.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1 text-[0.86rem] transition-colors hover:text-black"
-                style={{ color: C.ink3 }}
+                className="hidden sm:inline-flex items-center gap-1 text-[0.86rem] transition-colors hover:text-white"
+                style={{ color: C.ash }}
               >
                 Docs
-                <span aria-hidden style={{ fontSize: "0.78em", opacity: 0.65 }}>↗</span>
+                <span aria-hidden style={{ fontSize: "0.78em", opacity: 0.7 }}>↗</span>
               </a>
               <a
                 href="#contact"
                 className="px-3.5 py-1.5 rounded-md text-[0.82rem] font-medium transition-opacity hover:opacity-90"
-                style={{ background: C.ink, color: "#FFFFFF" }}
+                style={{ background: C.azul, color: "#FFFFFF" }}
               >
                 Get early access
               </a>
@@ -498,45 +636,43 @@ export default function Page() {
       <section
         id="top"
         className="relative overflow-hidden"
-        style={{
-          background: `${C.cloud} radial-gradient(900px 420px at 88% -10%, ${C.azulSoft} 0%, transparent 55%)`,
-        }}
+        style={{ background: C.royal }}
       >
-        <Container className="pt-16 pb-20 md:pt-20 md:pb-24">
+        <HeroPulseMotif />
+        <Container className="relative pt-16 pb-20 md:pt-20 md:pb-24">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <div>
               <div className="mb-6">
                 <span
                   className="inline-flex items-center px-3 py-1 rounded-full font-mono font-semibold text-[0.72rem] uppercase tracking-[0.16em]"
                   style={{
-                    background: C.azulSoft,
-                    color: C.azul,
-                    border: `1px solid rgba(42,72,240,0.22)`,
+                    background: "rgba(42, 72, 240, 0.22)",
+                    color: C.pillText,
+                    border: "1px solid rgba(42, 72, 240, 0.45)",
                   }}
                 >
                   Ops AI · Kafka &amp; Flink
                 </span>
               </div>
               <h1
-                className={instrumentSerif.className}
                 style={{
                   fontSize: "clamp(2.2rem, 4.4vw, 3.6rem)",
-                  fontWeight: 400,
-                  letterSpacing: "-0.015em",
-                  lineHeight: 1.08,
-                  color: C.ink,
+                  fontWeight: 700,
+                  letterSpacing: "-0.028em",
+                  lineHeight: 1.06,
+                  color: C.mist,
                   marginBottom: "1.5rem",
                 }}
               >
                 Operate{" "}
-                <span style={{ color: C.azul }}>Kafka</span>
+                <span style={{ color: C.brightMist }}>Kafka</span>
                 {" "}and{" "}
-                <span style={{ color: C.azul }}>Flink</span>
-                {" "}through <em style={{ fontStyle: "italic" }}>conversation</em>.
+                <span style={{ color: C.brightMist }}>Flink</span>
+                {" "}through conversation.
               </h1>
               <p
                 className="leading-[1.65] max-w-[38em] mb-7"
-                style={{ fontSize: "1rem", color: C.ink3 }}
+                style={{ fontSize: "1rem", color: C.ash }}
               >
                 Sariva is the AI operator for Apache Kafka and Apache Flink — a senior
                 streaming engineer in your Slack, CLI, REST, and MCP surfaces. Ask in
@@ -547,14 +683,14 @@ export default function Page() {
                 <a
                   href="#contact"
                   className="px-4 py-2.5 rounded-md text-[0.9rem] font-medium transition-opacity hover:opacity-90"
-                  style={{ background: C.ink, color: "#FFFFFF" }}
+                  style={{ background: C.azul, color: "#FFFFFF" }}
                 >
                   Get early access →
                 </a>
                 <a
                   href="mailto:hello@sariva.ai"
-                  className="px-4 py-2.5 rounded-md text-[0.9rem] font-mono font-medium transition-colors hover:bg-[#F4F4F1]"
-                  style={{ border: `1px solid ${C.line}`, color: C.ink, background: "transparent" }}
+                  className="px-4 py-2.5 rounded-md text-[0.9rem] font-mono font-medium transition-colors"
+                  style={{ border: `1px solid ${C.royalBorder}`, color: C.mist, background: "transparent" }}
                 >
                   hello@sariva.ai
                 </a>
@@ -569,7 +705,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── PRODUCT ─────────────────────── */}
-      <section id="product" style={{ background: C.cloud, borderTop: `1px solid ${C.lineSoft}` }}>
+      <section id="product" style={{ background: C.royal, borderTop: `1px solid ${C.royalBorderSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="The problem" />
           <SectionTitle maxCh={26}>
@@ -578,7 +714,7 @@ export default function Page() {
 
           <p
             className="mt-6 leading-[1.7] max-w-[62ch]"
-            style={{ fontSize: "1.02rem", color: C.ink3 }}
+            style={{ fontSize: "1.02rem", color: C.mistText }}
           >
             Kafka and Flink power the most critical pipelines in modern infrastructure —
             payments, fraud detection, audit logs, machine learning feature stores. When
@@ -607,11 +743,11 @@ export default function Page() {
               <div key={i}>
                 <div
                   className="font-mono font-medium uppercase tracking-[0.12em] mb-3"
-                  style={{ color: C.azul, fontSize: "0.74rem" }}
+                  style={{ color: C.brightMist, fontSize: "0.74rem" }}
                 >
                   {p.tag}
                 </div>
-                <p className="leading-[1.65]" style={{ fontSize: "0.94rem", color: C.ink3 }}>
+                <p className="leading-[1.65]" style={{ fontSize: "0.94rem", color: C.ash }}>
                   {p.body}
                 </p>
               </div>
@@ -620,7 +756,7 @@ export default function Page() {
 
           <p
             className="mt-12 leading-[1.7] max-w-[62ch]"
-            style={{ fontSize: "1.02rem", color: C.ink2 }}
+            style={{ fontSize: "1.02rem", color: C.mistText }}
           >
             Sariva collapses these three problems into one interface — conversation,
             with full context, every action audited, every change executed through your
@@ -631,8 +767,8 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── TOIL (NEW) ─────────────────────── */}
-      <section id="toil" style={{ background: C.chalk }}>
+      {/* ─────────────────────── TOIL ─────────────────────── */}
+      <section id="toil" style={{ background: C.royalOnyx }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Toil" />
           <SectionTitle maxCh={28}>
@@ -640,7 +776,7 @@ export default function Page() {
           </SectionTitle>
           <p
             className="mt-6 leading-[1.7] max-w-[62ch]"
-            style={{ fontSize: "1rem", color: C.ink3 }}
+            style={{ fontSize: "1rem", color: C.mistText }}
           >
             Streaming infrastructure is unforgiving, but the work behind it is
             repetitive. Most of what an SRE or Kafka engineer does in a week is
@@ -653,25 +789,23 @@ export default function Page() {
               <article
                 key={i}
                 className="rounded-[10px] p-6"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
-                <div className="flex items-baseline gap-2 mb-3">
-                  <span
-                    className="font-mono font-semibold"
-                    style={{ color: C.azul, fontSize: "0.78rem" }}
-                  >
-                    0{i + 1}
-                  </span>
+                <div
+                  className="font-mono font-semibold mb-3"
+                  style={{ color: C.brightMist, fontSize: "0.78rem" }}
+                >
+                  0{i + 1}
                 </div>
                 <CardTitle>{item.title}</CardTitle>
-                <p className="text-[0.9rem] leading-[1.65] mb-4" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65] mb-4" style={{ color: C.ash }}>
                   {item.body}
                 </p>
                 <div
                   className="font-mono text-[0.74rem] pt-3"
-                  style={{ color: C.ink4, borderTop: `1px solid ${C.lineSoft}` }}
+                  style={{ color: C.ashMuted, borderTop: `1px solid ${C.royalBorder}` }}
                 >
-                  <span style={{ color: C.azul, marginRight: "0.5em" }}>↳</span>
+                  <span style={{ color: C.brightMist, marginRight: "0.5em" }}>↳</span>
                   {item.estimate}
                 </div>
               </article>
@@ -680,7 +814,7 @@ export default function Page() {
 
           <p
             className="mt-12 leading-[1.7] max-w-[62ch]"
-            style={{ fontSize: "1rem", color: C.ink2 }}
+            style={{ fontSize: "1rem", color: C.mistText }}
           >
             Sariva does this work — or guides you through it step by step — in minutes,
             not days. Every action is a runbook. Every change is a PR. Every decision is
@@ -691,7 +825,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CAPABILITIES ─────────────────────── */}
-      <section id="capabilities" style={{ background: C.cloud }}>
+      <section id="capabilities" style={{ background: C.royal }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Capabilities" />
           <SectionTitle>Two agents. One conversation.</SectionTitle>
@@ -738,22 +872,19 @@ export default function Page() {
               <article
                 key={i}
                 className="rounded-[10px] p-6 transition-transform hover:-translate-y-0.5"
-                style={{
-                  background: C.surface,
-                  border: `1px solid ${C.line}`,
-                }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <span
                   className="inline-block font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] px-2 py-1 rounded mb-4"
-                  style={{ background: C.azulSoft, color: C.azul }}
+                  style={{ background: "rgba(42, 72, 240, 0.22)", color: C.pillText, border: "1px solid rgba(42, 72, 240, 0.35)" }}
                 >
                   {card.tag}
                 </span>
                 <CardTitle>{card.title}</CardTitle>
-                <p className="text-[0.9rem] leading-[1.6] mb-4" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.6] mb-4" style={{ color: C.ash }}>
                   {card.body}
                 </p>
-                <ul className="font-mono text-[0.78rem] space-y-1.5" style={{ color: C.ink4 }}>
+                <ul className="font-mono text-[0.78rem] space-y-1.5" style={{ color: C.ashMuted }}>
                   {card.bullets.map((b, j) => (
                     <li key={j}>— {b}</li>
                   ))}
@@ -764,8 +895,8 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ─────────────────────── COVERAGE (explicit support matrix) ─────────────────────── */}
-      <section id="coverage" style={{ background: C.chalk }}>
+      {/* ─────────────────────── COVERAGE (support matrix) ─────────────────────── */}
+      <section id="coverage" style={{ background: C.royalOnyx }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Support matrix" />
           <SectionTitle maxCh={30}>
@@ -773,7 +904,7 @@ export default function Page() {
           </SectionTitle>
           <p
             className="mt-5 leading-[1.65] max-w-[60ch]"
-            style={{ fontSize: "0.95rem", color: C.ink3 }}
+            style={{ fontSize: "0.95rem", color: C.mistText }}
           >
             No fine print, no asterisks. If something is on the roadmap, we say so.
             Below is the full surface Sariva operates against today.
@@ -781,25 +912,25 @@ export default function Page() {
 
           <div
             className="mt-10 rounded-[10px] overflow-hidden"
-            style={{ background: C.surface, border: `1px solid ${C.line}` }}
+            style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
           >
             {SUPPORT_MATRIX.map((row, i) => (
               <div
                 key={row.label}
                 className="grid md:grid-cols-[210px_1fr] gap-2 md:gap-8 px-5 md:px-7 py-5"
                 style={{
-                  borderTop: i === 0 ? "none" : `1px solid ${C.lineSoft}`,
+                  borderTop: i === 0 ? "none" : `1px solid ${C.royalBorderSoft}`,
                 }}
               >
                 <div
                   className="font-mono font-medium uppercase tracking-[0.12em]"
-                  style={{ color: C.azul, fontSize: "0.72rem", paddingTop: "0.1rem" }}
+                  style={{ color: C.brightMist, fontSize: "0.72rem", paddingTop: "0.1rem" }}
                 >
                   {row.label}
                 </div>
                 <div
                   className="text-[0.92rem] leading-[1.6]"
-                  style={{ color: C.ink2 }}
+                  style={{ color: C.mistText }}
                 >
                   {row.items}
                 </div>
@@ -809,12 +940,12 @@ export default function Page() {
 
           <p
             className="mt-8 font-mono text-[0.78rem]"
-            style={{ color: C.ink4 }}
+            style={{ color: C.ashMuted }}
           >
             ↳ Missing a flavor, cloud, or git provider? Email{" "}
             <a
               href="mailto:hello@sariva.ai"
-              style={{ color: C.azul, textDecoration: "underline" }}
+              style={{ color: C.brightMist, textDecoration: "underline" }}
             >
               hello@sariva.ai
             </a>
@@ -824,7 +955,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── WHY SARIVA ─────────────────────── */}
-      <section id="different" style={{ background: C.cloud }}>
+      <section id="different" style={{ background: C.royal }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Why Sariva" />
           <SectionTitle maxCh={30}>
@@ -832,7 +963,7 @@ export default function Page() {
           </SectionTitle>
           <p
             className="mt-6 leading-[1.7] max-w-[62ch]"
-            style={{ fontSize: "1rem", color: C.ink3 }}
+            style={{ fontSize: "1rem", color: C.mistText }}
           >
             Streaming infrastructure has gateways, exploration UIs, and observability
             tools — each excellent at what it does. Sariva isn&apos;t trying to replace
@@ -867,24 +998,24 @@ export default function Page() {
               <article
                 key={i}
                 className="rounded-[10px] p-6"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <span
                     className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] px-2 py-1 rounded"
-                    style={{ background: C.azulSoft, color: C.azul }}
+                    style={{ background: "rgba(42, 72, 240, 0.22)", color: C.pillText, border: "1px solid rgba(42, 72, 240, 0.35)" }}
                   >
                     {c.vs}
                   </span>
                   <span
                     className="font-mono text-[0.7rem] text-right whitespace-nowrap"
-                    style={{ color: C.ink4, paddingTop: "0.25rem" }}
+                    style={{ color: C.ashMuted, paddingTop: "0.25rem" }}
                   >
                     {c.them}
                   </span>
                 </div>
                 <CardTitle>{c.title}</CardTitle>
-                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ash }}>
                   {c.body}
                 </p>
               </article>
@@ -893,7 +1024,7 @@ export default function Page() {
 
           <p
             className="mt-10 leading-[1.65] max-w-[62ch]"
-            style={{ fontSize: "0.98rem", color: C.ink2 }}
+            style={{ fontSize: "0.98rem", color: C.mistText }}
           >
             Sariva isn&apos;t a gateway, a dashboard, or a metrics tier. We operate
             across all of them.
@@ -902,7 +1033,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CONFLUENT ECOSYSTEM ─────────────────────── */}
-      <section id="confluent" style={{ background: C.chalk }}>
+      <section id="confluent" style={{ background: C.royalOnyx }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Confluent ecosystem" />
           <SectionTitle maxCh={32}>
@@ -910,7 +1041,7 @@ export default function Page() {
           </SectionTitle>
           <p
             className="mt-6 leading-[1.7] max-w-[64ch]"
-            style={{ fontSize: "1rem", color: C.ink3 }}
+            style={{ fontSize: "1rem", color: C.mistText }}
           >
             Confluent ships incredible infrastructure — Confluent Cloud, Flink on
             Confluent Cloud, Tableflow + Iceberg, the Streaming Agents framework. Sariva
@@ -941,15 +1072,15 @@ export default function Page() {
               <div
                 key={i}
                 className="rounded-[10px] p-6"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <div
                   className="font-mono font-medium text-[0.68rem] uppercase tracking-[0.14em] mb-3"
-                  style={{ color: C.azul }}
+                  style={{ color: C.brightMist }}
                 >
                   {tile.tag}
                 </div>
-                <p className="text-[0.92rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.92rem] leading-[1.65]" style={{ color: C.ash }}>
                   {tile.body}
                 </p>
               </div>
@@ -959,7 +1090,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── USE CASES ─────────────────────── */}
-      <section id="use-cases" style={{ background: C.cloud }}>
+      <section id="use-cases" style={{ background: C.royal }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Use cases" />
           <SectionTitle maxCh={28}>
@@ -967,7 +1098,7 @@ export default function Page() {
           </SectionTitle>
           <p
             className="mt-5 leading-[1.65] max-w-[58ch]"
-            style={{ fontSize: "0.95rem", color: C.ink3 }}
+            style={{ fontSize: "0.95rem", color: C.mistText }}
           >
             Six common moments in a streaming team&apos;s week. Each one is a Slack
             message away from resolution.
@@ -1009,21 +1140,21 @@ export default function Page() {
               <article
                 key={i}
                 className="rounded-[10px] p-6"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <div
                   className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.12em] mb-4 inline-block px-2 py-1 rounded"
-                  style={{ background: C.azulSoft, color: C.azul }}
+                  style={{ background: "rgba(42, 72, 240, 0.22)", color: C.pillText, border: "1px solid rgba(42, 72, 240, 0.35)" }}
                 >
                   {u.tag}
                 </div>
                 <div
                   className="font-mono text-[0.86rem] mb-3 leading-[1.55]"
-                  style={{ color: C.ink }}
+                  style={{ color: C.mist }}
                 >
-                  <span style={{ color: C.azul }}>›</span> {u.q}
+                  <span style={{ color: C.brightMist }}>›</span> {u.q}
                 </div>
-                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ash }}>
                   {u.a}
                 </p>
               </article>
@@ -1033,7 +1164,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── HOW IT WORKS ─────────────────────── */}
-      <section id="how-it-works" style={{ background: C.chalk }}>
+      <section id="how-it-works" style={{ background: C.royalOnyx }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="How it works" />
           <SectionTitle>From channel to cluster in three steps.</SectionTitle>
@@ -1062,16 +1193,16 @@ export default function Page() {
               <div
                 key={s.step}
                 className="rounded-[10px] p-6"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <div
                   className="font-mono font-medium text-[0.7rem] uppercase tracking-[0.14em] mb-3"
-                  style={{ color: C.azul }}
+                  style={{ color: C.brightMist }}
                 >
                   {s.step}
                 </div>
                 <CardTitle>{s.title}</CardTitle>
-                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ash }}>
                   {s.body}
                 </p>
               </div>
@@ -1081,7 +1212,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── TRUST & CONTROL ─────────────────────── */}
-      <section style={{ background: C.cloud }}>
+      <section id="trust" style={{ background: C.royal }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Trust & Control" />
           <SectionTitle>Designed for platform teams that own production.</SectionTitle>
@@ -1108,10 +1239,10 @@ export default function Page() {
               <div
                 key={i}
                 className="rounded-[10px] p-6"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <CardTitle>{item.title}</CardTitle>
-                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ink3 }}>
+                <p className="text-[0.9rem] leading-[1.65]" style={{ color: C.ash }}>
                   {item.body}
                 </p>
               </div>
@@ -1121,7 +1252,7 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── CONTACT ─────────────────────── */}
-      <section id="contact" style={{ background: C.chalk, borderTop: `1px solid ${C.lineSoft}` }}>
+      <section id="contact" style={{ background: C.royalOnyx, borderTop: `1px solid ${C.royalBorderSoft}` }}>
         <Container className="py-16 md:py-20">
           <Eyebrow label="Contact" />
           <SectionTitle>Get in touch.</SectionTitle>
@@ -1136,18 +1267,18 @@ export default function Page() {
                 key={card.email}
                 href={`mailto:${card.email}`}
                 className="block rounded-[10px] p-5 transition-transform hover:-translate-y-0.5"
-                style={{ background: C.surface, border: `1px solid ${C.line}` }}
+                style={{ background: C.royalCarbon, border: `1px solid ${C.royalBorder}` }}
               >
                 <div
                   className="font-mono font-medium text-[0.66rem] uppercase tracking-[0.14em] mb-2"
-                  style={{ color: C.ink4 }}
+                  style={{ color: C.ashMuted }}
                 >
                   {card.label}
                 </div>
-                <div className="font-semibold text-[1rem] mb-1.5" style={{ color: C.ink }}>
+                <div className="font-semibold text-[1rem] mb-1.5" style={{ color: C.mist }}>
                   {card.email}
                 </div>
-                <div className="text-[0.82rem]" style={{ color: C.ink4 }}>
+                <div className="text-[0.82rem]" style={{ color: C.ash }}>
                   {card.hint}
                 </div>
               </a>
@@ -1155,24 +1286,39 @@ export default function Page() {
           </div>
 
           <div
-            className="mt-8 rounded-2xl p-7 md:p-10"
-            style={{ background: C.ink }}
+            className="mt-8 rounded-2xl p-7 md:p-10 relative overflow-hidden"
+            style={{
+              background: C.royalCarbon,
+              border: `1px solid ${C.royalBorder}`,
+              boxShadow: "0 0 0 1px rgba(42, 72, 240, 0.14), 0 30px 60px -20px rgba(0, 0, 0, 0.5)",
+            }}
           >
-            <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                top: "-100px",
+                right: "-80px",
+                width: "320px",
+                height: "320px",
+                background: "radial-gradient(closest-side, rgba(42, 72, 240, 0.22), transparent)",
+              }}
+              aria-hidden
+            />
+            <div className="relative grid md:grid-cols-2 gap-6 md:gap-10 items-center">
               <div>
                 <h3
                   style={{
-                    color: "#FFFFFF",
-                    fontSize: "1.35rem",
-                    fontWeight: 600,
-                    letterSpacing: "-0.01em",
-                    lineHeight: 1.3,
+                    color: C.mist,
+                    fontSize: "1.4rem",
+                    fontWeight: 700,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.25,
                     marginBottom: "0.5rem",
                   }}
                 >
                   Or get notified when we open up.
                 </h3>
-                <p className="text-[0.9rem] leading-[1.6]" style={{ color: "rgba(255,255,255,0.6)" }}>
+                <p className="text-[0.9rem] leading-[1.6]" style={{ color: C.ash }}>
                   We&apos;ll email when Sariva is available for new design partners.
                   No marketing list, no noise.
                 </p>
@@ -1184,24 +1330,26 @@ export default function Page() {
       </section>
 
       {/* ─────────────────────── FOOTER ─────────────────────── */}
-      <footer style={{ background: C.cloud, borderTop: `1px solid ${C.line}` }}>
+      <footer style={{ background: C.royal, borderTop: `1px solid ${C.royalBorder}` }}>
         <Container className="py-8">
           <div className="grid md:grid-cols-3 gap-4 items-start md:items-center text-center md:text-left">
             <div className="inline-flex items-center gap-2 md:justify-start justify-center">
               <PulseMark size={20} color={C.azul} />
               <span
-                className={instrumentSerif.className}
-                style={{ fontSize: "1.1rem", fontWeight: 400, color: C.ink, letterSpacing: "-0.01em" }}
+                style={{ fontSize: "1.05rem", fontWeight: 600, color: C.mist, letterSpacing: "-0.01em" }}
               >
                 Sariva
               </span>
             </div>
-            <div className="font-mono text-[0.72rem] flex flex-col md:items-center gap-0.5" style={{ color: C.ink4 }}>
+            <div
+              className="font-mono text-[0.72rem] flex flex-col md:items-center gap-0.5"
+              style={{ color: C.ashMuted }}
+            >
               <span>Sariva Inc. · Ontario, Canada</span>
               <span>© {new Date().getFullYear()} Sariva Inc.</span>
             </div>
-            <div className="font-mono text-[0.78rem] md:text-right" style={{ color: C.ink3 }}>
-              <a href="mailto:hello@sariva.ai" className="hover:text-black transition-colors">
+            <div className="font-mono text-[0.78rem] md:text-right" style={{ color: C.ash }}>
+              <a href="mailto:hello@sariva.ai" className="hover:text-white transition-colors">
                 hello@sariva.ai
               </a>
             </div>
