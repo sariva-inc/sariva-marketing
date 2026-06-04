@@ -261,137 +261,87 @@ function RotatingExamples() {
 
 
 function ArchitecturePattern() {
-  const platformModules = [
-    ["Deployment agent", "Generates IaC, opens PRs, and coordinates GitOps changes.", "cyan"],
-    ["GitHub workflow watcher", "Watches PRs, workflow runs, apply status, and deployment completion.", "purple"],
-    ["Observability agent", "Collects, correlates, and queries telemetry to answer operational questions.", "teal"],
+  const deploymentSteps = [
+    ["GitHub Actions", "CI/CD pipeline runs Terraform apply using customer-controlled credentials."],
+    ["Terraform apply", "Applies approved infrastructure changes through the GitOps workflow."],
+    ["Confluent Cloud", "Creates or updates managed streaming resources."],
   ];
 
-  const stateCards = [
-    ["Remote state", "Amazon S3 state", "Terraform remote state storage", "green"],
-    ["State locking", "Amazon DynamoDB lock", "State locking and coordination", "purple"],
+  const sarivaCapabilities = [
+    ["Deployment agent", "Generates IaC, opens PRs, and coordinates GitOps changes."],
+    ["GitHub workflow watcher", "Watches PRs, workflow runs, apply status, and deployment completion."],
+    ["Observability agent", "Collects, correlates, and queries telemetry to answer operational questions."],
+    ["Platform interfaces", "API, Slack, and UI access for platform teams."],
   ];
 
-  const observeCards = [
-    ["Applications / services", "App telemetry, health, performance signals", "cyan"],
-    ["Amazon CloudWatch", "Logs, metrics, traces, alarms, dashboards", "pink"],
-    ["Alert engine", "Detects issues, anomalies, and policy violations. Routes alerts to Slack and PagerDuty.", "purple"],
+  const observabilitySteps = [
+    ["Sariva platform", "Runs in the customer runtime on Amazon EKS."],
+    ["Applications / services", "Reads app telemetry, health, and performance signals."],
+    ["Amazon CloudWatch", "Collects logs, metrics, traces, alarms, and dashboards."],
+    ["Confluent Cloud", "Reads cloud metrics, topics, consumer groups, and Kafka metadata."],
+  ];
+
+  const governanceSteps = [
+    ["Amazon S3 state", "Terraform remote state storage."],
+    ["Amazon DynamoDB lock", "State locking and coordination."],
+    ["Slack", "Collaboration, approvals, and alert notifications."],
+    ["PagerDuty", "Incident escalation and on-call routing."],
   ];
 
   return (
     <div className="sariva-architecture mt-10 rounded-[2rem] p-5 sm:p-7 lg:p-8">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1 text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-cyan-200">
-            AWS reference pattern
-          </div>
-          <h3 className="mt-3 text-2xl font-extrabold tracking-[-0.03em] text-white sm:text-3xl">Deployment architecture</h3>
-          <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-300">
-            GitHub Actions performs the Terraform apply to Confluent Cloud. Sariva coordinates the GitOps workflow, watches deployment status, and reads cloud/Kafka signals for operational insight.
-          </p>
+      <div className="mb-7">
+        <div className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1 text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-cyan-200">
+          AWS reference pattern
         </div>
+        <h3 className="mt-3 text-2xl font-extrabold tracking-[-0.03em] text-white sm:text-3xl">Deployment architecture</h3>
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-300">
+          A clean reference pattern for GitOps-based Confluent Cloud deployment, Sariva workflow governance, and observability across applications, AWS telemetry, and Kafka-level metadata.
+        </p>
       </div>
 
-      <div className="sariva-path-row sariva-path-row-blue">
-        <span>Deployment / apply path</span>
-        <strong>GitHub Actions</strong>
-        <i />
-        <strong>Terraform apply</strong>
-        <i />
-        <strong>Confluent Cloud</strong>
-      </div>
+      <div className="space-y-5">
+        <ArchitectureLane
+          tone="blue"
+          label="Deployment / apply path"
+          summary="GitHub Actions performs the Terraform apply to Confluent Cloud."
+          items={deploymentSteps}
+        />
 
-      <div className="sariva-arch-grid mt-5">
-        <div className="sariva-arch-card sariva-arch-github">
-          <span className="sariva-arch-pill">GitOps</span>
-          <div className="sariva-arch-icon">GH</div>
-          <h4>GitHub Actions</h4>
-          <p>CI/CD and GitOps trigger</p>
-          <div className="sariva-mini-note">Runs Terraform apply against Confluent Cloud</div>
-        </div>
-
-        <div className="sariva-arch-card sariva-arch-eks">
-          <span className="sariva-arch-pill">Self-hosted</span>
-          <h4>Amazon EKS</h4>
-          <p>Runtime environment</p>
-
-          <div className="sariva-arch-platform">
-            <h5>Sariva platform</h5>
-
-            <div className="sariva-platform-layout">
-              <div className="space-y-3">
-                {platformModules.map(([title, body, tone]) => (
-                  <div key={title} className={`sariva-arch-module ${tone}`}>
-                    <strong>{title}</strong>
-                    <span>{body}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="sariva-arch-interfaces">
-                <div>
-                  <strong>API</strong>
-                  <span>Programmatic access</span>
-                </div>
-                <div>
-                  <strong>Slack</strong>
-                  <span>Collaboration & updates</span>
-                </div>
-                <div>
-                  <strong>UI</strong>
-                  <span>Web console & dashboards</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="sariva-watcher-note">
-              <span>Workflow status loop</span>
-              Watches PR status, workflow runs, apply completion, and deployment status from GitHub Actions.
+        <div className="sariva-runtime-panel rounded-[1.6rem] p-5 sm:p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <span className="sariva-arch-pill">Self-hosted runtime</span>
+              <h4 className="mt-2 text-2xl font-extrabold tracking-[-0.03em] text-white">Sariva platform on Amazon EKS</h4>
+              <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">
+                Sariva stays inside the customer boundary to coordinate GitOps, watch GitHub workflow status, and provide operational intelligence without taking over the deployment execution path.
+              </p>
             </div>
           </div>
-        </div>
 
-        <div className="sariva-arch-mid">
-          <div className="sariva-arch-stack">
-            {stateCards.map(([tag, title, body, tone]) => (
-              <div key={title} className={`sariva-arch-card compact ${tone}`}>
-                <span>{tag}</span>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {sarivaCapabilities.map(([title, body]) => (
+              <div key={title} className="sariva-arch-tile rounded-2xl p-4">
                 <strong>{title}</strong>
                 <p>{body}</p>
               </div>
             ))}
           </div>
-
-          <div className="sariva-arch-stack">
-            {observeCards.map(([title, body, tone]) => (
-              <div key={title} className={`sariva-arch-card compact ${tone}`}>
-                <strong>{title}</strong>
-                <p>{body}</p>
-                {title === "Alert engine" ? (
-                  <div className="sariva-arch-badges"><span>Slack</span><span>PagerDuty</span></div>
-                ) : null}
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div className="sariva-arch-card sariva-arch-confluent">
-          <span className="sariva-arch-pill purple">Managed streaming</span>
-          <div className="sariva-arch-icon cyan">CC</div>
-          <h4>Confluent Cloud</h4>
-          <p>Streaming platform as a service</p>
-        </div>
-      </div>
+        <ArchitectureLane
+          tone="cyan"
+          label="Observability / read path"
+          summary="Sariva reads telemetry, cloud metrics, topics, consumer groups, and Kafka metadata."
+          items={observabilitySteps}
+        />
 
-      <div className="sariva-path-row sariva-path-row-cyan mt-5">
-        <span>Observability / read path</span>
-        <strong>Sariva platform</strong>
-        <i />
-        <strong>Cloud metrics</strong>
-        <i />
-        <strong>Topics, consumer groups, Kafka metadata</strong>
-        <i />
-        <strong>Confluent Cloud</strong>
+        <ArchitectureLane
+          tone="purple"
+          label="State, notifications, and incident response"
+          summary="The pattern includes governed state handling plus team and incident integrations."
+          items={governanceSteps}
+        />
       </div>
 
       <div className="mt-6 grid gap-3 md:grid-cols-5">
@@ -403,6 +353,38 @@ function ArchitecturePattern() {
           ["Stream with confidence", "Enterprise-grade streaming on Confluent Cloud"],
         ].map(([title, body]) => (
           <div key={title} className="sariva-arch-benefit rounded-2xl p-4">
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ArchitectureLane({
+  tone,
+  label,
+  summary,
+  items,
+}: {
+  tone: "blue" | "cyan" | "purple";
+  label: string;
+  summary: string;
+  items: string[][];
+}) {
+  return (
+    <div className={`sariva-arch-lane ${tone} rounded-[1.4rem] p-4 sm:p-5`}>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="sariva-lane-label">{label}</div>
+          <p className="mt-2 text-sm leading-6 text-slate-300">{summary}</p>
+        </div>
+      </div>
+      <div className="sariva-lane-flow">
+        {items.map(([title, body], index) => (
+          <div key={title} className="sariva-lane-step">
+            <div className="sariva-step-number">{String(index + 1).padStart(2, "0")}</div>
             <strong>{title}</strong>
             <p>{body}</p>
           </div>
