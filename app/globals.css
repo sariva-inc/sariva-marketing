@@ -1,55 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Locked Sariva Color Palette */
-  --cloud: #fafaf9;
-  --chalk: #f4f4f1;
-  --surface: #ffffff;
-  --ink: #0a0a0a;
-  --ink-2: #262626;
-  --ink-3: #525252;
-  --ink-4: #737373;
-  --line: #e5e5e2;
-  --azul: #2a48f0;
-  --azul-soft: #eef1fe;
-  
-  /* Semantic tokens for Tailwind */
-  --background: var(--cloud);
-  --foreground: var(--ink);
-  --card: var(--surface);
-  --card-foreground: var(--ink);
-  --popover: var(--surface);
-  --popover-foreground: var(--ink);
-  --primary: var(--azul);
-  --primary-foreground: var(--surface);
-  --secondary: var(--chalk);
-  --secondary-foreground: var(--ink);
-  --muted: var(--ink-4);
-  --muted-foreground: var(--ink-3);
-  --accent: var(--azul);
-  --accent-foreground: var(--surface);
-  --destructive: #dc2626;
-  --destructive-foreground: var(--surface);
-  --border: var(--line);
-  --input: var(--surface);
-  --ring: var(--azul);
-  --radius: 10px;
-  --sidebar: var(--cloud);
-  --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--azul);
-  --sidebar-primary-foreground: var(--surface);
-  --sidebar-accent: var(--azul);
-  --sidebar-accent-foreground: var(--surface);
-  --sidebar-border: var(--line);
-  --sidebar-ring: var(--azul);
+  --background: #06101f;
+  --foreground: #f8fafc;
+  --card: #0d1a2f;
+  --card-foreground: #f8fafc;
+  --popover: #0d1a2f;
+  --popover-foreground: #f8fafc;
+  --primary: #3267ff;
+  --primary-foreground: #ffffff;
+  --secondary: #101d33;
+  --secondary-foreground: #e2e8f0;
+  --muted: #13223a;
+  --muted-foreground: #94a3b8;
+  --accent: #22d3ee;
+  --accent-foreground: #03111f;
+  --destructive: #fb7185;
+  --destructive-foreground: #ffffff;
+  --border: rgba(148, 163, 184, 0.18);
+  --input: #101d33;
+  --ring: #60a5fa;
+  --radius: 18px;
+  --sidebar: #06101f;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #3267ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #22d3ee;
+  --sidebar-accent-foreground: #03111f;
+  --sidebar-border: rgba(148, 163, 184, 0.18);
+  --sidebar-ring: #60a5fa;
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -80,42 +69,80 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  * { @apply border-border outline-ring/50; }
+
+  html {
+    scroll-behavior: smooth;
+    background: #06101f;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: geometricPrecision;
   }
-  
-  h1 { @apply font-semibold tracking-tight; }
-  h2 { @apply font-semibold tracking-tight; }
-  h3 { @apply font-semibold; }
-  
-  /* Eyebrow/section labels */
-  .eyebrow {
-    @apply font-mono text-xs font-medium uppercase tracking-widest text-[#737373];
-    letter-spacing: 0.08em;
-  }
-  
-  /* Section numbers */
-  .section-number {
-    @apply font-mono font-medium text-[#2a48f0];
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.045em;
   }
 }
 
 @layer utilities {
-  .max-w-container {
-    max-width: 1180px;
+  .sariva-shell {
+    background:
+      radial-gradient(circle at 16% 8%, rgba(50, 103, 255, 0.26), transparent 30rem),
+      radial-gradient(circle at 84% 14%, rgba(34, 211, 238, 0.16), transparent 28rem),
+      linear-gradient(180deg, #071427 0%, #06101f 48%, #081222 100%);
   }
-  
-  .py-section {
-    padding-top: clamp(5rem, 9vw, 8rem);
-    padding-bottom: clamp(5rem, 9vw, 8rem);
+
+  .sariva-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
   }
-  
-  .px-section {
-    padding-left: clamp(1.25rem, 3vw, 2rem);
-    padding-right: clamp(1.25rem, 3vw, 2rem);
+
+  .sariva-card {
+    background: linear-gradient(180deg, rgba(15, 30, 54, 0.86), rgba(8, 18, 34, 0.88));
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    will-change: transform;
+  }
+
+  .sariva-card-soft {
+    background: rgba(15, 30, 54, 0.56);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    will-change: transform;
+  }
+
+  .sariva-glow {
+    box-shadow: 0 20px 70px rgba(50, 103, 255, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .sariva-grid-bg {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black, transparent 76%);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+@media (hover: hover) {
+  .sariva-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(96, 165, 250, 0.38);
+    box-shadow: 0 32px 95px rgba(50, 103, 255, 0.18), 0 22px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  .sariva-card-soft:hover {
+    transform: translateY(-3px);
+    border-color: rgba(34, 211, 238, 0.30);
+    box-shadow: 0 22px 64px rgba(34, 211, 238, 0.10);
   }
 }
 
@@ -123,6 +150,17 @@
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .sariva-card,
+  .sariva-card-soft {
+    will-change: auto;
+  }
+
+  .sariva-card:hover,
+  .sariva-card-soft:hover {
+    transform: none;
   }
 }

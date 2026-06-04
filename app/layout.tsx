@@ -5,12 +5,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Sariva — AI operations layer for Kafka and Flink",
   description:
-    "Sariva helps platform teams observe, diagnose, and safely operate Kafka, Flink, Confluent Cloud, and cloud-native streaming infrastructure through Slack, CLI, REST, and MCP.",
+    "Sariva helps platform teams observe, diagnose, and safely operate Kafka, Flink, Confluent Cloud, MSK, and cloud-native streaming infrastructure through Slack, CLI, REST, and MCP.",
   metadataBase: new URL("https://sariva.ai"),
   openGraph: {
     title: "Sariva — AI operations layer for Kafka and Flink",
     description:
-      "Observe, diagnose, and safely operate streaming infrastructure with GitOps-first AI automation.",
+      "A self-hosted AI operations layer for streaming infrastructure: live diagnosis, runbooks, GitOps changes, RBAC, and audit control.",
     url: "https://sariva.ai",
     siteName: "Sariva",
     type: "website",
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
+      <body className="font-sans">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

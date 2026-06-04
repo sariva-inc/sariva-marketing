@@ -1,296 +1,137 @@
-"use client";
-
-import { useState, type FormEvent, type ReactNode } from "react";
-
-const palette = {
-  bg: "#07111f",
-  bg2: "#0b1628",
-  panel: "rgba(15, 27, 48, 0.78)",
-  panelSolid: "#0f1b30",
-  panel2: "#111f36",
-  line: "rgba(148, 163, 184, 0.18)",
-  lineStrong: "rgba(96, 165, 250, 0.28)",
-  text: "#f8fafc",
-  muted: "#cbd5e1",
-  quiet: "#94a3b8",
-  accent: "#4f7cff",
-  accent2: "#22d3ee",
-  success: "#34d399",
-  warning: "#fbbf24",
-  danger: "#fb7185",
-};
+import type { ReactNode } from "react";
 
 const navItems = [
   { label: "Platform", href: "#platform" },
-  { label: "Capabilities", href: "#capabilities" },
+  { label: "Use cases", href: "#use-cases" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Security", href: "#security" },
   { label: "Contact", href: "#contact" },
 ];
 
-const capabilityCards = [
-  {
-    eyebrow: "Observe",
-    title: "Ask what is happening across Kafka and Flink.",
-    body: "Consumer lag, broker health, connector status, Schema Registry compatibility, Flink checkpoints, Tableflow sync state, PrivateLink diagnostics, and cloud telemetry in one operational answer.",
-    items: ["Confluent Cloud Metrics", "Prometheus / Grafana", "Kafka Exporter", "CloudWatch"],
-  },
-  {
-    eyebrow: "Diagnose",
-    title: "Turn noisy incidents into clear root cause.",
-    body: "Sariva correlates symptoms across clusters, jobs, networking, schemas, and Git history, then maps the incident to a vetted runbook before recommending the next action.",
-    items: ["Lag spikes", "Flink OOM / restart loops", "Connector failures", "Schema breaks"],
-  },
-  {
-    eyebrow: "Act",
-    title: "Execute changes through controlled GitOps.",
-    body: "Write operations create reviewed pull requests with Terraform diffs, rationale, rollback notes, and audit metadata. Sariva never needs long-lived cloud credentials.",
-    items: ["Topics & ACLs", "Connectors", "Flink statements", "Migration runbooks"],
-  },
+const metrics = [
+  ["5 surfaces", "Slack, CLI, REST, MCP, GitOps"],
+  ["8 controls", "Scope, RBAC, audit, review, rollback"],
+  ["0 long-lived", "Cloud credentials inside Sariva"],
+  ["VPC first", "Self-hosted deployment model"],
 ];
 
-const workflow = [
+const capabilities = [
   {
-    step: "01",
-    title: "Register controlled environments",
-    body: "Add only the clusters, repositories, identity groups, and observability sources Sariva is allowed to read or operate.",
+    title: "Observe every streaming signal",
+    text: "Consumer lag, partition skew, broker health, connector state, Schema Registry compatibility, Flink checkpoints, Tableflow sync, and cloud networking in one operational answer.",
+    tag: "Observe",
   },
   {
-    step: "02",
-    title: "Ask in Slack, CLI, REST, or MCP",
-    body: "Use plain English while Sariva handles the platform vocabulary: partitions, offsets, checkpoints, ACLs, KRaft, IRSA, PrivateLink, FLE, and Tableflow.",
+    title: "Diagnose incidents with evidence",
+    text: "Sariva correlates telemetry, runbooks, Git history, and platform topology to explain the likely root cause before suggesting the next action.",
+    tag: "Diagnose",
   },
   {
-    step: "03",
-    title: "Review the evidence and approve the change",
-    body: "Read operations return context immediately. Write operations ship as pull requests with diffs, runbook references, and rollback steps.",
+    title: "Ship controlled GitOps changes",
+    text: "Write actions become pull requests with Terraform diffs, rationale, rollback notes, and audit metadata. Your CI/CD applies the change, not the chatbot.",
+    tag: "Act",
   },
 ];
 
 const useCases = [
-  ["Consumer lag spike", "Identify hot partitions, consumer bottlenecks, offset drift, and throughput anomalies before they become application incidents."],
+  ["Consumer lag spike", "Find hot partitions, slow consumers, offset drift, and throughput changes without jumping through five dashboards."],
   ["Flink job instability", "Correlate restart loops with checkpoint failures, memory pressure, backpressure, and input topic spikes."],
-  ["Confluent Cloud networking", "Walk the PrivateLink, DNS, endpoint service, NLB target, and security-group path without losing the diagnostic chain."],
-  ["Schema compatibility failure", "Explain the breaking field, impacted consumers, registered versions, and the safest migration path."],
-  ["MSK to Confluent Cloud migration", "Generate topic mapping, replication steps, consumer cutover plan, validation checks, and rollback paths."],
-  ["Connector onboarding", "Create Terraform for managed or self-hosted connectors, IAM/RBAC dependencies, DLQ policy, and operational checks."],
+  ["PrivateLink failure", "Trace DNS, endpoint services, NLB targets, security groups, and Confluent network attachments in order."],
+  ["Schema break", "Identify the incompatible field, impacted consumers, registered versions, and the safest migration sequence."],
+  ["MSK → Confluent Cloud", "Generate topic mapping, replication plan, validation gates, cutover tasks, and rollback path."],
+  ["Connector onboarding", "Prepare connector Terraform, IAM/RBAC dependencies, DLQ policy, and operational checks."],
+  ["Topic and ACL operations", "Create governed topic, ACL, retention, and partition changes through reviewable infrastructure code."],
+  ["Tableflow + Iceberg ops", "Monitor sync health, schema evolution, table freshness, and operational failure patterns."],
 ];
 
-const securityItems = [
-  {
-    title: "Self-hosted by default",
-    body: "Deploy Sariva into your VPC or Kubernetes environment. Credentials, telemetry access, and operational logs stay within your boundary.",
-  },
-  {
-    title: "Explicit registration model",
-    body: "No broad auto-discovery. Sariva operates only registered clusters, topics, jobs, repositories, and runbook scopes.",
-  },
-  {
-    title: "RBAC and approval flow",
-    body: "Slack or CLI users map to identity groups. Sensitive writes require review, authorization, and traceable approval.",
-  },
-  {
-    title: "GitOps-first writes",
-    body: "Changes are proposed as pull requests. CI/CD owns the cloud credentials, applies the Terraform, and maintains the audit trail.",
-  },
+const security = [
+  "Self-hosted in your VPC",
+  "Explicit environment registration",
+  "RBAC mapped to identity groups",
+  "GitOps pull-request workflow",
+  "No long-lived cloud credentials",
+  "Structured audit logs",
+  "Runbook-backed recommendations",
+  "Rollback notes for write actions",
 ];
 
 function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
+  return <div className={`sariva-container ${className}`}>{children}</div>;
 }
 
-function SectionHeader({
-  eyebrow,
-  title,
-  children,
-  centered = false,
-}: {
-  eyebrow: string;
-  title: string;
-  children?: ReactNode;
-  centered?: boolean;
-}) {
+function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]" style={{ color: palette.accent2 }}>
-        {eyebrow}
-      </p>
-      <h2 className="text-3xl font-semibold tracking-[-0.035em] sm:text-4xl lg:text-5xl" style={{ color: palette.text }}>
+    <p className="mb-4 text-xs font-bold uppercase tracking-[0.26em] text-cyan-300/90">
+      {children}
+    </p>
+  );
+}
+
+function SectionHeader({ eyebrow, title, children, center = false }: { eyebrow: string; title: string; children: ReactNode; center?: boolean }) {
+  return (
+    <div className={center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
         {title}
       </h2>
-      {children && (
-        <p className="mt-5 text-base leading-8 sm:text-lg" style={{ color: palette.muted }}>
-          {children}
-        </p>
-      )}
+      <p className="mt-5 text-base leading-8 text-slate-300 sm:text-lg">{children}</p>
     </div>
   );
 }
 
-function PulseMark({ className = "" }: { className?: string }) {
+function LogoMark() {
   return (
-    <span
-      className={`relative inline-flex h-9 w-9 items-center justify-center rounded-xl ${className}`}
-      style={{
-        background: "linear-gradient(135deg, rgba(79,124,255,0.22), rgba(34,211,238,0.16))",
-        border: `1px solid ${palette.lineStrong}`,
-        boxShadow: "0 0 40px rgba(79,124,255,0.24)",
-      }}
-    >
-      <span className="absolute h-5 w-5 rounded-full border" style={{ borderColor: "rgba(148, 163, 184, 0.35)" }} />
-      <span className="absolute h-3 w-3 rounded-full border" style={{ borderColor: "rgba(34, 211, 238, 0.55)" }} />
-      <span className="h-1.5 w-1.5 rounded-full" style={{ background: palette.accent2 }} />
+    <span className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-500/15 ring-1 ring-blue-300/25 sariva-glow">
+      <span className="absolute h-6 w-6 rounded-full border border-cyan-300/30" />
+      <span className="absolute h-3.5 w-3.5 rounded-full border border-blue-200/45" />
+      <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_24px_rgba(34,211,238,0.8)]" />
     </span>
   );
 }
 
-function StatusPill({ children, tone = "blue" }: { children: ReactNode; tone?: "blue" | "green" | "yellow" }) {
-  const toneMap = {
-    blue: ["rgba(79, 124, 255, 0.16)", "rgba(96, 165, 250, 0.34)", "#bfdbfe"],
-    green: ["rgba(52, 211, 153, 0.14)", "rgba(52, 211, 153, 0.32)", "#bbf7d0"],
-    yellow: ["rgba(251, 191, 36, 0.14)", "rgba(251, 191, 36, 0.32)", "#fde68a"],
-  } as const;
-
-  return (
-    <span
-      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium"
-      style={{
-        background: toneMap[tone][0],
-        border: `1px solid ${toneMap[tone][1]}`,
-        color: toneMap[tone][2],
-      }}
-    >
-      {children}
-    </span>
-  );
-}
-
-function ProductConsole() {
-  const [active, setActive] = useState("incident");
-
-  const views = {
-    incident: {
-      label: "Incident",
-      title: "Flink job restarting in production",
-      command: "@sariva why is fraud-detector restarting?",
-      result: [
-        ["Signal", "3 restarts in 15 minutes · checkpoint duration +280%"],
-        ["Root cause", "TaskManager OOM during payment-events spike"],
-        ["Fix", "Raise process memory 4 GB → 6 GB and rebalance parallelism"],
-      ],
-      tone: "yellow" as const,
-    },
-    change: {
-      label: "Change",
-      title: "Topic and ACL request",
-      command: "@sariva create payments.audit.v1 with 12 partitions",
-      result: [
-        ["Validation", "Naming convention, RBAC scope, and retention policy matched"],
-        ["Output", "Terraform module generated with owner metadata"],
-        ["Approval", "Pull request ready with rollback notes"],
-      ],
-      tone: "green" as const,
-    },
-    migration: {
-      label: "Migration",
-      title: "MSK to Confluent Cloud cutover",
-      command: "@sariva plan payments-cluster migration",
-      result: [
-        ["Inventory", "43 topics · 7 consumer groups · 5 connectors"],
-        ["Replication", "Cluster Linking plan with lag-zero validation gates"],
-        ["Cutover", "Three-phase producer and consumer migration runbook"],
-      ],
-      tone: "blue" as const,
-    },
+function Pill({ children, tone = "blue" }: { children: ReactNode; tone?: "blue" | "green" | "cyan" }) {
+  const tones = {
+    blue: "border-blue-300/25 bg-blue-500/12 text-blue-100",
+    green: "border-emerald-300/25 bg-emerald-400/10 text-emerald-100",
+    cyan: "border-cyan-300/25 bg-cyan-400/10 text-cyan-100",
   };
+  return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${tones[tone]}`}>{children}</span>;
+}
 
-  const current = views[active as keyof typeof views];
-
+function CommandPanel() {
   return (
-    <div
-      className="relative overflow-hidden rounded-3xl p-4 shadow-2xl"
-      style={{
-        background: "linear-gradient(180deg, rgba(15, 27, 48, 0.92), rgba(8, 17, 31, 0.96))",
-        border: `1px solid ${palette.lineStrong}`,
-        boxShadow: "0 28px 90px rgba(0, 0, 0, 0.45), 0 0 80px rgba(79, 124, 255, 0.12)",
-      }}
-    >
-      <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full blur-3xl" style={{ background: "rgba(79, 124, 255, 0.20)" }} />
-      <div className="absolute -bottom-24 -left-20 h-64 w-64 rounded-full blur-3xl" style={{ background: "rgba(34, 211, 238, 0.12)" }} />
-
-      <div className="relative rounded-2xl" style={{ background: "rgba(2, 6, 23, 0.48)", border: `1px solid ${palette.line}` }}>
-        <div className="flex items-center justify-between border-b px-4 py-3" style={{ borderColor: palette.line }}>
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full" style={{ background: palette.danger }} />
-            <span className="h-2.5 w-2.5 rounded-full" style={{ background: palette.warning }} />
-            <span className="h-2.5 w-2.5 rounded-full" style={{ background: palette.success }} />
+    <div className="sariva-card relative overflow-hidden rounded-[2rem] p-4">
+      <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-blue-500/20 blur-3xl" />
+      <div className="absolute -bottom-24 -left-20 h-60 w-60 rounded-full bg-cyan-400/15 blur-3xl" />
+      <div className="relative overflow-hidden rounded-[1.4rem] border border-white/10 bg-slate-950/50">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+          <div className="flex gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+            <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
           </div>
-          <div className="text-xs font-medium" style={{ color: palette.quiet }}>
-            Sariva command center
-          </div>
+          <div className="font-mono text-xs text-slate-400">sariva / production</div>
         </div>
-
-        <div className="grid gap-0 lg:grid-cols-[180px_1fr]">
-          <div className="border-b p-3 lg:border-b-0 lg:border-r" style={{ borderColor: palette.line }}>
-            <div className="mb-3 px-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em]" style={{ color: palette.quiet }}>
-              Workflows
-            </div>
-            {Object.entries(views).map(([key, item]) => (
-              <button
-                key={key}
-                onClick={() => setActive(key)}
-                className="mb-1 flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition"
-                style={{
-                  background: active === key ? "rgba(79, 124, 255, 0.16)" : "transparent",
-                  color: active === key ? palette.text : palette.muted,
-                  border: active === key ? `1px solid ${palette.lineStrong}` : "1px solid transparent",
-                }}
-              >
-                {item.label}
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: active === key ? palette.accent2 : "rgba(148, 163, 184, 0.4)" }} />
-              </button>
+        <div className="p-5 sm:p-6">
+          <div className="rounded-2xl border border-blue-300/20 bg-blue-500/10 p-4">
+            <div className="font-mono text-xs text-cyan-200">@sariva why is fraud-detector restarting?</div>
+          </div>
+          <div className="mt-5 space-y-3">
+            {[
+              ["Signal", "3 restarts in 15 minutes · checkpoint duration +280%"],
+              ["Root cause", "TaskManager OOM during payment-events spike"],
+              ["Fix", "Open PR: raise memory 4GB → 6GB with rollback"],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{label}</div>
+                <div className="mt-1 text-sm font-medium leading-6 text-slate-100">{value}</div>
+              </div>
             ))}
           </div>
-
-          <div className="p-5 sm:p-6">
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <StatusPill tone={current.tone}>Live example</StatusPill>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight" style={{ color: palette.text }}>
-                  {current.title}
-                </h3>
-              </div>
-              <div className="rounded-full px-3 py-1 text-xs font-medium" style={{ color: palette.success, background: "rgba(52, 211, 153, 0.12)" }}>
-                RBAC checked
-              </div>
-            </div>
-
-            <div className="mb-5 rounded-2xl p-4 font-mono text-sm" style={{ background: "rgba(15, 23, 42, 0.72)", border: `1px solid ${palette.line}` }}>
-              <span style={{ color: palette.accent2 }}>›</span>{" "}
-              <span style={{ color: palette.text }}>{current.command}</span>
-            </div>
-
-            <div className="space-y-3">
-              {current.result.map(([label, value]) => (
-                <div key={label} className="rounded-2xl p-4" style={{ background: "rgba(15, 27, 48, 0.72)", border: `1px solid ${palette.line}` }}>
-                  <div className="mb-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: palette.quiet }}>
-                    {label}
-                  </div>
-                  <div className="text-sm leading-6" style={{ color: palette.muted }}>
-                    {value}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-5 rounded-2xl p-4" style={{ background: "rgba(79, 124, 255, 0.12)", border: `1px solid ${palette.lineStrong}` }}>
-              <div className="text-sm font-medium" style={{ color: palette.text }}>
-                Recommended action
-              </div>
-              <p className="mt-1 text-sm leading-6" style={{ color: palette.muted }}>
-                Open a GitOps pull request with the config change, validation checks, and rollback instructions.
-              </p>
-            </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Pill tone="green">Healthy rollout path</Pill>
+            <Pill tone="cyan">GitOps PR ready</Pill>
+            <Pill>RBAC checked</Pill>
           </div>
         </div>
       </div>
@@ -298,261 +139,126 @@ function ProductConsole() {
   );
 }
 
-function MetricCard({ value, label }: { value: string; label: string }) {
+export default function Home() {
   return (
-    <div className="rounded-2xl p-5" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-      <div className="text-2xl font-semibold tracking-tight" style={{ color: palette.text }}>
-        {value}
-      </div>
-      <div className="mt-1 text-sm leading-6" style={{ color: palette.quiet }}>
-        {label}
-      </div>
-    </div>
-  );
-}
+    <main className="sariva-shell min-h-screen overflow-hidden text-slate-100">
+      <div className="sariva-grid-bg pointer-events-none absolute inset-x-0 top-0 h-[780px]" />
 
-function NotifyForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "ok" | "error">("idle");
-
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setStatus("error");
-      return;
-    }
-
-    setStatus("ok");
-    setEmail("");
-  }
-
-  return (
-    <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-3 sm:flex-row">
-      <input
-        value={email}
-        onChange={(event) => {
-          setEmail(event.target.value);
-          setStatus("idle");
-        }}
-        type="email"
-        placeholder="you@company.com"
-        aria-label="Email address"
-        className="min-h-12 flex-1 rounded-xl px-4 text-sm outline-none transition focus:ring-2"
-        style={{
-          background: "rgba(15, 23, 42, 0.72)",
-          border: `1px solid ${palette.line}`,
-          color: palette.text,
-        }}
-      />
-      <button
-        type="submit"
-        className="min-h-12 rounded-xl px-5 text-sm font-semibold transition hover:-translate-y-0.5"
-        style={{
-          background: "linear-gradient(135deg, #4f7cff, #22d3ee)",
-          color: "#ffffff",
-          boxShadow: "0 18px 40px rgba(79, 124, 255, 0.28)",
-        }}
-      >
-        Request early access
-      </button>
-      {status !== "idle" && (
-        <p className="sm:hidden text-sm" style={{ color: status === "ok" ? palette.success : palette.danger }}>
-          {status === "ok" ? "Thanks — we will be in touch." : "Please enter a valid email address."}
-        </p>
-      )}
-    </form>
-  );
-}
-
-export default function Page() {
-  return (
-    <main className="min-h-screen overflow-hidden" style={{ background: palette.bg, color: palette.text }}>
-      <div className="pointer-events-none fixed inset-0 opacity-60" aria-hidden>
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at top left, rgba(79,124,255,0.20), transparent 32rem), radial-gradient(circle at top right, rgba(34,211,238,0.12), transparent 28rem), linear-gradient(180deg, rgba(7,17,31,0) 0%, #07111f 80%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(148,163,184,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.045) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-            maskImage: "linear-gradient(to bottom, black, transparent 70%)",
-          }}
-        />
-      </div>
-
-      <header className="sticky top-0 z-50 backdrop-blur-xl" style={{ background: "rgba(7, 17, 31, 0.78)", borderBottom: `1px solid ${palette.line}` }}>
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#06101f]/78 backdrop-blur-xl">
         <Container>
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-20 items-center justify-between gap-6">
             <a href="#top" className="flex items-center gap-3">
-              <PulseMark />
+              <LogoMark />
               <div>
-                <div className="text-base font-semibold tracking-tight" style={{ color: palette.text }}>Sariva</div>
-                <div className="hidden text-[0.68rem] uppercase tracking-[0.18em] sm:block" style={{ color: palette.quiet }}>
-                  Streaming Ops AI
-                </div>
+                <div className="font-display text-lg font-extrabold tracking-[-0.03em] text-white">Sariva</div>
+                <div className="hidden text-xs text-slate-500 sm:block">AI operations layer</div>
               </div>
             </a>
-
             <nav className="hidden items-center gap-7 md:flex">
               {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="text-sm font-medium transition hover:text-white" style={{ color: palette.muted }}>
+                <a key={item.href} href={item.href} className="text-sm font-semibold text-slate-300 transition hover:text-white">
                   {item.label}
                 </a>
               ))}
             </nav>
-
-            <div className="flex items-center gap-3">
-              <a href="https://docs.sariva.ai" target="_blank" rel="noreferrer" className="hidden text-sm font-medium transition hover:text-white sm:inline-flex" style={{ color: palette.muted }}>
-                Docs ↗
-              </a>
-              <a
-                href="#contact"
-                className="rounded-xl px-4 py-2 text-sm font-semibold transition hover:-translate-y-0.5"
-                style={{
-                  background: "rgba(79, 124, 255, 0.16)",
-                  border: `1px solid ${palette.lineStrong}`,
-                  color: palette.text,
-                }}
-              >
-                Get early access
-              </a>
-            </div>
+            <a href="#contact" className="rounded-2xl border border-blue-300/25 bg-blue-500/15 px-4 py-2.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-blue-500/25">
+              Get early access
+            </a>
           </div>
         </Container>
       </header>
 
-      <section id="top" className="relative z-10 pt-16 pb-20 sm:pt-20 lg:pb-28">
+      <section id="top" className="relative z-10 py-20 sm:py-24 lg:py-28">
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.92fr]">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
             <div>
               <div className="mb-6 flex flex-wrap gap-3">
-                <StatusPill>AI operator for Kafka & Flink</StatusPill>
-                <StatusPill tone="green">Self-hosted in your VPC</StatusPill>
+                <Pill>Kafka & Flink AI operator</Pill>
+                <Pill tone="green">Enterprise-safe GitOps</Pill>
+                <Pill tone="cyan">Self-hosted in your VPC</Pill>
               </div>
-
-              <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.06em] sm:text-6xl lg:text-7xl" style={{ color: palette.text }}>
-                Operate streaming platforms with the judgment of a senior engineer.
+              <h1 className="max-w-5xl text-5xl font-extrabold leading-[0.95] text-white sm:text-6xl lg:text-7xl">
+                Operate streaming infrastructure with confidence, speed, and control.
               </h1>
-
-              <p className="mt-6 max-w-2xl text-lg leading-8 sm:text-xl" style={{ color: palette.muted }}>
-                Sariva is an AI operations layer for Kafka, Flink, Confluent Cloud, and cloud-native streaming infrastructure. Ask questions, diagnose incidents, and ship safe GitOps changes from the tools your team already uses.
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
+                Sariva gives platform teams an AI operations layer for Kafka, Flink, Confluent Cloud, MSK, and cloud-native streaming platforms — turning incidents, runbooks, and GitOps changes into one governed workflow.
               </p>
-
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#contact"
-                  className="rounded-xl px-5 py-3 text-center text-sm font-semibold transition hover:-translate-y-0.5"
-                  style={{
-                    background: "linear-gradient(135deg, #4f7cff, #22d3ee)",
-                    color: "#ffffff",
-                    boxShadow: "0 18px 40px rgba(79, 124, 255, 0.30)",
-                  }}
-                >
+                <a href="#contact" className="rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3.5 text-center text-sm font-extrabold text-white shadow-[0_22px_70px_rgba(50,103,255,0.34)] transition hover:-translate-y-0.5">
                   Request early access
                 </a>
-                <a
-                  href="#platform"
-                  className="rounded-xl px-5 py-3 text-center text-sm font-semibold transition hover:-translate-y-0.5"
-                  style={{ background: "rgba(15, 27, 48, 0.72)", border: `1px solid ${palette.line}`, color: palette.text }}
-                >
-                  See platform overview
+                <a href="#platform" className="rounded-2xl border border-white/12 bg-white/[0.045] px-6 py-3.5 text-center text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/[0.07]">
+                  View platform
                 </a>
               </div>
-
-              <div className="mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
-                <MetricCard value="GitOps" label="for every production write" />
-                <MetricCard value="RBAC" label="mapped to your identity model" />
-                <MetricCard value="MCP" label="ready for agentic workflows" />
-                <MetricCard value="VPC" label="deployment boundary" />
+              <div className="mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+                {metrics.map(([value, label]) => (
+                  <div key={value} className="sariva-card-soft rounded-2xl p-4">
+                    <div className="font-display text-xl font-extrabold text-white">{value}</div>
+                    <div className="mt-1 text-xs leading-5 text-slate-400">{label}</div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <ProductConsole />
+            <CommandPanel />
           </div>
         </Container>
       </section>
 
-      <section id="platform" className="relative z-10 py-20" style={{ background: "rgba(11, 22, 40, 0.68)", borderTop: `1px solid ${palette.line}`, borderBottom: `1px solid ${palette.line}` }}>
+      <section id="platform" className="relative z-10 border-y border-white/10 bg-[#081426]/80 py-20">
         <Container>
-          <SectionHeader eyebrow="Platform" title="Built for teams that run streaming infrastructure in production.">
-            Sariva reduces operational toil by connecting runtime telemetry, infrastructure code, runbooks, and approval workflows into one controlled operating surface.
+          <SectionHeader eyebrow="Platform" title="A production operations layer, not another dashboard.">
+            Sariva connects live telemetry, Kafka/Flink expertise, cloud runbooks, Git history, and approval workflows so teams can move faster without bypassing control.
           </SectionHeader>
-
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {[
-              {
-                title: "One answer across many tools",
-                body: "Confluent Cloud, self-managed Kafka, Flink, Kubernetes, Schema Registry, cloud networking, monitoring, and Git history are correlated into a single operational explanation.",
-              },
-              {
-                title: "Runbooks that improve over time",
-                body: "Known fixes become versioned playbooks. Sariva explains the exact evidence, confidence level, and action boundary before proposing a change.",
-              },
-              {
-                title: "Production-safe by design",
-                body: "Read-only operations are fast. Writes are explicit, reviewed, reversible, and shipped through your existing CI/CD control plane.",
-              },
-            ].map((item) => (
-              <article key={item.title} className="sariva-card rounded-3xl p-6" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-                <h3 className="text-xl font-semibold tracking-tight" style={{ color: palette.text }}>{item.title}</h3>
-                <p className="mt-4 text-sm leading-7" style={{ color: palette.muted }}>{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section id="capabilities" className="relative z-10 py-20">
-        <Container>
-          <SectionHeader centered eyebrow="Capabilities" title="Observe, diagnose, and act from one conversation.">
-            Sariva is not another dashboard. It is the operational layer that reads the dashboard, checks the runbook, and prepares the safe change.
-          </SectionHeader>
-
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
-            {capabilityCards.map((card) => (
-              <article key={card.title} className="sariva-card group rounded-3xl p-6" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-                <div className="mb-5 inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: palette.accent2, background: "rgba(34, 211, 238, 0.10)", border: `1px solid rgba(34, 211, 238, 0.22)` }}>
-                  {card.eyebrow}
+            {capabilities.map((item) => (
+              <article key={item.title} className="sariva-card rounded-[1.7rem] p-7">
+                <div className="mb-5 inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-cyan-200">
+                  {item.tag}
                 </div>
-                <h3 className="text-xl font-semibold tracking-tight" style={{ color: palette.text }}>{card.title}</h3>
-                <p className="mt-4 text-sm leading-7" style={{ color: palette.muted }}>{card.body}</p>
-                <div className="mt-6 space-y-2">
-                  {card.items.map((item) => (
-                    <div key={item} className="flex items-center gap-3 text-sm" style={{ color: palette.muted }}>
-                      <span className="h-1.5 w-1.5 rounded-full" style={{ background: palette.accent2 }} />
-                      {item}
-                    </div>
-                  ))}
-                </div>
+                <h3 className="text-2xl font-extrabold leading-tight text-white">{item.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-slate-300">{item.text}</p>
               </article>
             ))}
           </div>
         </Container>
       </section>
 
-      <section id="how-it-works" className="relative z-10 py-20" style={{ background: palette.bg2, borderTop: `1px solid ${palette.line}`, borderBottom: `1px solid ${palette.line}` }}>
+      <section id="use-cases" className="relative z-10 py-20">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <SectionHeader eyebrow="How it works" title="Controlled automation, not black-box automation.">
-              The product is intentionally conservative. Sariva gives fast answers for reads and governed pull requests for production writes.
-            </SectionHeader>
+          <SectionHeader center eyebrow="Use cases" title="Built around the moments that slow platform teams down.">
+            The site should feel like an enterprise product because the product is aimed at production owners: Kafka admins, platform engineers, SRE teams, and cloud infrastructure leads.
+          </SectionHeader>
+          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {useCases.map(([title, body]) => (
+              <article key={title} className="sariva-card rounded-[1.6rem] p-5">
+                <h3 className="text-lg font-extrabold leading-tight text-white">{title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-400">{body}</p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
 
+      <section id="how-it-works" className="relative z-10 border-y border-white/10 bg-[#081426]/80 py-20">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <SectionHeader eyebrow="How it works" title="Fast answers for reads. Governed pull requests for writes.">
+              Sariva is intentionally conservative. It helps teams diagnose quickly, then routes production changes through the systems they already trust.
+            </SectionHeader>
             <div className="space-y-4">
-              {workflow.map((item) => (
-                <article key={item.step} className="sariva-card grid gap-5 rounded-3xl p-6 sm:grid-cols-[72px_1fr]" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl font-mono text-sm font-semibold" style={{ background: "rgba(79, 124, 255, 0.14)", color: palette.accent2, border: `1px solid ${palette.lineStrong}` }}>
-                    {item.step}
+              {[
+                ["01", "Register scope", "Connect only the clusters, topics, Flink jobs, repositories, observability sources, and runbook domains Sariva is allowed to access."],
+                ["02", "Ask naturally", "Use Slack, CLI, REST, or MCP while Sariva translates operational intent into Kafka, Flink, cloud, and GitOps context."],
+                ["03", "Approve safely", "Read answers return with evidence. Write actions become PRs with diffs, rationale, RBAC checks, and rollback notes."],
+              ].map(([step, title, body]) => (
+                <article key={step} className="sariva-card grid gap-5 rounded-[1.7rem] p-6 sm:grid-cols-[74px_1fr]">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-300/25 bg-blue-500/15 font-mono text-sm font-bold text-cyan-200">
+                    {step}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold tracking-tight" style={{ color: palette.text }}>{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7" style={{ color: palette.muted }}>{item.body}</p>
+                    <h3 className="text-xl font-extrabold text-white">{title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-slate-300">{body}</p>
                   </div>
                 </article>
               ))}
@@ -561,56 +267,17 @@ export default function Page() {
         </Container>
       </section>
 
-      <section className="relative z-10 py-20">
+      <section id="security" className="relative z-10 py-20">
         <Container>
-          <SectionHeader centered eyebrow="Use cases" title="Common streaming operations, handled with context.">
-            These are the recurring high-friction workflows Sariva is designed to compress from hours of manual diagnosis into minutes of guided operation.
-          </SectionHeader>
-
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {useCases.map(([title, body]) => (
-              <article key={title} className="sariva-card rounded-3xl p-6" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-                <h3 className="text-lg font-semibold tracking-tight" style={{ color: palette.text }}>{title}</h3>
-                <p className="mt-3 text-sm leading-7" style={{ color: palette.muted }}>{body}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section id="security" className="relative z-10 py-20" style={{ background: palette.bg2, borderTop: `1px solid ${palette.line}`, borderBottom: `1px solid ${palette.line}` }}>
-        <Container>
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1fr] lg:items-center">
-            <SectionHeader eyebrow="Security & control" title="Designed for platform teams that own the blast radius.">
-              Sariva is opinionated about operational safety: explicit scope, least privilege, reviewable writes, and complete traceability.
-            </SectionHeader>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              {securityItems.map((item) => (
-                <article key={item.title} className="sariva-card rounded-3xl p-6" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-                  <div className="mb-4 h-2 w-10 rounded-full" style={{ background: "linear-gradient(90deg, #4f7cff, #22d3ee)" }} />
-                  <h3 className="text-lg font-semibold tracking-tight" style={{ color: palette.text }}>{item.title}</h3>
-                  <p className="mt-3 text-sm leading-7" style={{ color: palette.muted }}>{item.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="relative z-10 py-20">
-        <Container>
-          <div className="sariva-card rounded-[2rem] p-8 sm:p-10 lg:p-12" style={{ background: "linear-gradient(135deg, rgba(79, 124, 255, 0.18), rgba(34, 211, 238, 0.10))", border: `1px solid ${palette.lineStrong}` }}>
-            <div className="grid gap-10 lg:grid-cols-[0.85fr_1fr] lg:items-center">
-              <div>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]" style={{ color: palette.accent2 }}>Ecosystem fit</p>
-                <h2 className="text-3xl font-semibold tracking-[-0.035em] sm:text-4xl" style={{ color: palette.text }}>
-                  Works beside the platforms you already trust.
-                </h2>
-              </div>
+          <div className="sariva-card rounded-[2.2rem] p-8 sm:p-10 lg:p-12">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+              <SectionHeader eyebrow="Security & control" title="Enterprise authority without looking heavy or old.">
+                The deep navy background carries the authority and scale energy; the royal blue, cyan, and green accents carry movement, progress, and growth.
+              </SectionHeader>
               <div className="grid gap-3 sm:grid-cols-2">
-                {["Confluent Cloud", "Confluent Platform", "Apache Kafka", "AWS MSK", "Apache Flink", "Tableflow + Iceberg", "GitHub / GitOps", "Slack / CLI / REST / MCP"].map((item) => (
-                  <div key={item} className="sariva-soft-card rounded-2xl px-4 py-3 text-sm font-medium" style={{ background: "rgba(7, 17, 31, 0.42)", border: `1px solid ${palette.line}`, color: palette.muted }}>
+                {security.map((item) => (
+                  <div key={item} className="sariva-card-soft flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-200">
+                    <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_18px_rgba(52,211,153,0.8)]" />
                     {item}
                   </div>
                 ))}
@@ -620,30 +287,37 @@ export default function Page() {
         </Container>
       </section>
 
-      <section id="contact" className="relative z-10 py-20" style={{ background: palette.bg2, borderTop: `1px solid ${palette.line}` }}>
+      <section id="contact" className="relative z-10 border-t border-white/10 bg-[#081426]/90 py-20">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.85fr] lg:items-center">
             <div>
-              <SectionHeader eyebrow="Contact" title="Bring Sariva into your streaming operations workflow.">
-                We are onboarding design partners who run Kafka, Flink, Confluent Cloud, MSK, or hybrid streaming platforms and want safer operational automation.
-              </SectionHeader>
-              <NotifyForm />
-              <p className="mt-4 hidden text-sm sm:block" style={{ color: palette.quiet }}>
-                Or email <a className="underline decoration-white/30 underline-offset-4 hover:text-white" href="mailto:hello@sariva.ai">hello@sariva.ai</a>.
+              <Eyebrow>Contact</Eyebrow>
+              <h2 className="text-4xl font-extrabold leading-tight text-white sm:text-5xl">
+                Launch Sariva with a stronger enterprise first impression.
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                The next deployment should only change the visual layer and copy. Package files should remain untouched so Vercel continues using the known-good pnpm setup.
               </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="mailto:hello@sariva.ai" className="rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3.5 text-center text-sm font-extrabold text-white transition hover:-translate-y-0.5">
+                  hello@sariva.ai
+                </a>
+                <a href="mailto:sales@sariva.ai" className="rounded-2xl border border-white/12 bg-white/[0.045] px-6 py-3.5 text-center text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/[0.07]">
+                  sales@sariva.ai
+                </a>
+              </div>
             </div>
-
-            <div className="sariva-card rounded-3xl p-6" style={{ background: palette.panel, border: `1px solid ${palette.line}` }}>
-              <h3 className="text-xl font-semibold tracking-tight" style={{ color: palette.text }}>Best fit for</h3>
+            <div className="sariva-card rounded-[1.8rem] p-7">
+              <h3 className="text-2xl font-extrabold text-white">Best fit</h3>
               <div className="mt-5 space-y-4">
                 {[
-                  "Platform teams supporting business-critical Kafka and Flink workloads",
-                  "Confluent Cloud or MSK migrations where repeatable runbooks matter",
-                  "Teams standardizing Terraform-backed topic, ACL, connector, and Flink operations",
-                  "SRE teams that need incident diagnosis with a safe path to action",
+                  "Kafka, Flink, Confluent Cloud, or MSK platform teams",
+                  "SRE teams that need diagnosis plus a safe path to action",
+                  "Organizations standardizing Terraform-backed streaming operations",
+                  "Migration programs where repeatable runbooks and auditability matter",
                 ].map((item) => (
-                  <div key={item} className="flex gap-3 text-sm leading-7" style={{ color: palette.muted }}>
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: palette.success }} />
+                  <div key={item} className="flex gap-3 text-sm leading-7 text-slate-300">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
                     {item}
                   </div>
                 ))}
@@ -653,19 +327,17 @@ export default function Page() {
         </Container>
       </section>
 
-      <footer className="relative z-10 border-t py-8" style={{ background: palette.bg, borderColor: palette.line }}>
+      <footer className="relative z-10 border-t border-white/10 py-8">
         <Container>
           <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
             <div className="flex items-center gap-3">
-              <PulseMark />
+              <LogoMark />
               <div>
-                <div className="font-semibold tracking-tight" style={{ color: palette.text }}>Sariva</div>
-                <div className="text-xs" style={{ color: palette.quiet }}>AI operations layer for streaming infrastructure</div>
+                <div className="font-display font-extrabold text-white">Sariva</div>
+                <div className="text-xs text-slate-500">AI operations layer for streaming infrastructure</div>
               </div>
             </div>
-            <div className="text-sm" style={{ color: palette.quiet }}>
-              © {new Date().getFullYear()} Sariva Inc. · Ontario, Canada
-            </div>
+            <div className="text-sm text-slate-500">© 2026 Sariva Inc. · Ontario, Canada</div>
           </div>
         </Container>
       </footer>
