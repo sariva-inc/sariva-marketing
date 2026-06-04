@@ -306,345 +306,38 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 34px 96px rgba(0,0,0,0.28);
   }
 
-  .sariva-diagram-legend {
-    display: grid;
-    gap: 0.5rem;
-    min-width: 230px;
-    color: rgba(203,213,225,0.82);
-    font-size: 0.76rem;
-    font-weight: 800;
-  }
-
-  .sariva-diagram-legend span {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-  }
-
-  .sariva-diagram-legend i {
-    display: inline-block;
-    width: 2.1rem;
-    height: 1px;
-    background: #60a5fa;
-  }
-
-  .sariva-diagram-legend i.dashed {
-    background: repeating-linear-gradient(90deg, #22d3ee 0 6px, transparent 6px 11px);
-  }
-
-  .sariva-diagram-scroll {
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
-  }
-
-  .sariva-diagram-map {
-    min-width: 1040px;
+  .sariva-svg-wrap {
+    overflow: hidden;
     border-radius: 1.6rem;
-    border: 1px solid rgba(148, 163, 184, 0.14);
-    background:
-      linear-gradient(rgba(148, 163, 184, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(148, 163, 184, 0.035) 1px, transparent 1px),
-      rgba(2, 8, 23, 0.36);
-    background-size: 34px 34px;
-    padding: 1rem;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    background: rgba(2, 8, 23, 0.36);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 82px rgba(0,0,0,0.24);
   }
 
-  .sariva-deploy-rail {
-    display: grid;
-    grid-template-columns: auto auto minmax(80px, 1fr) auto minmax(80px, 1fr) auto;
-    align-items: center;
-    gap: 0.8rem;
-    border-radius: 1.1rem;
-    border: 1px solid rgba(59,130,246,0.26);
-    background: rgba(59,130,246,0.07);
-    padding: 0.75rem 0.9rem;
-  }
-
-  .sariva-deploy-rail span {
-    border-radius: 999px;
-    background: rgba(59,130,246,0.16);
-    padding: 0.32rem 0.7rem;
-    color: #bfdbfe;
-    font-size: 0.62rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .sariva-deploy-rail strong {
-    color: #e0f2fe;
-    font-size: 0.78rem;
-    font-weight: 900;
-    white-space: nowrap;
-  }
-
-  .sariva-deploy-rail i {
-    position: relative;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(96,165,250,0.2), rgba(96,165,250,0.95));
-  }
-
-  .sariva-deploy-rail i::after {
-    content: "";
-    position: absolute;
-    right: -1px;
-    top: -4px;
-    border-left: 8px solid #60a5fa;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-  }
-
-  .sariva-diagram-grid {
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: 170px 36px 370px 36px 250px 36px 170px;
-    gap: 0.7rem;
-    align-items: stretch;
-  }
-
-  .sariva-node {
-    border: 1px solid rgba(148,163,184,0.16);
-    background: linear-gradient(180deg, rgba(15, 30, 54, 0.92), rgba(6, 16, 31, 0.94));
-    border-radius: 1.15rem;
-    padding: 1rem;
-    box-shadow: 0 22px 64px rgba(0,0,0,0.24);
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
-  }
-
-  .sariva-node:hover,
-  .sariva-arch-benefit:hover {
-    transform: translate3d(0, -4px, 0);
-    border-color: rgba(96, 165, 250, 0.46);
-    box-shadow: 0 30px 90px rgba(59,130,246,0.16), 0 22px 70px rgba(0,0,0,0.30);
-  }
-
-  .sariva-node-github,
-  .sariva-node-confluent {
-    display: flex;
-    min-height: 380px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sariva-node-platform {
-    min-height: 380px;
-    border-color: rgba(59,130,246,0.32);
-  }
-
-  .sariva-node-confluent {
-    border-color: rgba(168,85,247,0.34);
-  }
-
-  .sariva-node-pill {
-    display: inline-flex;
-    margin-bottom: 0.85rem;
-    border-radius: 999px;
-    border: 1px solid rgba(96,165,250,0.32);
-    background: rgba(59,130,246,0.12);
-    padding: 0.25rem 0.62rem;
-    font-size: 0.64rem;
-    font-weight: 900;
-    color: #bfdbfe;
-  }
-
-  .sariva-node-pill.purple {
-    border-color: rgba(168,85,247,0.36);
-    background: rgba(168,85,247,0.12);
-    color: #ddd6fe;
-  }
-
-  .sariva-node-icon {
-    display: inline-flex;
-    height: 54px;
-    width: 54px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    border: 1px solid rgba(96,165,250,0.32);
-    background: rgba(59,130,246,0.14);
-    color: #bfdbfe;
-    font: 900 0.9rem var(--font-display);
-    box-shadow: 0 0 34px rgba(59,130,246,0.20);
-  }
-
-  .sariva-node-icon.cyan {
-    border-color: rgba(34,211,238,0.36);
-    background: rgba(34,211,238,0.10);
-    color: #67e8f9;
-  }
-
-  .sariva-node h4 {
-    margin-top: 1rem;
-    font-size: 1.18rem;
-    font-weight: 900;
-    line-height: 1.15;
-    color: white;
-  }
-
-  .sariva-node-platform h4 {
-    margin-top: 0.1rem;
-    font-size: 1.65rem;
-  }
-
-  .sariva-node p,
-  .sariva-module span,
-  .sariva-node.mini p,
-  .sariva-arch-benefit p {
-    margin-top: 0.45rem;
-    font-size: 0.76rem;
-    line-height: 1.48;
-    color: rgba(203,213,225,0.76);
-  }
-
-  .sariva-node-lead {
-    max-width: 30rem;
-  }
-
-  .sariva-node-note {
-    margin-top: 1rem;
-    border-radius: 0.85rem;
-    border: 1px dashed rgba(147,197,253,0.24);
-    background: rgba(59,130,246,0.06);
-    padding: 0.7rem;
-    font-size: 0.7rem;
-    font-weight: 800;
-    line-height: 1.4;
-    color: rgba(191,219,254,0.86);
-  }
-
-  .sariva-node-note.cyan {
-    border-color: rgba(34,211,238,0.26);
-    background: rgba(34,211,238,0.07);
-    color: #a5f3fc;
-  }
-
-  .sariva-platform-modules {
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  .sariva-module {
-    border-radius: 0.9rem;
-    border: 1px solid rgba(148,163,184,0.16);
-    background: rgba(2,8,23,0.40);
-    padding: 0.85rem;
-  }
-
-  .sariva-module strong,
-  .sariva-node.mini h5,
-  .sariva-arch-benefit strong {
+  .sariva-architecture-svg {
     display: block;
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 900;
+    width: 100%;
+    height: auto;
+    min-height: 420px;
   }
 
-  .sariva-module.cyan { border-color: rgba(34,211,238,0.30); }
-  .sariva-module.cyan strong { color: #67e8f9; }
-  .sariva-module.purple { border-color: rgba(168,85,247,0.32); }
-  .sariva-module.purple strong { color: #c4b5fd; }
-  .sariva-module.teal { border-color: rgba(45,212,191,0.30); }
-  .sariva-module.teal strong { color: #5eead4; }
-
-  .sariva-side-stack {
-    display: grid;
-    gap: 0.65rem;
-  }
-
-  .sariva-node.mini {
-    min-height: 82px;
-    padding: 0.8rem;
-  }
-
-  .sariva-node.mini > span {
-    display: inline-flex;
-    margin-bottom: 0.35rem;
-    border-radius: 999px;
-    border: 1px solid rgba(148,163,184,0.18);
-    background: rgba(255,255,255,0.04);
-    padding: 0.16rem 0.45rem;
-    color: #cbd5e1;
-    font-size: 0.56rem;
-    font-weight: 900;
-  }
-
-  .sariva-node.mini.green { border-color: rgba(52,211,153,0.28); }
-  .sariva-node.mini.purple { border-color: rgba(168,85,247,0.30); }
-  .sariva-node.mini.cyan { border-color: rgba(34,211,238,0.30); }
-  .sariva-node.mini.pink { border-color: rgba(244,114,182,0.30); }
-  .sariva-node.mini.violet { border-color: rgba(196,181,253,0.30); }
-
-  .sariva-connector {
-    position: relative;
-    min-height: 380px;
-  }
-
-  .sariva-connector::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background: rgba(147,197,253,0.72);
-  }
-
-  .sariva-connector::after {
-    content: "";
-    position: absolute;
-    right: -1px;
-    top: calc(50% - 4px);
-    border-left: 8px solid rgba(147,197,253,0.86);
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-  }
-
-  .sariva-connector.dashed::before {
-    background: repeating-linear-gradient(90deg, rgba(34,211,238,0.82) 0 6px, transparent 6px 11px);
-  }
-
-  .sariva-connector.dashed::after {
-    border-left-color: rgba(34,211,238,0.92);
-  }
-
-  .sariva-connector span {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + 0.8rem);
-    transform: translateX(-50%);
-    width: 7rem;
-    text-align: center;
-    color: rgba(203,213,225,0.78);
-    font-size: 0.6rem;
-    font-weight: 800;
-    line-height: 1.25;
-  }
-
-  .sariva-status-loop {
-    margin-top: 0.9rem;
-    border-radius: 1rem;
-    border: 1px dashed rgba(196,181,253,0.26);
-    background: rgba(168,85,247,0.06);
-    padding: 0.8rem 1rem;
-    color: rgba(221,214,254,0.88);
-  }
-
-  .sariva-status-loop strong {
-    margin-right: 0.5rem;
-    color: white;
-    font-size: 0.78rem;
-    font-weight: 900;
-  }
-
-  .sariva-status-loop span {
-    font-size: 0.78rem;
-    line-height: 1.5;
-  }
+  .svg-pill { fill: #c7d2fe; font: 800 13px var(--font-sans); }
+  .svg-title { fill: #ffffff; font: 900 23px var(--font-display); }
+  .svg-heading { fill: #ffffff; font: 900 34px var(--font-display); }
+  .svg-card-title { fill: #ffffff; font: 900 18px var(--font-display); }
+  .svg-subtitle, .svg-subtitle-cyan, .svg-subtitle-purple, .svg-subtitle-teal { font: 900 18px var(--font-display); }
+  .svg-subtitle { fill: #ffffff; }
+  .svg-subtitle-cyan { fill: #67e8f9; }
+  .svg-subtitle-purple { fill: #c4b5fd; }
+  .svg-subtitle-teal { fill: #5eead4; }
+  .svg-body { fill: rgba(203, 213, 225, 0.84); font: 700 15px var(--font-sans); }
+  .svg-small { fill: rgba(203, 213, 225, 0.78); font: 700 13px var(--font-sans); }
+  .svg-small-strong { fill: #e2e8f0; font: 900 12px var(--font-sans); }
+  .svg-icon-text { fill: #dbeafe; font: 900 20px var(--font-display); }
+  .svg-line-label, .svg-line-label-blue, .svg-line-label-cyan { font: 900 13px var(--font-sans); }
+  .svg-line-label { fill: rgba(226, 232, 240, 0.86); }
+  .svg-line-label-blue { fill: #93c5fd; }
+  .svg-line-label-cyan { fill: #67e8f9; }
 
   .sariva-arch-benefit {
     background: rgba(15, 30, 54, 0.52);
@@ -652,23 +345,27 @@
     transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
   }
 
-@media (max-width: 1180px) {
-  .sariva-diagram-map {
-    min-width: 960px;
+  .sariva-arch-benefit:hover {
+    transform: translate3d(0, -5px, 0);
+    border-color: rgba(96, 165, 250, 0.46);
+    box-shadow: 0 30px 90px rgba(59,130,246,0.16), 0 22px 70px rgba(0,0,0,0.30);
   }
 
-  .sariva-diagram-grid {
-    grid-template-columns: 150px 30px 340px 30px 230px 30px 150px;
-  }
-}
-
-@media (max-width: 640px) {
-  .sariva-deploy-rail {
-    grid-template-columns: 1fr;
+  .sariva-arch-benefit strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: white;
   }
 
-  .sariva-deploy-rail i {
-    display: none;
+  .sariva-arch-benefit p {
+    margin-top: 0.45rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: rgba(203,213,225,0.72);
   }
-}
+
+
+
+
 }

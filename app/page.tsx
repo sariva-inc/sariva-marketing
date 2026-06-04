@@ -263,82 +263,165 @@ function RotatingExamples() {
 function ArchitecturePattern() {
   return (
     <div className="sariva-architecture mt-10 rounded-[2rem] p-5 sm:p-7 lg:p-8">
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <div className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1 text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-cyan-200">
-            AWS reference pattern
-          </div>
-          <h3 className="mt-3 text-2xl font-extrabold tracking-[-0.03em] text-white sm:text-3xl">Deployment architecture</h3>
-          <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-300">
-            A compact reference view for GitOps-based Confluent Cloud deployment, Sariva workflow governance, and observability across AWS telemetry, application signals, and Kafka metadata.
-          </p>
+      <div className="mb-7">
+        <div className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1 text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-cyan-200">
+          AWS reference pattern
         </div>
-        <div className="sariva-diagram-legend">
-          <span><i className="solid" />Deployment/apply</span>
-          <span><i className="dashed" />Read/observe</span>
-        </div>
+        <h3 className="mt-3 text-2xl font-extrabold tracking-[-0.03em] text-white sm:text-3xl">
+          Deployment architecture
+        </h3>
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-300">
+          A governed reference pattern for GitOps deployment, Sariva workflow visibility, observability, alerting, and Confluent Cloud operations.
+        </p>
       </div>
 
-      <div className="sariva-diagram-scroll">
-        <div className="sariva-diagram-map">
-          <div className="sariva-deploy-rail">
-            <span>Deployment / apply path</span>
-            <strong>GitHub Actions</strong>
-            <i />
-            <strong>Terraform apply</strong>
-            <i />
-            <strong>Confluent Cloud</strong>
-          </div>
+      <div className="sariva-svg-wrap">
+        <svg className="sariva-architecture-svg" viewBox="0 0 1440 720" role="img" aria-label="Sariva AWS reference deployment architecture diagram">
+          <defs>
+            <linearGradient id="sarivaPanelFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#10213d" stopOpacity="0.96" />
+              <stop offset="100%" stopColor="#07111f" stopOpacity="0.96" />
+            </linearGradient>
+            <linearGradient id="sarivaSoftFill" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0f2746" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#07111f" stopOpacity="0.92" />
+            </linearGradient>
+            <filter id="sarivaBlueGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#3b82f6" floodOpacity="0.45" />
+            </filter>
+            <filter id="sarivaCyanGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#22d3ee" floodOpacity="0.42" />
+            </filter>
+            <filter id="sarivaPurpleGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#a855f7" floodOpacity="0.36" />
+            </filter>
+            <marker id="sarivaArrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#60a5fa" />
+            </marker>
+            <marker id="sarivaArrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#22d3ee" />
+            </marker>
+            <marker id="sarivaArrowWhite" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#cbd5e1" />
+            </marker>
+            <pattern id="sarivaArchGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#94a3b8" strokeOpacity="0.08" strokeWidth="1" />
+            </pattern>
+          </defs>
 
-          <div className="sariva-diagram-grid">
-            <article className="sariva-node sariva-node-github">
-              <span className="sariva-node-pill">GitOps</span>
-              <div className="sariva-node-icon">GH</div>
-              <h4>GitHub Actions</h4>
-              <p>Runs CI/CD and applies Terraform to Confluent Cloud using customer-controlled credentials.</p>
-              <div className="sariva-node-note">Deployment execution lives here.</div>
-            </article>
+          <rect x="10" y="10" width="1420" height="700" rx="34" fill="#020817" opacity="0.48" />
+          <rect x="10" y="10" width="1420" height="700" rx="34" fill="url(#sarivaArchGrid)" />
+          <rect x="10" y="10" width="1420" height="700" rx="34" fill="none" stroke="#60a5fa" strokeOpacity="0.22" />
 
-            <div className="sariva-connector solid"><span>trigger PR / pipeline</span></div>
+          <rect x="55" y="188" width="190" height="300" rx="24" fill="url(#sarivaPanelFill)" stroke="#60a5fa" strokeOpacity="0.35" />
+          <rect x="92" y="215" width="72" height="28" rx="14" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.45" />
+          <text x="128" y="234" textAnchor="middle" className="svg-pill">GitOps</text>
+          <rect x="111" y="271" width="76" height="76" rx="22" fill="#1e3a8a" fillOpacity="0.28" stroke="#60a5fa" strokeOpacity="0.5" />
+          <text x="149" y="318" textAnchor="middle" className="svg-icon-text">GH</text>
+          <text x="150" y="392" textAnchor="middle" className="svg-title">GitHub Actions</text>
+          <text x="150" y="425" textAnchor="middle" className="svg-body">CI/CD and GitOps</text>
+          <text x="150" y="448" textAnchor="middle" className="svg-body">trigger</text>
 
-            <article className="sariva-node sariva-node-platform">
-              <span className="sariva-node-pill">Self-hosted · Amazon EKS</span>
-              <h4>Sariva platform</h4>
-              <p className="sariva-node-lead">Coordinates GitOps, watches GitHub workflow status, and provides operational insight from customer-owned runtime.</p>
-              <div className="sariva-platform-modules">
-                <div className="sariva-module cyan"><strong>Deployment agent</strong><span>Generates IaC, opens PRs, and coordinates GitOps changes.</span></div>
-                <div className="sariva-module purple"><strong>GitHub workflow watcher</strong><span>Watches PRs, workflow runs, apply status, and deployment completion.</span></div>
-                <div className="sariva-module teal"><strong>Observability agent</strong><span>Queries telemetry, CloudWatch signals, and Kafka metadata for operational questions.</span></div>
-                <div className="sariva-module slate"><strong>Interfaces</strong><span>API · Slack · UI</span></div>
-              </div>
-            </article>
+          <rect x="340" y="125" width="420" height="420" rx="26" fill="url(#sarivaPanelFill)" stroke="#60a5fa" strokeOpacity="0.38" />
+          <rect x="370" y="152" width="158" height="30" rx="15" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.45" />
+          <text x="449" y="173" textAnchor="middle" className="svg-pill">Self-hosted · Amazon EKS</text>
+          <text x="370" y="222" className="svg-heading">Sariva platform</text>
+          <text x="370" y="258" className="svg-body">Coordinates GitOps, watches workflow status, and</text>
+          <text x="370" y="281" className="svg-body">answers operational questions inside the customer runtime.</text>
 
-            <div className="sariva-connector dashed"><span>read / observe</span></div>
+          <rect x="370" y="322" width="175" height="92" rx="18" fill="#021827" stroke="#22d3ee" strokeOpacity="0.55" />
+          <text x="390" y="352" className="svg-subtitle-cyan">Deployment agent</text>
+          <text x="390" y="382" className="svg-small">Generates IaC, opens PRs,</text>
+          <text x="390" y="402" className="svg-small">coordinates GitOps changes.</text>
 
-            <div className="sariva-side-stack">
-              <article className="sariva-node mini green"><span>Remote state</span><h5>Amazon S3 state</h5><p>Terraform remote state storage.</p></article>
-              <article className="sariva-node mini purple"><span>State locking</span><h5>Amazon DynamoDB lock</h5><p>State locking and coordination.</p></article>
-              <article className="sariva-node mini cyan"><span>Application telemetry</span><h5>Applications / services</h5><p>App health, logs, and performance signals.</p></article>
-              <article className="sariva-node mini pink"><span>AWS telemetry</span><h5>Amazon CloudWatch</h5><p>Logs, metrics, traces, alarms, and dashboards.</p></article>
-              <article className="sariva-node mini violet"><span>Incident response</span><h5>Alert engine</h5><p>Routes notifications to Slack and PagerDuty.</p></article>
-            </div>
+          <rect x="560" y="322" width="175" height="92" rx="18" fill="#110f28" stroke="#a855f7" strokeOpacity="0.55" />
+          <text x="580" y="352" className="svg-subtitle-purple">GitHub workflow watcher</text>
+          <text x="580" y="382" className="svg-small">Watches PRs, workflow runs,</text>
+          <text x="580" y="402" className="svg-small">apply status and completion.</text>
 
-            <div className="sariva-connector dashed"><span>cloud metrics · topics · groups</span></div>
+          <rect x="370" y="432" width="175" height="92" rx="18" fill="#021827" stroke="#2dd4bf" strokeOpacity="0.55" />
+          <text x="390" y="462" className="svg-subtitle-teal">Observability agent</text>
+          <text x="390" y="492" className="svg-small">Queries telemetry, logs,</text>
+          <text x="390" y="512" className="svg-small">metrics, and Kafka metadata.</text>
 
-            <article className="sariva-node sariva-node-confluent">
-              <span className="sariva-node-pill purple">Managed streaming</span>
-              <div className="sariva-node-icon cyan">CC</div>
-              <h4>Confluent Cloud</h4>
-              <p>Streaming platform as a service.</p>
-              <div className="sariva-node-note cyan">Sariva reads metrics, topics, consumer groups, and Kafka metadata.</div>
-            </article>
-          </div>
+          <rect x="560" y="432" width="175" height="92" rx="18" fill="#0b1220" stroke="#94a3b8" strokeOpacity="0.28" />
+          <text x="580" y="462" className="svg-subtitle">Interfaces</text>
+          <text x="580" y="492" className="svg-small">API · Slack · UI</text>
 
-          <div className="sariva-status-loop">
-            <strong>Workflow status loop</strong>
-            <span>Sariva watches GitHub PR status, workflow runs, apply completion, and deployment status without owning the Terraform execution path.</span>
-          </div>
-        </div>
+          <rect x="840" y="112" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#34d399" strokeOpacity="0.48" />
+          <rect x="862" y="132" width="104" height="24" rx="12" fill="#064e3b" fillOpacity="0.34" stroke="#34d399" strokeOpacity="0.35" />
+          <text x="914" y="149" textAnchor="middle" className="svg-pill">Remote state</text>
+          <text x="862" y="178" className="svg-card-title">Amazon S3 state</text>
+          <text x="862" y="196" className="svg-small">Terraform remote state storage</text>
+
+          <rect x="840" y="222" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#a855f7" strokeOpacity="0.45" />
+          <rect x="862" y="242" width="104" height="24" rx="12" fill="#581c87" fillOpacity="0.28" stroke="#a855f7" strokeOpacity="0.35" />
+          <text x="914" y="259" textAnchor="middle" className="svg-pill">State locking</text>
+          <text x="862" y="288" className="svg-card-title">DynamoDB lock</text>
+          <text x="862" y="306" className="svg-small">State locking and coordination</text>
+
+          <rect x="840" y="338" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#22d3ee" strokeOpacity="0.48" />
+          <rect x="862" y="358" width="124" height="24" rx="12" fill="#155e75" fillOpacity="0.28" stroke="#22d3ee" strokeOpacity="0.35" />
+          <text x="924" y="375" textAnchor="middle" className="svg-pill">App telemetry</text>
+          <text x="862" y="404" className="svg-card-title">Applications / services</text>
+          <text x="862" y="422" className="svg-small">Health, logs, performance signals</text>
+
+          <rect x="840" y="448" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#f472b6" strokeOpacity="0.48" />
+          <rect x="862" y="468" width="112" height="24" rx="12" fill="#831843" fillOpacity="0.28" stroke="#f472b6" strokeOpacity="0.35" />
+          <text x="918" y="485" textAnchor="middle" className="svg-pill">AWS telemetry</text>
+          <text x="862" y="514" className="svg-card-title">Amazon CloudWatch</text>
+          <text x="862" y="532" className="svg-small">Metrics, traces, alarms, dashboards</text>
+
+          <rect x="840" y="562" width="245" height="98" rx="20" fill="#160f2b" stroke="#a855f7" strokeOpacity="0.5" />
+          <text x="862" y="596" className="svg-card-title">Alert engine</text>
+          <text x="862" y="620" className="svg-small">Detects anomalies and policy violations</text>
+          <rect x="862" y="632" width="72" height="22" rx="11" fill="#0f172a" stroke="#94a3b8" strokeOpacity="0.28" />
+          <text x="898" y="648" textAnchor="middle" className="svg-small-strong">Slack</text>
+          <rect x="944" y="632" width="90" height="22" rx="11" fill="#0f172a" stroke="#94a3b8" strokeOpacity="0.28" />
+          <text x="989" y="648" textAnchor="middle" className="svg-small-strong">PagerDuty</text>
+
+          <rect x="1208" y="250" width="180" height="240" rx="28" fill="url(#sarivaPanelFill)" stroke="#a855f7" strokeOpacity="0.55" filter="url(#sarivaPurpleGlow)" />
+          <rect x="1235" y="276" width="122" height="32" rx="16" fill="#581c87" fillOpacity="0.34" stroke="#a855f7" strokeOpacity="0.42" />
+          <text x="1296" y="298" textAnchor="middle" className="svg-pill">Managed streaming</text>
+          <circle cx="1298" cy="356" r="34" fill="#083344" stroke="#22d3ee" strokeOpacity="0.72" filter="url(#sarivaCyanGlow)" />
+          <text x="1298" y="365" textAnchor="middle" className="svg-icon-text">CC</text>
+          <text x="1298" y="426" textAnchor="middle" className="svg-title">Confluent Cloud</text>
+          <text x="1298" y="458" textAnchor="middle" className="svg-body">Streaming platform</text>
+          <text x="1298" y="481" textAnchor="middle" className="svg-body">as a service</text>
+
+          <path d="M 245 318 C 278 318, 300 318, 330 318" stroke="#cbd5e1" strokeWidth="2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="260" y="303" className="svg-line-label">trigger PR / pipeline</text>
+
+          <path d="M 245 520 C 260 612, 340 626, 430 548" stroke="#c4b5fd" strokeWidth="2" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="265" y="590" className="svg-line-label">workflow status</text>
+
+          <path d="M 174 188 C 220 64, 1170 64, 1236 250" stroke="#60a5fa" strokeWidth="3" fill="none" markerEnd="url(#sarivaArrowBlue)" filter="url(#sarivaBlueGlow)" />
+          <text x="310" y="82" className="svg-line-label-blue">Deployment / apply path · GitHub Actions → Terraform apply → Confluent Cloud</text>
+
+          <path d="M 760 168 C 790 168, 805 160, 832 156" stroke="#cbd5e1" strokeWidth="2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="770" y="148" className="svg-line-label">store state</text>
+
+          <path d="M 760 244 C 792 244, 806 253, 832 264" stroke="#cbd5e1" strokeWidth="2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="770" y="238" className="svg-line-label">acquire lock</text>
+
+          <path d="M 760 380 C 790 380, 810 380, 832 380" stroke="#22d3ee" strokeWidth="2.5" fill="none" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="770" y="365" className="svg-line-label-cyan">query app telemetry</text>
+
+          <path d="M 760 492 C 790 492, 810 492, 832 492" stroke="#22d3ee" strokeWidth="2.5" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="770" y="477" className="svg-line-label-cyan">collect metrics and logs</text>
+
+          <path d="M 1085 382 C 1148 382, 1148 382, 1200 382" stroke="#22d3ee" strokeWidth="2.5" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="1110" y="360" className="svg-line-label-cyan">read cloud metrics, topics,</text>
+          <text x="1110" y="378" className="svg-line-label-cyan">consumer groups, Kafka metadata</text>
+
+          <path d="M 1085 606 C 1132 606, 1132 516, 1200 486" stroke="#c4b5fd" strokeWidth="2" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowWhite)" />
+
+          <rect x="55" y="552" width="245" height="96" rx="18" fill="#07111f" stroke="#60a5fa" strokeOpacity="0.24" />
+          <line x1="78" y1="585" x2="124" y2="585" stroke="#60a5fa" strokeWidth="3" markerEnd="url(#sarivaArrowBlue)" />
+          <text x="138" y="590" className="svg-small">Deployment / apply path</text>
+          <line x1="78" y1="620" x2="124" y2="620" stroke="#22d3ee" strokeWidth="2.5" strokeDasharray="7 7" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="138" y="625" className="svg-small">Observability / read path</text>
+        </svg>
       </div>
 
       <div className="mt-6 grid gap-3 md:grid-cols-5">
