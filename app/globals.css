@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -24,7 +24,7 @@
   --border: rgba(148, 163, 184, 0.18);
   --input: #101d33;
   --ring: #60a5fa;
-  --radius: 18px;
+  --radius: 16px;
   --sidebar: #06101f;
   --sidebar-foreground: #f8fafc;
   --sidebar-primary: #3267ff;
@@ -37,7 +37,7 @@
 
 @theme inline {
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -84,65 +84,88 @@
 
   h1, h2, h3 {
     font-family: var(--font-display);
-    letter-spacing: -0.045em;
+    letter-spacing: -0.025em;
   }
 }
 
 @layer utilities {
   .sariva-shell {
     background:
-      radial-gradient(circle at 16% 8%, rgba(50, 103, 255, 0.26), transparent 30rem),
-      radial-gradient(circle at 84% 14%, rgba(34, 211, 238, 0.16), transparent 28rem),
+      radial-gradient(circle at 16% 8%, rgba(50, 103, 255, 0.22), transparent 28rem),
+      radial-gradient(circle at 84% 14%, rgba(34, 211, 238, 0.14), transparent 28rem),
       linear-gradient(180deg, #071427 0%, #06101f 48%, #081222 100%);
   }
 
   .sariva-container {
-    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10;
   }
 
-  .sariva-card {
-    background: linear-gradient(180deg, rgba(15, 30, 54, 0.86), rgba(8, 18, 34, 0.88));
+  .sariva-section-panel {
+    background: linear-gradient(180deg, rgba(8, 20, 38, 0.86), rgba(8, 18, 34, 0.76));
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 26px 80px rgba(0, 0, 0, 0.18);
+  }
+
+  .sariva-card,
+  .sariva-flash-card {
+    background: linear-gradient(180deg, rgba(15, 30, 54, 0.88), rgba(8, 18, 34, 0.90));
     border: 1px solid rgba(148, 163, 184, 0.18);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
     transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    transform: translate3d(0, 0, 0);
     will-change: transform;
+  }
+
+  .sariva-flash-card {
+    background:
+      radial-gradient(circle at top right, rgba(34, 211, 238, 0.12), transparent 15rem),
+      linear-gradient(180deg, rgba(16, 32, 58, 0.92), rgba(8, 18, 34, 0.92));
   }
 
   .sariva-card-soft {
-    background: rgba(15, 30, 54, 0.56);
+    background: rgba(15, 30, 54, 0.54);
     border: 1px solid rgba(148, 163, 184, 0.14);
     transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    transform: translate3d(0, 0, 0);
     will-change: transform;
   }
 
+  .sariva-card:hover,
+  .sariva-flash-card:hover {
+    transform: translate3d(0, -6px, 0);
+    border-color: rgba(96, 165, 250, 0.44);
+    box-shadow: 0 30px 85px rgba(50, 103, 255, 0.18), 0 24px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  .sariva-card-soft:hover {
+    transform: translate3d(0, -4px, 0);
+    border-color: rgba(34, 211, 238, 0.34);
+    box-shadow: 0 22px 64px rgba(34, 211, 238, 0.10);
+  }
+
+  .sariva-flash-card:hover .sariva-card-arrow {
+    transform: translateX(4px);
+  }
+
+  .sariva-card-arrow {
+    display: inline-block;
+    transition: transform 220ms ease;
+  }
+
   .sariva-glow {
-    box-shadow: 0 20px 70px rgba(50, 103, 255, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 60px rgba(50, 103, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
 
   .sariva-grid-bg {
     background-image:
-      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+      linear-gradient(rgba(148, 163, 184, 0.052) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.052) 1px, transparent 1px);
     background-size: 44px 44px;
     mask-image: linear-gradient(to bottom, black, transparent 76%);
   }
 
   .font-display {
     font-family: var(--font-display);
-  }
-}
-
-@media (hover: hover) {
-  .sariva-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(96, 165, 250, 0.38);
-    box-shadow: 0 32px 95px rgba(50, 103, 255, 0.18), 0 22px 70px rgba(0, 0, 0, 0.28);
-  }
-
-  .sariva-card-soft:hover {
-    transform: translateY(-3px);
-    border-color: rgba(34, 211, 238, 0.30);
-    box-shadow: 0 22px 64px rgba(34, 211, 238, 0.10);
   }
 }
 
@@ -155,12 +178,14 @@
   }
 
   .sariva-card,
-  .sariva-card-soft {
+  .sariva-card-soft,
+  .sariva-flash-card {
     will-change: auto;
   }
 
   .sariva-card:hover,
-  .sariva-card-soft:hover {
+  .sariva-card-soft:hover,
+  .sariva-flash-card:hover {
     transform: none;
   }
 }
