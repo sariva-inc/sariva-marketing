@@ -1,28 +1,39 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
-
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Sariva — AI operator for Kafka and Flink',
-  description: 'Sariva is an AI operator for Apache Kafka and Apache Flink. Available in Slack, CLI, and REST API. Ask questions in plain English. Get answers with context. Execute changes with an audit trail.',
-  generator: 'v0.app',
-}
+  title: "Sariva — AI operations layer for Kafka and Flink",
+  description:
+    "Sariva helps platform teams observe, diagnose, and safely operate Kafka, Flink, Confluent Cloud, and cloud-native streaming infrastructure through Slack, CLI, REST, and MCP.",
+  metadataBase: new URL("https://sariva.ai"),
+  openGraph: {
+    title: "Sariva — AI operations layer for Kafka and Flink",
+    description:
+      "Observe, diagnose, and safely operate streaming infrastructure with GitOps-first AI automation.",
+    url: "https://sariva.ai",
+    siteName: "Sariva",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sariva — AI operations layer for Kafka and Flink",
+    description:
+      "Observe, diagnose, and safely operate streaming infrastructure with GitOps-first AI automation.",
+  },
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-background">
-      <body className="font-sans antialiased bg-background">
+    <html lang="en">
+      <body className="font-sans antialiased">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
-  )
+  );
 }
