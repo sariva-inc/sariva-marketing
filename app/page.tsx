@@ -464,6 +464,104 @@ function ClientIcon({ index }: { index: number }) {
   return <div className="sariva-client-icon">{icons[index % icons.length]}</div>;
 }
 
+function IntegrationIcon({ title }: { title: string }) {
+  const normalized = title.toLowerCase();
+
+  if (normalized.includes("github")) {
+    return (
+      <div className="sariva-integration-icon github" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M9 19c-4 1.5-4-2-5-2.5M15 22v-3.4c0-1 .1-1.4-.5-2 2.8-.3 5.8-1.4 5.8-6.2A4.8 4.8 0 0019 7c.1-.4.6-1.8-.1-3.4 0 0-1.1-.3-3.5 1.3a12 12 0 00-6.4 0C6.6 3.3 5.5 3.6 5.5 3.6 4.8 5.2 5.3 6.6 5.4 7A4.8 4.8 0 004 10.4c0 4.8 3 5.9 5.8 6.2-.4.4-.6.8-.7 1.5V22" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("confluent")) {
+    return (
+      <div className="sariva-integration-icon confluent" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="7" />
+          <path d="M12 5v14M5 12h14M7.8 7.8l8.4 8.4M16.2 7.8l-8.4 8.4" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("eks")) {
+    return (
+      <div className="sariva-integration-icon aws" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3l7.5 4.3v8.6L12 20.2l-7.5-4.3V7.3L12 3z" />
+          <path d="M12 7v10M8.5 9l7 6M15.5 9l-7 6" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("cloudwatch")) {
+    return (
+      <div className="sariva-integration-icon aws" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 16h3l2-7 4 10 2-6h5" />
+          <path d="M4 5h16v14H4z" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("s3")) {
+    return (
+      <div className="sariva-integration-icon aws" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 8c0-1.7 12-1.7 12 0v8c0 1.7-12 1.7-12 0V8z" />
+          <path d="M6 8c0 1.7 12 1.7 12 0M6 12c0 1.7 12 1.7 12 0" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("dynamodb")) {
+    return (
+      <div className="sariva-integration-icon aws" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <rect x="5" y="4" width="14" height="16" rx="2" />
+          <path d="M9 8h6M9 12h6M9 16h6" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("slack")) {
+    return (
+      <div className="sariva-integration-icon slack" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M8 4v8M4 8h8M16 20v-8M12 16h8" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (normalized.includes("pagerduty")) {
+    return (
+      <div className="sariva-integration-icon pagerduty" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M7 20V4h6.5a4.8 4.8 0 010 9.6H11V20" />
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <div className="sariva-integration-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 4v16M4 12h16" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    </div>
+  );
+}
+
 function IntegrationsAndScope() {
   return (
     <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
@@ -482,8 +580,8 @@ function IntegrationsAndScope() {
         </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {integrations.map(([title, body]) => (
-            <div key={title} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.75)]" />
+            <div key={title} className="sariva-integration-card rounded-2xl p-4">
+              <IntegrationIcon title={title} />
               <div>
                 <div className="text-sm font-extrabold text-slate-100">{title}</div>
                 <p className="mt-1 text-xs leading-5 text-slate-400">{body}</p>
