@@ -290,36 +290,32 @@ function ArchitecturePattern() {
         </div>
 
         <div className="sariva-marketing-diagram rounded-[1.6rem] p-4 sm:p-5">
-          <svg className="sariva-marketing-svg" viewBox="0 0 980 560" role="img" aria-label="Sariva marketing architecture diagram">
+          <svg className="sariva-marketing-svg" viewBox="0 0 980 560" role="img" aria-label="Sariva reference architecture overview diagram">
             <defs>
               <linearGradient id="mPanel" x1="0" x2="1" y1="0" y2="1">
                 <stop offset="0%" stopColor="#112443" stopOpacity="0.98" />
                 <stop offset="100%" stopColor="#07111f" stopOpacity="0.98" />
               </linearGradient>
-              <linearGradient id="mGlow" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stopColor="#2563eb" stopOpacity="0.24" />
-                <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.10" />
-              </linearGradient>
               <filter id="mBlueGlow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#3b82f6" floodOpacity="0.40" />
+                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#3b82f6" floodOpacity="0.28" />
               </filter>
               <filter id="mCyanGlow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#22d3ee" floodOpacity="0.34" />
+                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#22d3ee" floodOpacity="0.25" />
               </filter>
               <filter id="mPurpleGlow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#a855f7" floodOpacity="0.34" />
+                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#a855f7" floodOpacity="0.25" />
               </filter>
-              <marker id="mArrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#60a5fa" />
+              <marker id="mArrowBlueSmall" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#60a5fa" />
               </marker>
-              <marker id="mArrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#22d3ee" />
+              <marker id="mArrowCyanSmall" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#22d3ee" />
               </marker>
-              <marker id="mArrowSlate" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 Z" fill="#cbd5e1" />
+              <marker id="mArrowSlateSmall" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#94a3b8" />
               </marker>
               <pattern id="mGrid" width="32" height="32" patternUnits="userSpaceOnUse">
-                <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#94a3b8" strokeOpacity="0.06" strokeWidth="1" />
+                <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#94a3b8" strokeOpacity="0.055" strokeWidth="1" />
               </pattern>
             </defs>
 
@@ -327,69 +323,69 @@ function ArchitecturePattern() {
             <rect x="8" y="8" width="964" height="544" rx="30" fill="url(#mGrid)" />
             <rect x="8" y="8" width="964" height="544" rx="30" fill="none" stroke="#60a5fa" strokeOpacity="0.20" />
 
-            <text x="490" y="58" textAnchor="middle" className="m-kicker">Marketing architecture</text>
-            <text x="490" y="88" textAnchor="middle" className="m-heading">GitOps deployment + governed streaming operations</text>
+            <text x="490" y="58" textAnchor="middle" className="m-kicker">Architecture overview</text>
+            <text x="490" y="88" textAnchor="middle" className="m-heading">GitOps deployment with governed streaming operations</text>
 
-            <rect x="58" y="190" width="178" height="178" rx="26" fill="url(#mPanel)" stroke="#60a5fa" strokeOpacity="0.42" />
-            <rect x="93" y="218" width="80" height="28" rx="14" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.38" />
-            <text x="133" y="237" textAnchor="middle" className="m-pill">GitOps</text>
-            <circle cx="147" cy="285" r="32" fill="#1e3a8a" fillOpacity="0.25" stroke="#60a5fa" strokeOpacity="0.55" />
-            <text x="147" y="294" textAnchor="middle" className="m-icon">GH</text>
-            <text x="147" y="340" textAnchor="middle" className="m-title">GitHub Actions</text>
-            <text x="147" y="362" textAnchor="middle" className="m-small">Terraform apply</text>
+            <rect x="70" y="206" width="170" height="156" rx="24" fill="url(#mPanel)" stroke="#60a5fa" strokeOpacity="0.42" />
+            <rect x="102" y="228" width="76" height="26" rx="13" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.38" />
+            <text x="140" y="246" textAnchor="middle" className="m-pill">GitOps</text>
+            <circle cx="155" cy="288" r="29" fill="#1e3a8a" fillOpacity="0.25" stroke="#60a5fa" strokeOpacity="0.50" />
+            <text x="155" y="298" textAnchor="middle" className="m-icon">GH</text>
+            <text x="155" y="338" textAnchor="middle" className="m-title">GitHub Actions</text>
+            <text x="155" y="358" textAnchor="middle" className="m-small">Terraform apply</text>
 
-            <rect x="354" y="148" width="272" height="264" rx="30" fill="url(#mPanel)" stroke="#22d3ee" strokeOpacity="0.40" filter="url(#mCyanGlow)" />
-            <rect x="386" y="176" width="122" height="28" rx="14" fill="#155e75" fillOpacity="0.22" stroke="#22d3ee" strokeOpacity="0.35" />
-            <text x="447" y="195" textAnchor="middle" className="m-pill">Customer VPC</text>
-            <text x="490" y="246" textAnchor="middle" className="m-title-large">Sariva</text>
-            <text x="490" y="274" textAnchor="middle" className="m-body">AI operations layer</text>
+            <rect x="365" y="168" width="250" height="224" rx="28" fill="url(#mPanel)" stroke="#22d3ee" strokeOpacity="0.44" filter="url(#mCyanGlow)" />
+            <rect x="420" y="194" width="118" height="26" rx="13" fill="#155e75" fillOpacity="0.20" stroke="#22d3ee" strokeOpacity="0.34" />
+            <text x="479" y="212" textAnchor="middle" className="m-pill">Customer VPC</text>
+            <text x="490" y="270" textAnchor="middle" className="m-title-large">Sariva</text>
+            <text x="490" y="298" textAnchor="middle" className="m-body">AI operations layer</text>
 
-            <rect x="382" y="306" width="96" height="58" rx="16" fill="#021827" stroke="#22d3ee" strokeOpacity="0.42" />
-            <text x="430" y="331" textAnchor="middle" className="m-small-strong">Observe</text>
-            <text x="430" y="351" textAnchor="middle" className="m-micro">metrics + logs</text>
+            <rect x="393" y="330" width="92" height="48" rx="14" fill="#021827" stroke="#22d3ee" strokeOpacity="0.40" />
+            <text x="439" y="352" textAnchor="middle" className="m-small-strong">Observe</text>
+            <text x="439" y="370" textAnchor="middle" className="m-micro">signals</text>
 
-            <rect x="502" y="306" width="96" height="58" rx="16" fill="#110f28" stroke="#a855f7" strokeOpacity="0.42" />
-            <text x="550" y="331" textAnchor="middle" className="m-small-strong">Govern</text>
-            <text x="550" y="351" textAnchor="middle" className="m-micro">PRs + audit</text>
+            <rect x="497" y="330" width="92" height="48" rx="14" fill="#110f28" stroke="#a855f7" strokeOpacity="0.40" />
+            <text x="543" y="352" textAnchor="middle" className="m-small-strong">Govern</text>
+            <text x="543" y="370" textAnchor="middle" className="m-micro">PRs + audit</text>
 
-            <rect x="744" y="190" width="178" height="178" rx="26" fill="url(#mPanel)" stroke="#a855f7" strokeOpacity="0.52" filter="url(#mPurpleGlow)" />
-            <rect x="775" y="218" width="116" height="28" rx="14" fill="#581c87" fillOpacity="0.25" stroke="#a855f7" strokeOpacity="0.38" />
-            <text x="833" y="237" textAnchor="middle" className="m-pill">Managed streaming</text>
-            <circle cx="833" cy="285" r="34" fill="#083344" stroke="#22d3ee" strokeOpacity="0.62" filter="url(#mCyanGlow)" />
-            <text x="833" y="295" textAnchor="middle" className="m-icon">CC</text>
-            <text x="833" y="340" textAnchor="middle" className="m-title">Confluent Cloud</text>
-            <text x="833" y="362" textAnchor="middle" className="m-small">Kafka metadata + metrics</text>
+            <rect x="742" y="206" width="170" height="156" rx="24" fill="url(#mPanel)" stroke="#a855f7" strokeOpacity="0.50" filter="url(#mPurpleGlow)" />
+            <rect x="768" y="228" width="118" height="26" rx="13" fill="#581c87" fillOpacity="0.22" stroke="#a855f7" strokeOpacity="0.35" />
+            <text x="827" y="246" textAnchor="middle" className="m-pill">Managed streaming</text>
+            <circle cx="827" cy="288" r="31" fill="#083344" stroke="#22d3ee" strokeOpacity="0.58" filter="url(#mCyanGlow)" />
+            <text x="827" y="298" textAnchor="middle" className="m-icon">CC</text>
+            <text x="827" y="338" textAnchor="middle" className="m-title">Confluent Cloud</text>
+            <text x="827" y="358" textAnchor="middle" className="m-small">Kafka metrics + metadata</text>
 
-            <rect x="318" y="444" width="118" height="54" rx="16" fill="url(#mPanel)" stroke="#34d399" strokeOpacity="0.38" />
-            <text x="377" y="467" textAnchor="middle" className="m-small-strong">Apps</text>
-            <text x="377" y="486" textAnchor="middle" className="m-micro">telemetry</text>
+            <rect x="326" y="444" width="108" height="46" rx="14" fill="url(#mPanel)" stroke="#34d399" strokeOpacity="0.34" />
+            <text x="380" y="464" textAnchor="middle" className="m-small-strong">Apps</text>
+            <text x="380" y="481" textAnchor="middle" className="m-micro">telemetry</text>
 
-            <rect x="454" y="444" width="118" height="54" rx="16" fill="url(#mPanel)" stroke="#f472b6" strokeOpacity="0.38" />
-            <text x="513" y="467" textAnchor="middle" className="m-small-strong">CloudWatch</text>
-            <text x="513" y="486" textAnchor="middle" className="m-micro">logs + alarms</text>
+            <rect x="462" y="444" width="108" height="46" rx="14" fill="url(#mPanel)" stroke="#f472b6" strokeOpacity="0.34" />
+            <text x="516" y="464" textAnchor="middle" className="m-small-strong">CloudWatch</text>
+            <text x="516" y="481" textAnchor="middle" className="m-micro">logs + alarms</text>
 
-            <rect x="590" y="444" width="118" height="54" rx="16" fill="url(#mPanel)" stroke="#a855f7" strokeOpacity="0.38" />
-            <text x="649" y="467" textAnchor="middle" className="m-small-strong">Slack + PagerDuty</text>
-            <text x="649" y="486" textAnchor="middle" className="m-micro">alerts</text>
+            <rect x="598" y="444" width="122" height="46" rx="14" fill="url(#mPanel)" stroke="#a855f7" strokeOpacity="0.34" />
+            <text x="659" y="464" textAnchor="middle" className="m-small-strong">Slack + PagerDuty</text>
+            <text x="659" y="481" textAnchor="middle" className="m-micro">incident routing</text>
 
-            <path d="M 236 280 C 310 170, 675 168, 744 280" stroke="#60a5fa" strokeWidth="3" fill="none" markerEnd="url(#mArrowBlue)" filter="url(#mBlueGlow)" />
-            <text x="490" y="158" textAnchor="middle" className="m-line-blue">deploy / apply infrastructure</text>
+            <path d="M 240 245 C 330 130, 660 130, 742 245" className="m-line-deploy" markerEnd="url(#mArrowBlueSmall)" />
+            <text x="490" y="144" textAnchor="middle" className="m-line-blue">deploy / apply</text>
 
-            <path d="M 354 280 C 306 280, 276 280, 244 280" stroke="#cbd5e1" strokeWidth="2" fill="none" strokeDasharray="7 7" markerEnd="url(#mArrowSlate)" />
-            <text x="300" y="258" textAnchor="middle" className="m-line">watch workflow status</text>
+            <path d="M 365 278 C 322 278, 286 278, 246 278" className="m-line-status" markerEnd="url(#mArrowSlateSmall)" />
+            <text x="304" y="258" textAnchor="middle" className="m-line">workflow status</text>
 
-            <path d="M 626 280 C 676 280, 706 280, 736 280" stroke="#22d3ee" strokeWidth="2.6" fill="none" strokeDasharray="8 8" markerEnd="url(#mArrowCyan)" />
-            <text x="681" y="258" textAnchor="middle" className="m-line-cyan">read metrics + metadata</text>
+            <path d="M 615 278 C 660 278, 700 278, 736 278" className="m-line-read" markerEnd="url(#mArrowCyanSmall)" />
+            <text x="676" y="258" textAnchor="middle" className="m-line-cyan">read metrics</text>
 
-            <path d="M 430 412 L 385 440" stroke="#22d3ee" strokeWidth="2" fill="none" markerEnd="url(#mArrowCyan)" />
-            <path d="M 490 412 L 510 440" stroke="#22d3ee" strokeWidth="2" fill="none" markerEnd="url(#mArrowCyan)" />
-            <path d="M 550 412 L 640 440" stroke="#a855f7" strokeWidth="2" fill="none" markerEnd="url(#mArrowSlate)" />
+            <path d="M 438 392 L 386 440" className="m-line-support" markerEnd="url(#mArrowCyanSmall)" />
+            <path d="M 490 392 L 516 440" className="m-line-support" markerEnd="url(#mArrowCyanSmall)" />
+            <path d="M 544 392 L 648 440" className="m-line-alert" markerEnd="url(#mArrowSlateSmall)" />
 
-            <rect x="58" y="434" width="198" height="74" rx="18" fill="#07111f" stroke="#60a5fa" strokeOpacity="0.20" />
-            <line x1="82" y1="460" x2="128" y2="460" stroke="#60a5fa" strokeWidth="3" markerEnd="url(#mArrowBlue)" />
-            <text x="142" y="465" className="m-micro">Deployment path</text>
-            <line x1="82" y1="488" x2="128" y2="488" stroke="#22d3ee" strokeWidth="2.5" strokeDasharray="7 7" markerEnd="url(#mArrowCyan)" />
-            <text x="142" y="493" className="m-micro">Observability path</text>
+            <rect x="70" y="430" width="190" height="74" rx="18" fill="#07111f" stroke="#60a5fa" strokeOpacity="0.20" />
+            <line x1="92" y1="456" x2="132" y2="456" className="m-line-deploy" markerEnd="url(#mArrowBlueSmall)" />
+            <text x="145" y="461" className="m-micro">Deployment path</text>
+            <line x1="92" y1="484" x2="132" y2="484" className="m-line-read" markerEnd="url(#mArrowCyanSmall)" />
+            <text x="145" y="489" className="m-micro">Read path</text>
           </svg>
         </div>
       </div>

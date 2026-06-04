@@ -363,6 +363,47 @@
   .m-micro { fill: rgba(203, 213, 225, 0.76); font: 800 11px var(--font-sans); }
   .m-icon { fill: #dbeafe; font: 900 18px var(--font-display); }
   .m-line, .m-line-blue, .m-line-cyan { font: 900 12px var(--font-sans); }
+  .m-line-deploy {
+    fill: none;
+    stroke: #60a5fa;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 3 7;
+    filter: url(#mBlueGlow);
+  }
+
+  .m-line-read {
+    fill: none;
+    stroke: #22d3ee;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 3 7;
+  }
+
+  .m-line-status {
+    fill: none;
+    stroke: rgba(148, 163, 184, 0.78);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-dasharray: 3 7;
+  }
+
+  .m-line-support {
+    fill: none;
+    stroke: rgba(34, 211, 238, 0.72);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-dasharray: 3 7;
+  }
+
+  .m-line-alert {
+    fill: none;
+    stroke: rgba(196, 181, 253, 0.70);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-dasharray: 3 7;
+  }
+
   .m-line { fill: rgba(226, 232, 240, 0.86); }
   .m-line-blue { fill: #93c5fd; }
   .m-line-cyan { fill: #67e8f9; }
