@@ -318,11 +318,14 @@
     display: block;
     width: 100%;
     height: auto;
-    min-height: 420px;
+    min-height: 560px;
   }
 
+  .svg-top-title { fill: #bfdbfe; font: 900 17px var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+  .svg-top-subtitle { fill: rgba(203, 213, 225, 0.76); font: 700 15px var(--font-sans); }
+
   .svg-pill { fill: #c7d2fe; font: 800 13px var(--font-sans); }
-  .svg-title { fill: #ffffff; font: 900 23px var(--font-display); }
+  .svg-title { fill: #ffffff; font: 900 20px var(--font-display); }
   .svg-heading { fill: #ffffff; font: 900 34px var(--font-display); }
   .svg-card-title { fill: #ffffff; font: 900 18px var(--font-display); }
   .svg-subtitle, .svg-subtitle-cyan, .svg-subtitle-purple, .svg-subtitle-teal { font: 900 18px var(--font-display); }
@@ -330,11 +333,11 @@
   .svg-subtitle-cyan { fill: #67e8f9; }
   .svg-subtitle-purple { fill: #c4b5fd; }
   .svg-subtitle-teal { fill: #5eead4; }
-  .svg-body { fill: rgba(203, 213, 225, 0.84); font: 700 15px var(--font-sans); }
+  .svg-body { fill: rgba(203, 213, 225, 0.84); font: 700 14px var(--font-sans); }
   .svg-small { fill: rgba(203, 213, 225, 0.78); font: 700 13px var(--font-sans); }
   .svg-small-strong { fill: #e2e8f0; font: 900 12px var(--font-sans); }
   .svg-icon-text { fill: #dbeafe; font: 900 20px var(--font-display); }
-  .svg-line-label, .svg-line-label-blue, .svg-line-label-cyan { font: 900 13px var(--font-sans); }
+  .svg-line-label, .svg-line-label-blue, .svg-line-label-cyan { font: 900 12px var(--font-sans); }
   .svg-line-label { fill: rgba(226, 232, 240, 0.86); }
   .svg-line-label-blue { fill: #93c5fd; }
   .svg-line-label-cyan { fill: #67e8f9; }

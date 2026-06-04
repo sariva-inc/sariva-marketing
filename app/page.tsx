@@ -276,151 +276,149 @@ function ArchitecturePattern() {
       </div>
 
       <div className="sariva-svg-wrap">
-        <svg className="sariva-architecture-svg" viewBox="0 0 1440 720" role="img" aria-label="Sariva AWS reference deployment architecture diagram">
+        <svg className="sariva-architecture-svg" viewBox="0 0 2000 1080" role="img" aria-label="Sariva AWS reference deployment architecture diagram">
           <defs>
             <linearGradient id="sarivaPanelFill" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#10213d" stopOpacity="0.96" />
               <stop offset="100%" stopColor="#07111f" stopOpacity="0.96" />
             </linearGradient>
             <linearGradient id="sarivaSoftFill" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#0f2746" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#07111f" stopOpacity="0.92" />
+              <stop offset="0%" stopColor="#0f2746" stopOpacity="0.92" />
+              <stop offset="100%" stopColor="#07111f" stopOpacity="0.94" />
             </linearGradient>
             <filter id="sarivaBlueGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#3b82f6" floodOpacity="0.45" />
+              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#3b82f6" floodOpacity="0.42" />
             </filter>
             <filter id="sarivaCyanGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#22d3ee" floodOpacity="0.42" />
+              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#22d3ee" floodOpacity="0.40" />
             </filter>
             <filter id="sarivaPurpleGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#a855f7" floodOpacity="0.36" />
+              <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#a855f7" floodOpacity="0.34" />
             </filter>
-            <marker id="sarivaArrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#60a5fa" />
+            <marker id="sarivaArrowBlue" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto">
+              <path d="M0,0 L11,5.5 L0,11 Z" fill="#60a5fa" />
             </marker>
-            <marker id="sarivaArrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#22d3ee" />
+            <marker id="sarivaArrowCyan" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto">
+              <path d="M0,0 L11,5.5 L0,11 Z" fill="#22d3ee" />
             </marker>
-            <marker id="sarivaArrowWhite" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-              <path d="M0,0 L10,5 L0,10 Z" fill="#cbd5e1" />
+            <marker id="sarivaArrowWhite" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto">
+              <path d="M0,0 L11,5.5 L0,11 Z" fill="#cbd5e1" />
             </marker>
-            <pattern id="sarivaArchGrid" width="36" height="36" patternUnits="userSpaceOnUse">
-              <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#94a3b8" strokeOpacity="0.08" strokeWidth="1" />
+            <pattern id="sarivaArchGrid" width="42" height="42" patternUnits="userSpaceOnUse">
+              <path d="M 42 0 L 0 0 0 42" fill="none" stroke="#94a3b8" strokeOpacity="0.07" strokeWidth="1" />
             </pattern>
           </defs>
 
-          <rect x="10" y="10" width="1420" height="700" rx="34" fill="#020817" opacity="0.48" />
-          <rect x="10" y="10" width="1420" height="700" rx="34" fill="url(#sarivaArchGrid)" />
-          <rect x="10" y="10" width="1420" height="700" rx="34" fill="none" stroke="#60a5fa" strokeOpacity="0.22" />
+          <rect x="12" y="12" width="1976" height="1056" rx="38" fill="#020817" opacity="0.5" />
+          <rect x="12" y="12" width="1976" height="1056" rx="38" fill="url(#sarivaArchGrid)" />
+          <rect x="12" y="12" width="1976" height="1056" rx="38" fill="none" stroke="#60a5fa" strokeOpacity="0.22" />
 
-          <rect x="55" y="188" width="190" height="300" rx="24" fill="url(#sarivaPanelFill)" stroke="#60a5fa" strokeOpacity="0.35" />
-          <rect x="92" y="215" width="72" height="28" rx="14" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.45" />
-          <text x="128" y="234" textAnchor="middle" className="svg-pill">GitOps</text>
-          <rect x="111" y="271" width="76" height="76" rx="22" fill="#1e3a8a" fillOpacity="0.28" stroke="#60a5fa" strokeOpacity="0.5" />
-          <text x="149" y="318" textAnchor="middle" className="svg-icon-text">GH</text>
-          <text x="150" y="392" textAnchor="middle" className="svg-title">GitHub Actions</text>
-          <text x="150" y="425" textAnchor="middle" className="svg-body">CI/CD and GitOps</text>
-          <text x="150" y="448" textAnchor="middle" className="svg-body">trigger</text>
+          <rect x="70" y="330" width="235" height="310" rx="28" fill="url(#sarivaPanelFill)" stroke="#60a5fa" strokeOpacity="0.38" />
+          <rect x="112" y="360" width="86" height="32" rx="16" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.45" />
+          <text x="155" y="381" textAnchor="middle" className="svg-pill">GitOps</text>
+          <rect x="132" y="424" width="86" height="86" rx="24" fill="#1e3a8a" fillOpacity="0.28" stroke="#60a5fa" strokeOpacity="0.5" />
+          <text x="175" y="477" textAnchor="middle" className="svg-icon-text">GH</text>
+          <text x="188" y="560" textAnchor="middle" className="svg-title">GitHub Actions</text>
+          <text x="188" y="595" textAnchor="middle" className="svg-body">CI/CD and GitOps trigger</text>
 
-          <rect x="340" y="125" width="420" height="420" rx="26" fill="url(#sarivaPanelFill)" stroke="#60a5fa" strokeOpacity="0.38" />
-          <rect x="370" y="152" width="158" height="30" rx="15" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.45" />
-          <text x="449" y="173" textAnchor="middle" className="svg-pill">Self-hosted · Amazon EKS</text>
-          <text x="370" y="222" className="svg-heading">Sariva platform</text>
-          <text x="370" y="258" className="svg-body">Coordinates GitOps, watches workflow status, and</text>
-          <text x="370" y="281" className="svg-body">answers operational questions inside the customer runtime.</text>
+          <rect x="425" y="220" width="560" height="470" rx="30" fill="url(#sarivaPanelFill)" stroke="#60a5fa" strokeOpacity="0.38" />
+          <rect x="462" y="250" width="190" height="34" rx="17" fill="#1d4ed8" fillOpacity="0.18" stroke="#60a5fa" strokeOpacity="0.45" />
+          <text x="557" y="273" textAnchor="middle" className="svg-pill">Self-hosted · Amazon EKS</text>
+          <text x="462" y="338" className="svg-heading">Sariva platform</text>
+          <text x="462" y="378" className="svg-body">Coordinates GitOps, watches workflow status,</text>
+          <text x="462" y="405" className="svg-body">and answers operational questions in the customer runtime.</text>
 
-          <rect x="370" y="322" width="175" height="92" rx="18" fill="#021827" stroke="#22d3ee" strokeOpacity="0.55" />
-          <text x="390" y="352" className="svg-subtitle-cyan">Deployment agent</text>
-          <text x="390" y="382" className="svg-small">Generates IaC, opens PRs,</text>
-          <text x="390" y="402" className="svg-small">coordinates GitOps changes.</text>
+          <rect x="462" y="462" width="220" height="104" rx="20" fill="#021827" stroke="#22d3ee" strokeOpacity="0.55" />
+          <text x="486" y="498" className="svg-subtitle-cyan">Deployment agent</text>
+          <text x="486" y="532" className="svg-small">Generates IaC, opens PRs,</text>
+          <text x="486" y="554" className="svg-small">coordinates GitOps changes.</text>
 
-          <rect x="560" y="322" width="175" height="92" rx="18" fill="#110f28" stroke="#a855f7" strokeOpacity="0.55" />
-          <text x="580" y="352" className="svg-subtitle-purple">GitHub workflow watcher</text>
-          <text x="580" y="382" className="svg-small">Watches PRs, workflow runs,</text>
-          <text x="580" y="402" className="svg-small">apply status and completion.</text>
+          <rect x="708" y="462" width="230" height="104" rx="20" fill="#110f28" stroke="#a855f7" strokeOpacity="0.55" />
+          <text x="732" y="498" className="svg-subtitle-purple">GitHub workflow watcher</text>
+          <text x="732" y="532" className="svg-small">Watches PRs, workflow runs,</text>
+          <text x="732" y="554" className="svg-small">apply status and completion.</text>
 
-          <rect x="370" y="432" width="175" height="92" rx="18" fill="#021827" stroke="#2dd4bf" strokeOpacity="0.55" />
-          <text x="390" y="462" className="svg-subtitle-teal">Observability agent</text>
-          <text x="390" y="492" className="svg-small">Queries telemetry, logs,</text>
-          <text x="390" y="512" className="svg-small">metrics, and Kafka metadata.</text>
+          <rect x="462" y="592" width="220" height="104" rx="20" fill="#021827" stroke="#2dd4bf" strokeOpacity="0.55" />
+          <text x="486" y="628" className="svg-subtitle-teal">Observability agent</text>
+          <text x="486" y="662" className="svg-small">Queries telemetry, logs,</text>
+          <text x="486" y="684" className="svg-small">metrics, and Kafka metadata.</text>
 
-          <rect x="560" y="432" width="175" height="92" rx="18" fill="#0b1220" stroke="#94a3b8" strokeOpacity="0.28" />
-          <text x="580" y="462" className="svg-subtitle">Interfaces</text>
-          <text x="580" y="492" className="svg-small">API · Slack · UI</text>
+          <rect x="708" y="592" width="230" height="104" rx="20" fill="#0b1220" stroke="#94a3b8" strokeOpacity="0.28" />
+          <text x="732" y="628" className="svg-subtitle">Interfaces</text>
+          <text x="732" y="662" className="svg-small">API · Slack · UI</text>
 
-          <rect x="840" y="112" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#34d399" strokeOpacity="0.48" />
-          <rect x="862" y="132" width="104" height="24" rx="12" fill="#064e3b" fillOpacity="0.34" stroke="#34d399" strokeOpacity="0.35" />
-          <text x="914" y="149" textAnchor="middle" className="svg-pill">Remote state</text>
-          <text x="862" y="178" className="svg-card-title">Amazon S3 state</text>
-          <text x="862" y="196" className="svg-small">Terraform remote state storage</text>
+          <rect x="1135" y="165" width="275" height="105" rx="22" fill="url(#sarivaSoftFill)" stroke="#34d399" strokeOpacity="0.48" />
+          <rect x="1160" y="190" width="120" height="28" rx="14" fill="#064e3b" fillOpacity="0.34" stroke="#34d399" strokeOpacity="0.35" />
+          <text x="1220" y="209" textAnchor="middle" className="svg-pill">Remote state</text>
+          <text x="1160" y="242" className="svg-card-title">Amazon S3 state</text>
+          <text x="1160" y="264" className="svg-small">Terraform remote state storage</text>
 
-          <rect x="840" y="222" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#a855f7" strokeOpacity="0.45" />
-          <rect x="862" y="242" width="104" height="24" rx="12" fill="#581c87" fillOpacity="0.28" stroke="#a855f7" strokeOpacity="0.35" />
-          <text x="914" y="259" textAnchor="middle" className="svg-pill">State locking</text>
-          <text x="862" y="288" className="svg-card-title">DynamoDB lock</text>
-          <text x="862" y="306" className="svg-small">State locking and coordination</text>
+          <rect x="1135" y="310" width="275" height="105" rx="22" fill="url(#sarivaSoftFill)" stroke="#a855f7" strokeOpacity="0.45" />
+          <rect x="1160" y="335" width="120" height="28" rx="14" fill="#581c87" fillOpacity="0.28" stroke="#a855f7" strokeOpacity="0.35" />
+          <text x="1220" y="354" textAnchor="middle" className="svg-pill">State locking</text>
+          <text x="1160" y="387" className="svg-card-title">DynamoDB lock</text>
+          <text x="1160" y="409" className="svg-small">State locking and coordination</text>
 
-          <rect x="840" y="338" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#22d3ee" strokeOpacity="0.48" />
-          <rect x="862" y="358" width="124" height="24" rx="12" fill="#155e75" fillOpacity="0.28" stroke="#22d3ee" strokeOpacity="0.35" />
-          <text x="924" y="375" textAnchor="middle" className="svg-pill">App telemetry</text>
-          <text x="862" y="404" className="svg-card-title">Applications / services</text>
-          <text x="862" y="422" className="svg-small">Health, logs, performance signals</text>
+          <rect x="1135" y="462" width="275" height="105" rx="22" fill="url(#sarivaSoftFill)" stroke="#22d3ee" strokeOpacity="0.48" />
+          <rect x="1160" y="487" width="140" height="28" rx="14" fill="#155e75" fillOpacity="0.28" stroke="#22d3ee" strokeOpacity="0.35" />
+          <text x="1230" y="506" textAnchor="middle" className="svg-pill">App telemetry</text>
+          <text x="1160" y="539" className="svg-card-title">Applications / services</text>
+          <text x="1160" y="561" className="svg-small">Health, logs, performance signals</text>
 
-          <rect x="840" y="448" width="245" height="88" rx="20" fill="url(#sarivaSoftFill)" stroke="#f472b6" strokeOpacity="0.48" />
-          <rect x="862" y="468" width="112" height="24" rx="12" fill="#831843" fillOpacity="0.28" stroke="#f472b6" strokeOpacity="0.35" />
-          <text x="918" y="485" textAnchor="middle" className="svg-pill">AWS telemetry</text>
-          <text x="862" y="514" className="svg-card-title">Amazon CloudWatch</text>
-          <text x="862" y="532" className="svg-small">Metrics, traces, alarms, dashboards</text>
+          <rect x="1135" y="610" width="275" height="105" rx="22" fill="url(#sarivaSoftFill)" stroke="#f472b6" strokeOpacity="0.48" />
+          <rect x="1160" y="635" width="126" height="28" rx="14" fill="#831843" fillOpacity="0.28" stroke="#f472b6" strokeOpacity="0.35" />
+          <text x="1223" y="654" textAnchor="middle" className="svg-pill">AWS telemetry</text>
+          <text x="1160" y="687" className="svg-card-title">Amazon CloudWatch</text>
+          <text x="1160" y="709" className="svg-small">Metrics, traces, alarms, dashboards</text>
 
-          <rect x="840" y="562" width="245" height="98" rx="20" fill="#160f2b" stroke="#a855f7" strokeOpacity="0.5" />
-          <text x="862" y="596" className="svg-card-title">Alert engine</text>
-          <text x="862" y="620" className="svg-small">Detects anomalies and policy violations</text>
-          <rect x="862" y="632" width="72" height="22" rx="11" fill="#0f172a" stroke="#94a3b8" strokeOpacity="0.28" />
-          <text x="898" y="648" textAnchor="middle" className="svg-small-strong">Slack</text>
-          <rect x="944" y="632" width="90" height="22" rx="11" fill="#0f172a" stroke="#94a3b8" strokeOpacity="0.28" />
-          <text x="989" y="648" textAnchor="middle" className="svg-small-strong">PagerDuty</text>
+          <rect x="1135" y="765" width="275" height="105" rx="22" fill="#160f2b" stroke="#a855f7" strokeOpacity="0.5" />
+          <text x="1160" y="805" className="svg-card-title">Alert engine</text>
+          <text x="1160" y="832" className="svg-small">Anomalies, policies, and incident routing</text>
+          <rect x="1160" y="845" width="82" height="24" rx="12" fill="#0f172a" stroke="#94a3b8" strokeOpacity="0.28" />
+          <text x="1201" y="862" textAnchor="middle" className="svg-small-strong">Slack</text>
+          <rect x="1254" y="845" width="104" height="24" rx="12" fill="#0f172a" stroke="#94a3b8" strokeOpacity="0.28" />
+          <text x="1306" y="862" textAnchor="middle" className="svg-small-strong">PagerDuty</text>
 
-          <rect x="1208" y="250" width="180" height="240" rx="28" fill="url(#sarivaPanelFill)" stroke="#a855f7" strokeOpacity="0.55" filter="url(#sarivaPurpleGlow)" />
-          <rect x="1235" y="276" width="122" height="32" rx="16" fill="#581c87" fillOpacity="0.34" stroke="#a855f7" strokeOpacity="0.42" />
-          <text x="1296" y="298" textAnchor="middle" className="svg-pill">Managed streaming</text>
-          <circle cx="1298" cy="356" r="34" fill="#083344" stroke="#22d3ee" strokeOpacity="0.72" filter="url(#sarivaCyanGlow)" />
-          <text x="1298" y="365" textAnchor="middle" className="svg-icon-text">CC</text>
-          <text x="1298" y="426" textAnchor="middle" className="svg-title">Confluent Cloud</text>
-          <text x="1298" y="458" textAnchor="middle" className="svg-body">Streaming platform</text>
-          <text x="1298" y="481" textAnchor="middle" className="svg-body">as a service</text>
+          <rect x="1660" y="365" width="250" height="285" rx="30" fill="url(#sarivaPanelFill)" stroke="#a855f7" strokeOpacity="0.55" filter="url(#sarivaPurpleGlow)" />
+          <rect x="1694" y="397" width="150" height="34" rx="17" fill="#581c87" fillOpacity="0.34" stroke="#a855f7" strokeOpacity="0.42" />
+          <text x="1769" y="420" textAnchor="middle" className="svg-pill">Managed streaming</text>
+          <circle cx="1785" cy="500" r="40" fill="#083344" stroke="#22d3ee" strokeOpacity="0.72" filter="url(#sarivaCyanGlow)" />
+          <text x="1785" y="511" textAnchor="middle" className="svg-icon-text">CC</text>
+          <text x="1785" y="578" textAnchor="middle" className="svg-title">Confluent Cloud</text>
+          <text x="1785" y="615" textAnchor="middle" className="svg-body">Streaming platform as a service</text>
 
-          <path d="M 245 318 C 278 318, 300 318, 330 318" stroke="#cbd5e1" strokeWidth="2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
-          <text x="260" y="303" className="svg-line-label">trigger PR / pipeline</text>
+          <path d="M 305 485 C 350 485, 370 485, 415 485" stroke="#cbd5e1" strokeWidth="2.3" fill="none" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="322" y="463" className="svg-line-label">trigger PR / pipeline</text>
 
-          <path d="M 245 520 C 260 612, 340 626, 430 548" stroke="#c4b5fd" strokeWidth="2" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowWhite)" />
-          <text x="265" y="590" className="svg-line-label">workflow status</text>
+          <path d="M 305 650 C 330 815, 500 825, 570 705" stroke="#c4b5fd" strokeWidth="2.2" fill="none" strokeDasharray="8 8" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="330" y="790" className="svg-line-label">workflow status</text>
 
-          <path d="M 174 188 C 220 64, 1170 64, 1236 250" stroke="#60a5fa" strokeWidth="3" fill="none" markerEnd="url(#sarivaArrowBlue)" filter="url(#sarivaBlueGlow)" />
-          <text x="310" y="82" className="svg-line-label-blue">Deployment / apply path · GitHub Actions → Terraform apply → Confluent Cloud</text>
+          <path d="M 188 330 C 270 95, 1500 90, 1710 365" stroke="#60a5fa" strokeWidth="3.2" fill="none" markerEnd="url(#sarivaArrowBlue)" filter="url(#sarivaBlueGlow)" />
+          <text x="390" y="132" className="svg-line-label-blue">Deployment / apply path · GitHub Actions → Terraform apply → Confluent Cloud</text>
 
-          <path d="M 760 168 C 790 168, 805 160, 832 156" stroke="#cbd5e1" strokeWidth="2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
-          <text x="770" y="148" className="svg-line-label">store state</text>
+          <path d="M 985 245 C 1045 235, 1076 220, 1125 218" stroke="#cbd5e1" strokeWidth="2.2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="1010" y="214" className="svg-line-label">store state</text>
 
-          <path d="M 760 244 C 792 244, 806 253, 832 264" stroke="#cbd5e1" strokeWidth="2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
-          <text x="770" y="238" className="svg-line-label">acquire lock</text>
+          <path d="M 985 352 C 1046 356, 1076 362, 1125 362" stroke="#cbd5e1" strokeWidth="2.2" fill="none" markerEnd="url(#sarivaArrowWhite)" />
+          <text x="1010" y="344" className="svg-line-label">acquire lock</text>
 
-          <path d="M 760 380 C 790 380, 810 380, 832 380" stroke="#22d3ee" strokeWidth="2.5" fill="none" markerEnd="url(#sarivaArrowCyan)" />
-          <text x="770" y="365" className="svg-line-label-cyan">query app telemetry</text>
+          <path d="M 985 515 C 1048 515, 1078 515, 1125 515" stroke="#22d3ee" strokeWidth="2.6" fill="none" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="1000" y="492" className="svg-line-label-cyan">query app telemetry</text>
 
-          <path d="M 760 492 C 790 492, 810 492, 832 492" stroke="#22d3ee" strokeWidth="2.5" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowCyan)" />
-          <text x="770" y="477" className="svg-line-label-cyan">collect metrics and logs</text>
+          <path d="M 985 650 C 1048 650, 1078 662, 1125 662" stroke="#22d3ee" strokeWidth="2.6" fill="none" strokeDasharray="8 8" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="1000" y="635" className="svg-line-label-cyan">collect metrics and logs</text>
 
-          <path d="M 1085 382 C 1148 382, 1148 382, 1200 382" stroke="#22d3ee" strokeWidth="2.5" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowCyan)" />
-          <text x="1110" y="360" className="svg-line-label-cyan">read cloud metrics, topics,</text>
-          <text x="1110" y="378" className="svg-line-label-cyan">consumer groups, Kafka metadata</text>
+          <path d="M 1410 515 C 1500 515, 1555 515, 1650 515" stroke="#22d3ee" strokeWidth="2.7" fill="none" strokeDasharray="8 8" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="1435" y="470" className="svg-line-label-cyan">read cloud metrics, topics,</text>
+          <text x="1435" y="492" className="svg-line-label-cyan">consumer groups, Kafka metadata</text>
 
-          <path d="M 1085 606 C 1132 606, 1132 516, 1200 486" stroke="#c4b5fd" strokeWidth="2" fill="none" strokeDasharray="7 7" markerEnd="url(#sarivaArrowWhite)" />
+          <path d="M 1410 818 C 1540 805, 1585 675, 1650 622" stroke="#c4b5fd" strokeWidth="2.2" fill="none" strokeDasharray="8 8" markerEnd="url(#sarivaArrowWhite)" />
 
-          <rect x="55" y="552" width="245" height="96" rx="18" fill="#07111f" stroke="#60a5fa" strokeOpacity="0.24" />
-          <line x1="78" y1="585" x2="124" y2="585" stroke="#60a5fa" strokeWidth="3" markerEnd="url(#sarivaArrowBlue)" />
-          <text x="138" y="590" className="svg-small">Deployment / apply path</text>
-          <line x1="78" y1="620" x2="124" y2="620" stroke="#22d3ee" strokeWidth="2.5" strokeDasharray="7 7" markerEnd="url(#sarivaArrowCyan)" />
-          <text x="138" y="625" className="svg-small">Observability / read path</text>
+          <rect x="70" y="735" width="280" height="112" rx="20" fill="#07111f" stroke="#60a5fa" strokeOpacity="0.24" />
+          <line x1="98" y1="775" x2="150" y2="775" stroke="#60a5fa" strokeWidth="3" markerEnd="url(#sarivaArrowBlue)" />
+          <text x="168" y="780" className="svg-small">Deployment / apply path</text>
+          <line x1="98" y1="818" x2="150" y2="818" stroke="#22d3ee" strokeWidth="2.6" strokeDasharray="8 8" markerEnd="url(#sarivaArrowCyan)" />
+          <text x="168" y="823" className="svg-small">Observability / read path</text>
         </svg>
       </div>
 
