@@ -299,61 +299,28 @@
 @layer utilities {
   .sariva-architecture {
     background:
-      radial-gradient(circle at 15% 12%, rgba(59, 130, 246, 0.16), transparent 18rem),
-      radial-gradient(circle at 84% 22%, rgba(34, 211, 238, 0.12), transparent 18rem),
+      radial-gradient(circle at 18% 8%, rgba(59, 130, 246, 0.18), transparent 18rem),
+      radial-gradient(circle at 84% 18%, rgba(34, 211, 238, 0.12), transparent 18rem),
       linear-gradient(180deg, rgba(6, 16, 31, 0.96), rgba(8, 19, 36, 0.92));
     border: 1px solid rgba(96, 165, 250, 0.22);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 34px 96px rgba(0,0,0,0.28);
   }
 
-  .sariva-svg-wrap {
-    overflow: hidden;
-    border-radius: 1.6rem;
-    border: 1px solid rgba(96, 165, 250, 0.2);
-    background: rgba(2, 8, 23, 0.36);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 82px rgba(0,0,0,0.24);
-  }
-
-  .sariva-architecture-svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 560px;
-  }
-
-  .svg-top-title { fill: #bfdbfe; font: 900 17px var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
-  .svg-top-subtitle { fill: rgba(203, 213, 225, 0.76); font: 700 15px var(--font-sans); }
-
-  .svg-pill { fill: #c7d2fe; font: 800 13px var(--font-sans); }
-  .svg-title { fill: #ffffff; font: 900 20px var(--font-display); }
-  .svg-heading { fill: #ffffff; font: 900 34px var(--font-display); }
-  .svg-card-title { fill: #ffffff; font: 900 18px var(--font-display); }
-  .svg-subtitle, .svg-subtitle-cyan, .svg-subtitle-purple, .svg-subtitle-teal { font: 900 18px var(--font-display); }
-  .svg-subtitle { fill: #ffffff; }
-  .svg-subtitle-cyan { fill: #67e8f9; }
-  .svg-subtitle-purple { fill: #c4b5fd; }
-  .svg-subtitle-teal { fill: #5eead4; }
-  .svg-body { fill: rgba(203, 213, 225, 0.84); font: 700 14px var(--font-sans); }
-  .svg-small { fill: rgba(203, 213, 225, 0.78); font: 700 13px var(--font-sans); }
-  .svg-small-strong { fill: #e2e8f0; font: 900 12px var(--font-sans); }
-  .svg-icon-text { fill: #dbeafe; font: 900 20px var(--font-display); }
-  .svg-line-label, .svg-line-label-blue, .svg-line-label-cyan { font: 900 12px var(--font-sans); }
-  .svg-line-label { fill: rgba(226, 232, 240, 0.86); }
-  .svg-line-label-blue { fill: #93c5fd; }
-  .svg-line-label-cyan { fill: #67e8f9; }
-
+  .sariva-marketing-point,
   .sariva-arch-benefit {
-    background: rgba(15, 30, 54, 0.52);
     border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(15, 30, 54, 0.52);
     transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
   }
 
+  .sariva-marketing-point:hover,
   .sariva-arch-benefit:hover {
     transform: translate3d(0, -5px, 0);
     border-color: rgba(96, 165, 250, 0.46);
     box-shadow: 0 30px 90px rgba(59,130,246,0.16), 0 22px 70px rgba(0,0,0,0.30);
   }
 
+  .sariva-marketing-point strong,
   .sariva-arch-benefit strong {
     display: block;
     font-size: 0.95rem;
@@ -361,14 +328,43 @@
     color: white;
   }
 
+  .sariva-marketing-point p,
   .sariva-arch-benefit p {
     margin-top: 0.45rem;
     font-size: 0.78rem;
-    line-height: 1.5;
-    color: rgba(203,213,225,0.72);
+    line-height: 1.55;
+    color: rgba(203,213,225,0.74);
   }
 
+  .sariva-marketing-diagram {
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    background:
+      radial-gradient(circle at 50% 20%, rgba(59,130,246,0.12), transparent 18rem),
+      rgba(2, 8, 23, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 82px rgba(0,0,0,0.24);
+    overflow: hidden;
+  }
 
+  .sariva-marketing-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 360px;
+  }
 
+  .m-kicker { fill: #67e8f9; font: 900 13px var(--font-sans); letter-spacing: 0.14em; text-transform: uppercase; }
+  .m-heading { fill: #f8fafc; font: 900 21px var(--font-display); }
+  .m-pill { fill: #c7d2fe; font: 900 12px var(--font-sans); }
+  .m-title { fill: #ffffff; font: 900 20px var(--font-display); }
+  .m-title-large { fill: #ffffff; font: 900 38px var(--font-display); }
+  .m-body { fill: rgba(203, 213, 225, 0.84); font: 800 15px var(--font-sans); }
+  .m-small { fill: rgba(203, 213, 225, 0.78); font: 700 12px var(--font-sans); }
+  .m-small-strong { fill: #f8fafc; font: 900 13px var(--font-sans); }
+  .m-micro { fill: rgba(203, 213, 225, 0.76); font: 800 11px var(--font-sans); }
+  .m-icon { fill: #dbeafe; font: 900 18px var(--font-display); }
+  .m-line, .m-line-blue, .m-line-cyan { font: 900 12px var(--font-sans); }
+  .m-line { fill: rgba(226, 232, 240, 0.86); }
+  .m-line-blue { fill: #93c5fd; }
+  .m-line-cyan { fill: #67e8f9; }
 
 }
