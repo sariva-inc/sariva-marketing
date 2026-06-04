@@ -407,16 +407,76 @@ function ArchitecturePattern() {
   );
 }
 
+function ClientIcon({ index }: { index: number }) {
+  const icons = [
+    (
+      <svg key="slack" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 4v7M4 7h7M17 20v-7M13 17h7" />
+      </svg>
+    ),
+    (
+      <svg key="cli" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16v10H4z" />
+        <path d="M7 10l2 2-2 2M12 15h5" />
+      </svg>
+    ),
+    (
+      <svg key="api" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 8l-4 4 4 4M16 8l4 4-4 4" />
+        <path d="M14 5l-4 14" />
+      </svg>
+    ),
+    (
+      <svg key="mcp" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 4v16M4 12h16" />
+        <circle cx="12" cy="12" r="3" />
+        <circle cx="12" cy="4" r="1.5" />
+        <circle cx="12" cy="20" r="1.5" />
+        <circle cx="4" cy="12" r="1.5" />
+        <circle cx="20" cy="12" r="1.5" />
+      </svg>
+    ),
+    (
+      <svg key="gitops" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="7" cy="7" r="3" />
+        <circle cx="17" cy="17" r="3" />
+        <path d="M10 7h3a4 4 0 014 4v3" />
+      </svg>
+    ),
+    (
+      <svg key="web" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="5" width="16" height="12" rx="2" />
+        <path d="M8 20h8M12 17v3" />
+      </svg>
+    ),
+    (
+      <svg key="obs" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 14h3l2-6 4 10 2-6h5" />
+      </svg>
+    ),
+    (
+      <svg key="cloud" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 18h10a4 4 0 00.5-7.97A6 6 0 006 9.5 4.5 4.5 0 007 18z" />
+      </svg>
+    ),
+  ];
+
+  return <div className="sariva-client-icon">{icons[index % icons.length]}</div>;
+}
+
 function IntegrationsAndScope() {
   return (
     <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
       <div className="sariva-card rounded-[1.7rem] p-6">
         <h3 className="text-xl font-extrabold text-white">Supported clients and integrations</h3>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {supportedClients.map(([title, body]) => (
-            <div key={title} className="sariva-card-soft rounded-2xl p-4">
-              <div className="font-extrabold text-white">{title}</div>
-              <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
+          {supportedClients.map(([title, body], index) => (
+            <div key={title} className="sariva-client-card rounded-2xl p-4">
+              <ClientIcon index={index} />
+              <div>
+                <div className="font-extrabold text-white">{title}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
+              </div>
             </div>
           ))}
         </div>

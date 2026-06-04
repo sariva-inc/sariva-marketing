@@ -408,4 +408,46 @@
   .m-line-blue { fill: #93c5fd; }
   .m-line-cyan { fill: #67e8f9; }
 
+  .sariva-client-card {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(255, 255, 255, 0.035);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  }
+
+  .sariva-client-card:hover {
+    transform: translate3d(0, -4px, 0);
+    border-color: rgba(34, 211, 238, 0.34);
+    background: rgba(34, 211, 238, 0.045);
+    box-shadow: 0 24px 72px rgba(34, 211, 238, 0.10), 0 18px 54px rgba(0,0,0,0.24);
+  }
+
+  .sariva-client-icon {
+    display: inline-flex;
+    height: 2.35rem;
+    width: 2.35rem;
+    flex: 0 0 2.35rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(34,211,238,0.20), transparent 55%),
+      rgba(15, 23, 42, 0.68);
+    color: #67e8f9;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 28px rgba(34,211,238,0.08);
+  }
+
+  .sariva-client-icon svg {
+    height: 1.2rem;
+    width: 1.2rem;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
 }
