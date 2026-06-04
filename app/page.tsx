@@ -2,9 +2,9 @@ import type { CSSProperties, ReactNode } from "react";
 
 const navItems = [
   { label: "Platform", href: "#platform" },
-  { label: "Examples", href: "#examples" },
-  { label: "Use cases", href: "#use-cases" },
-  { label: "Security", href: "#security" },
+  { label: "Patterns", href: "#patterns" },
+  { label: "Scenarios", href: "#scenarios" },
+  { label: "Integrations", href: "#integrations" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -93,6 +93,31 @@ const useCases = [
   ["Schema break", "Identify the incompatible field, impacted consumers, registered versions, and the safest migration sequence."],
   ["MSK → Confluent Cloud", "Generate topic mapping, replication plan, validation gates, cutover tasks, and rollback path."],
   ["Connector onboarding", "Prepare connector Terraform, IAM/RBAC dependencies, DLQ policy, and operational checks."],
+];
+
+const supportedClients = [
+  ["Slack", "Primary collaboration interface for questions, approvals, updates, and alert notifications."],
+  ["CLI", "Operator workflow for setup, validation, diagnostics, and controlled platform actions."],
+  ["REST API", "Programmatic access for platform workflows, dashboards, and automation systems."],
+  ["MCP", "AI-native interface for tools and assistants that need governed Sariva context."],
+];
+
+const integrations = [
+  ["GitHub Actions", "GitOps execution path for Terraform applies and workflow status."],
+  ["Confluent Cloud", "Cloud metrics, Kafka topics, consumer groups, connectors, and metadata insight."],
+  ["Amazon EKS", "Self-hosted Sariva runtime with customer-controlled network and IAM boundary."],
+  ["Amazon CloudWatch", "Application logs, metrics, alarms, traces, and service health signals."],
+  ["Amazon S3", "Terraform remote state storage for the AWS reference pattern."],
+  ["Amazon DynamoDB", "Terraform state locking and deployment coordination."],
+  ["PagerDuty", "Incident escalation and on-call routing for alert workflows."],
+  ["Application services", "Registered app telemetry, health, logs, and operational context."],
+];
+
+const nearScope = [
+  ["More deployment patterns", "Additional AWS, Azure, GCP, MSK, Kubernetes, and Confluent Cloud reference patterns can be added as separate cards without changing the page structure."],
+  ["More observability sources", "The pattern is ready for Datadog, New Relic, Dynatrace, Prometheus, Grafana, Loki, and customer-specific telemetry sources."],
+  ["More Git providers", "GitHub is the current reference path; GitLab and Bitbucket can be shown as roadmap integrations when supported."],
+  ["More incident workflows", "Slack and PagerDuty are shown now; Opsgenie, ServiceNow, Teams, and email routing can be added later."],
 ];
 
 const security = [
@@ -234,6 +259,168 @@ function RotatingExamples() {
   );
 }
 
+
+function ArchitecturePattern() {
+  return (
+    <div className="sariva-architecture mt-10 rounded-[2rem] p-5 sm:p-7 lg:p-8">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1 text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-cyan-200">
+            AWS reference pattern
+          </div>
+          <h3 className="mt-3 text-2xl font-extrabold tracking-[-0.03em] text-white sm:text-3xl">Deployment architecture</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-300">
+            GitHub Actions performs the Terraform apply to Confluent Cloud. Sariva stays in the customer runtime to coordinate GitOps, watch workflow status, read cloud/Kafka metadata, and correlate observability signals.
+          </p>
+        </div>
+        <div className="grid gap-2 text-xs font-semibold text-slate-300 sm:min-w-[260px]">
+          <div className="flex items-center gap-2"><span className="h-0.5 w-8 rounded-full bg-blue-400" /> Deployment / apply path</div>
+          <div className="flex items-center gap-2"><span className="h-0.5 w-8 rounded-full border-t border-dashed border-cyan-300" /> Observability / read path</div>
+        </div>
+      </div>
+
+      <div className="sariva-arch-canvas">
+        <div className="sariva-arch-card sariva-arch-github">
+          <span className="sariva-arch-pill">GitOps</span>
+          <div className="sariva-arch-icon">GH</div>
+          <h4>GitHub Actions</h4>
+          <p>CI/CD and GitOps trigger</p>
+        </div>
+
+        <div className="sariva-arch-card sariva-arch-eks">
+          <span className="sariva-arch-pill">Self-hosted</span>
+          <h4>Amazon EKS</h4>
+          <p>Runtime environment</p>
+          <div className="sariva-arch-platform">
+            <h5>Sariva platform</h5>
+            <div className="sariva-arch-module cyan">
+              <strong>Deployment agent</strong>
+              <span>Generates IaC, opens PRs, and coordinates GitOps changes.</span>
+            </div>
+            <div className="sariva-arch-module purple">
+              <strong>GitHub workflow watcher</strong>
+              <span>Watches PRs, workflow runs, apply status, and deployment completion.</span>
+            </div>
+            <div className="sariva-arch-module teal">
+              <strong>Observability agent</strong>
+              <span>Collects, correlates, and queries telemetry to answer operational questions.</span>
+            </div>
+            <div className="sariva-arch-interfaces">
+              <span>API</span><span>Slack</span><span>UI</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="sariva-arch-stack sariva-arch-state">
+          <div className="sariva-arch-card compact green"><span>Remote state</span><strong>Amazon S3 state</strong><p>Terraform remote state storage</p></div>
+          <div className="sariva-arch-card compact purple"><span>State locking</span><strong>Amazon DynamoDB lock</strong><p>State locking and coordination</p></div>
+        </div>
+
+        <div className="sariva-arch-stack sariva-arch-observe">
+          <div className="sariva-arch-card compact cyan"><strong>Applications / services</strong><p>App telemetry, health, performance signals</p></div>
+          <div className="sariva-arch-card compact pink"><strong>Amazon CloudWatch</strong><p>Logs, metrics, traces, alarms, dashboards</p></div>
+          <div className="sariva-arch-card compact purple"><strong>Alert engine</strong><p>Detects issues, anomalies, and policy violations.</p><div className="sariva-arch-badges"><span>Slack</span><span>PagerDuty</span></div></div>
+        </div>
+
+        <div className="sariva-arch-card sariva-arch-confluent">
+          <span className="sariva-arch-pill purple">Managed streaming</span>
+          <div className="sariva-arch-icon cyan">CC</div>
+          <h4>Confluent Cloud</h4>
+          <p>Streaming platform as a service</p>
+        </div>
+
+        <svg className="sariva-arch-lines" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" /></marker>
+            <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#22d3ee" /></marker>
+            <marker id="arrowWhite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1" /></marker>
+          </defs>
+
+          <path className="sariva-line-blue" d="M 98 112 C 112 40, 1045 40, 1122 112" markerEnd="url(#arrowBlue)" />
+          <text className="sariva-line-label blue" x="150" y="66">Deployment / apply path · GitHub Actions → Confluent Cloud</text>
+
+          <path className="sariva-line-white" d="M 100 205 L 252 205" markerEnd="url(#arrowWhite)" />
+          <text className="sariva-line-label" x="126" y="190">trigger pipeline</text>
+
+          <path className="sariva-line-white" d="M 548 150 L 666 108" markerEnd="url(#arrowWhite)" />
+          <text className="sariva-line-label" x="570" y="112">store state</text>
+          <path className="sariva-line-white" d="M 548 195 L 666 198" markerEnd="url(#arrowWhite)" />
+          <text className="sariva-line-label" x="570" y="184">acquire lock</text>
+
+          <path className="sariva-line-cyan" d="M 545 356 C 642 356, 632 318, 674 304" markerEnd="url(#arrowCyan)" />
+          <text className="sariva-line-label cyan" x="558" y="336">query app telemetry</text>
+          <path className="sariva-line-cyan dashed" d="M 545 396 C 650 406, 656 408, 674 405" markerEnd="url(#arrowCyan)" />
+          <text className="sariva-line-label cyan" x="558" y="426">collect logs, metrics, traces</text>
+
+          <path className="sariva-line-cyan dashed" d="M 530 460 C 720 525, 1015 520, 1124 318" markerEnd="url(#arrowCyan)" />
+          <text className="sariva-line-label cyan" x="842" y="500">Read / observe: cloud metrics, topics, consumer groups, Kafka metadata</text>
+
+          <path className="sariva-line-white dashed" d="M 252 490 C 122 490, 122 430, 98 360" markerEnd="url(#arrowWhite)" />
+          <text className="sariva-line-label" x="118" y="456">watch PR/workflow status</text>
+        </svg>
+      </div>
+
+      <div className="mt-6 grid gap-3 md:grid-cols-5">
+        {[
+          ["Secure by design", "Least privilege, network isolation, secrets management"],
+          ["Observable", "Logs, metrics, traces, and Kafka metadata"],
+          ["Governed operations", "State, locks, PRs, and audit history"],
+          ["Integration-ready", "Slack, PagerDuty, GitHub, and AWS services"],
+          ["Stream with confidence", "Enterprise-grade streaming on Confluent Cloud"],
+        ].map(([title, body]) => (
+          <div key={title} className="sariva-arch-benefit rounded-2xl p-4">
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function IntegrationsAndScope() {
+  return (
+    <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="sariva-card rounded-[1.7rem] p-6">
+        <h3 className="text-xl font-extrabold text-white">Supported clients and integrations</h3>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {supportedClients.map(([title, body]) => (
+            <div key={title} className="sariva-card-soft rounded-2xl p-4">
+              <div className="font-extrabold text-white">{title}</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {integrations.map(([title, body]) => (
+            <div key={title} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.75)]" />
+              <div>
+                <div className="text-sm font-extrabold text-slate-100">{title}</div>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="sariva-section-panel rounded-[1.7rem] p-6">
+        <h3 className="text-xl font-extrabold text-white">Near-term expansion scope</h3>
+        <p className="mt-3 text-sm leading-7 text-slate-300">
+          The landing page is structured so new deployment patterns and integrations can be added without redesigning the whole site.
+        </p>
+        <div className="mt-6 space-y-3">
+          {nearScope.map(([title, body]) => (
+            <div key={title} className="sariva-card-soft rounded-2xl p-4">
+              <div className="text-sm font-extrabold text-white">{title}</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="sariva-shell min-h-screen overflow-hidden text-slate-100">
@@ -321,10 +508,19 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="examples" className="relative z-10 py-14 sm:py-16">
+      <section id="patterns" className="relative z-10 py-14 sm:py-16">
         <Container>
-          <SectionHeader center eyebrow="Product examples" title="Rotating scenarios that show how Sariva works in production.">
-            The examples cycle automatically so buyers can quickly see how Sariva turns operational questions into evidence, diagnosis, and a governed next action.
+          <SectionHeader center eyebrow="Reference patterns" title="Designed for real deployment and observability paths.">
+            Start with the AWS reference pattern, then expand the same section later with additional deployment models and integrations as Sariva grows.
+          </SectionHeader>
+          <ArchitecturePattern />
+        </Container>
+      </section>
+
+      <section id="scenarios" className="relative z-10 py-14 sm:py-16">
+        <Container>
+          <SectionHeader center eyebrow="Operational scenarios" title="Real production questions, answered with evidence.">
+            Each scenario shows how a platform team can ask a practical operations question, review the relevant signals, understand the impact, and move toward a safe, auditable resolution.
           </SectionHeader>
           <RotatingExamples />
         </Container>
@@ -372,6 +568,15 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </Container>
+      </section>
+
+      <section id="integrations" className="relative z-10 py-14 sm:py-16">
+        <Container>
+          <SectionHeader center eyebrow="Integrations" title="Supported clients, platform integrations, and expansion path.">
+            Sariva is built to meet platform teams where they already work while keeping future deployment patterns easy to add.
+          </SectionHeader>
+          <IntegrationsAndScope />
         </Container>
       </section>
 
