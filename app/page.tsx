@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 const navItems = [
   { label: "Platform", href: "#platform" },
@@ -33,39 +33,66 @@ const platformCards = [
   },
 ];
 
-const flashCards = [
+const rotatingExamples = [
   {
-    label: "Incident flash card",
+    category: "Kafka operations",
     title: "Consumer lag spike",
     prompt: "@sariva why is orders-consumer behind?",
     signal: "Lag +82k on two hot partitions · consumer CPU 94% · broker ISR healthy",
-    action: "Scale the consumer group by two pods, rebalance partition assignment, and open a rollback-ready PR.",
+    action: "Scale the consumer deployment by two pods, verify assignment balance, and open a rollback-ready PR.",
+    outcome: "Faster triage without jumping between Kafka, Kubernetes, and dashboards.",
   },
   {
-    label: "Flink flash card",
-    title: "Restarting job",
+    category: "Flink operations",
+    title: "Job restart loop",
     prompt: "@sariva explain fraud-detector restarts",
     signal: "3 restarts in 15 minutes · checkpoint duration +280% · TaskManager OOM",
-    action: "Increase process memory from 4 GB to 6 GB, validate checkpoint stability, and attach evidence to the PR.",
+    action: "Increase process memory, validate checkpoint recovery, and attach evidence to the GitOps change.",
+    outcome: "Operational fix with root-cause context and rollback instructions.",
   },
   {
-    label: "Schema flash card",
+    category: "Schema governance",
     title: "Compatibility failure",
     prompt: "@sariva why did schema registration fail?",
     signal: "New required field without default · impacted consumers found in prod group metadata",
-    action: "Create a backward-compatible schema version and generate the safe producer rollout sequence.",
+    action: "Generate a backward-compatible schema update and produce the safe rollout sequence.",
+    outcome: "Reduced producer/consumer breakage during schema evolution.",
+  },
+  {
+    category: "Observability",
+    title: "Cross-signal incident view",
+    prompt: "@sariva summarize the checkout latency spike",
+    signal: "p95 latency +410ms · broker network out +62% · connector retries started after deploy",
+    action: "Correlate dashboards, logs, metrics, and deployment history into a single incident timeline.",
+    outcome: "One evidence-backed explanation instead of manual dashboard hunting.",
+  },
+  {
+    category: "Deployment agents",
+    title: "Agent rollout drift",
+    prompt: "@sariva check deployment agents in enterprise-prod",
+    signal: "2 agents on old image · 1 missing heartbeat · RBAC policy version mismatch",
+    action: "Create a staged upgrade plan, validate health checks, and prepare the GitOps PR.",
+    outcome: "Safer agent operations across clusters, environments, and customer VPCs.",
+  },
+  {
+    category: "Cloud networking",
+    title: "PrivateLink path failure",
+    prompt: "@sariva trace client connection failures to prod Kafka",
+    signal: "DNS resolves · endpoint service accepted · NLB target unhealthy in one AZ",
+    action: "Map the full path and isolate the failing network component before client rollback.",
+    outcome: "Clear ownership across app, network, AWS, and Confluent teams.",
   },
 ];
 
 const useCases = [
   ["Consumer lag spike", "Find hot partitions, slow consumers, offset drift, and throughput changes without jumping through five dashboards."],
   ["Flink job instability", "Correlate restart loops with checkpoint failures, memory pressure, backpressure, and input topic spikes."],
+  ["Observability correlation", "Unify metrics, logs, traces, deployment events, topology, and runbooks into one operational explanation."],
+  ["Deployment agent rollout", "Track agent health, image versions, RBAC scope, heartbeat status, and staged upgrade safety."],
   ["PrivateLink failure", "Trace DNS, endpoint services, NLB targets, security groups, and Confluent network attachments in order."],
   ["Schema break", "Identify the incompatible field, impacted consumers, registered versions, and the safest migration sequence."],
   ["MSK → Confluent Cloud", "Generate topic mapping, replication plan, validation gates, cutover tasks, and rollback path."],
   ["Connector onboarding", "Prepare connector Terraform, IAM/RBAC dependencies, DLQ policy, and operational checks."],
-  ["Topic and ACL operations", "Create governed topic, ACL, retention, and partition changes through reviewable infrastructure code."],
-  ["Tableflow + Iceberg ops", "Monitor sync health, schema evolution, table freshness, and operational failure patterns."],
 ];
 
 const security = [
@@ -85,7 +112,7 @@ function Container({ children, className = "" }: { children: ReactNode; classNam
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="mb-3 text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-cyan-300/90">
+    <p className="mb-3 text-[0.68rem] font-extrabold uppercase tracking-[0.22em] text-cyan-300/90">
       {children}
     </p>
   );
@@ -95,7 +122,7 @@ function SectionHeader({ eyebrow, title, children, center = false }: { eyebrow: 
   return (
     <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="text-2xl font-extrabold leading-[1.12] text-white sm:text-3xl lg:text-[2.35rem]">
+      <h2 className="text-2xl font-extrabold leading-[1.14] text-white sm:text-3xl lg:text-[2.2rem]">
         {title}
       </h2>
       <p className="mt-4 text-sm leading-7 text-slate-300 sm:text-base">{children}</p>
@@ -163,6 +190,50 @@ function CommandPanel() {
   );
 }
 
+function RotatingExamples() {
+  return (
+    <div className="sariva-example-stage mt-10">
+      <div className="sariva-example-viewport">
+        {rotatingExamples.map((item, index) => (
+          <article key={item.title} className="sariva-example-card rounded-[1.6rem] p-5 sm:p-6" style={{ "--card-index": index } as CSSProperties}>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span className="rounded-full border border-blue-300/25 bg-blue-500/12 px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-blue-100">
+                {item.category}
+              </span>
+              <span className="sariva-card-arrow text-cyan-300">→</span>
+            </div>
+            <h3 className="mt-5 text-xl font-extrabold leading-tight text-white sm:text-2xl">{item.title}</h3>
+            <div className="mt-4 rounded-2xl border border-white/10 bg-slate-950/45 p-4 font-mono text-xs leading-6 text-cyan-100">
+              {item.prompt}
+            </div>
+            <div className="mt-5 grid gap-4 text-sm leading-6 sm:grid-cols-2">
+              <div>
+                <div className="text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-slate-500">Signal</div>
+                <p className="mt-1 text-slate-300">{item.signal}</p>
+              </div>
+              <div>
+                <div className="text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-slate-500">Recommended action</div>
+                <p className="mt-1 text-slate-200">{item.action}</p>
+              </div>
+            </div>
+            <div className="mt-5 rounded-2xl border border-emerald-300/18 bg-emerald-300/8 p-4 text-sm font-semibold leading-6 text-emerald-100">
+              {item.outcome}
+            </div>
+          </article>
+        ))}
+      </div>
+      <div className="mt-5 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        {rotatingExamples.map((item, index) => (
+          <div key={item.title} className="sariva-example-chip rounded-2xl px-3 py-3" style={{ "--chip-index": index } as CSSProperties}>
+            <div className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-cyan-200/80">{item.category}</div>
+            <div className="mt-1 text-xs font-bold leading-5 text-slate-200">{item.title}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="sariva-shell min-h-screen overflow-hidden text-slate-100">
@@ -192,7 +263,7 @@ export default function Home() {
         </Container>
       </header>
 
-      <section id="top" className="relative z-10 py-16 sm:py-20 lg:py-24">
+      <section id="top" className="relative z-10 py-14 sm:py-16 lg:py-20">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr]">
             <div>
@@ -201,7 +272,7 @@ export default function Home() {
                 <Pill tone="green">Enterprise-safe GitOps</Pill>
                 <Pill tone="cyan">Self-hosted in your VPC</Pill>
               </div>
-              <h1 className="max-w-4xl text-[2.55rem] font-extrabold leading-[1.02] text-white sm:text-[3.25rem] lg:text-[4rem]">
+              <h1 className="max-w-4xl text-[2.35rem] font-extrabold leading-[1.04] text-white sm:text-[3rem] lg:text-[3.55rem]">
                 Operate streaming infrastructure with confidence and control.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -229,7 +300,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="platform" className="relative z-10 py-16 sm:py-20">
+      <section id="platform" className="relative z-10 py-14 sm:py-16">
         <Container>
           <div className="sariva-section-panel rounded-[2rem] p-6 sm:p-8 lg:p-10">
             <SectionHeader eyebrow="Platform" title="A controlled operations layer, not another dashboard.">
@@ -250,41 +321,16 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="examples" className="relative z-10 py-16 sm:py-20">
+      <section id="examples" className="relative z-10 py-14 sm:py-16">
         <Container>
-          <SectionHeader center eyebrow="Example flash cards" title="Show the product value in quick, practical examples.">
-            These compact examples give buyers a clear picture of how Sariva turns a messy production question into evidence, diagnosis, and a safe next action.
+          <SectionHeader center eyebrow="Product examples" title="Rotating scenarios that show how Sariva works in production.">
+            The examples cycle automatically so buyers can quickly see how Sariva turns operational questions into evidence, diagnosis, and a governed next action.
           </SectionHeader>
-          <div className="mt-10 grid gap-4 lg:grid-cols-3">
-            {flashCards.map((item) => (
-              <article key={item.title} className="sariva-flash-card rounded-[1.6rem] p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-blue-300/25 bg-blue-500/12 px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-blue-100">
-                    {item.label}
-                  </span>
-                  <span className="sariva-card-arrow text-cyan-300">→</span>
-                </div>
-                <h3 className="mt-5 text-xl font-extrabold text-white">{item.title}</h3>
-                <div className="mt-4 rounded-2xl border border-white/10 bg-slate-950/40 p-4 font-mono text-xs leading-6 text-cyan-100">
-                  {item.prompt}
-                </div>
-                <div className="mt-4 space-y-3 text-sm leading-6">
-                  <div>
-                    <div className="text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-slate-500">Signal</div>
-                    <p className="mt-1 text-slate-300">{item.signal}</p>
-                  </div>
-                  <div>
-                    <div className="text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-slate-500">Recommended action</div>
-                    <p className="mt-1 text-slate-200">{item.action}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+          <RotatingExamples />
         </Container>
       </section>
 
-      <section id="use-cases" className="relative z-10 py-16 sm:py-20">
+      <section id="use-cases" className="relative z-10 py-14 sm:py-16">
         <Container>
           <SectionHeader center eyebrow="Use cases" title="Built around the moments that slow platform teams down.">
             Sariva is aimed at production owners: Kafka admins, platform engineers, SRE teams, and cloud infrastructure leads.
@@ -300,7 +346,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="how-it-works" className="relative z-10 py-16 sm:py-20">
+      <section id="how-it-works" className="relative z-10 py-14 sm:py-16">
         <Container>
           <div className="sariva-section-panel rounded-[2rem] p-6 sm:p-8 lg:p-10">
             <div className="grid gap-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
@@ -309,8 +355,8 @@ export default function Home() {
               </SectionHeader>
               <div className="space-y-4">
                 {[
-                  ["01", "Register scope", "Connect only the clusters, topics, Flink jobs, repositories, observability sources, and runbook domains Sariva is allowed to access."],
-                  ["02", "Ask naturally", "Use Slack, CLI, REST, or MCP while Sariva translates operational intent into Kafka, Flink, cloud, and GitOps context."],
+                  ["01", "Register scope", "Connect only the clusters, topics, Flink jobs, repositories, observability sources, deployment agents, and runbook domains Sariva is allowed to access."],
+                  ["02", "Ask naturally", "Use Slack, CLI, REST, or MCP while Sariva translates operational intent into Kafka, Flink, cloud, observability, and GitOps context."],
                   ["03", "Approve safely", "Read answers return with evidence. Write actions become PRs with diffs, rationale, RBAC checks, and rollback notes."],
                 ].map(([step, title, body]) => (
                   <article key={step} className="sariva-card grid gap-5 rounded-[1.45rem] p-5 sm:grid-cols-[68px_1fr]">
@@ -329,7 +375,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="security" className="relative z-10 py-16 sm:py-20">
+      <section id="security" className="relative z-10 py-14 sm:py-16">
         <Container>
           <div className="sariva-card rounded-[2rem] p-6 sm:p-8 lg:p-10">
             <div className="grid gap-9 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
@@ -349,7 +395,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section id="contact" className="relative z-10 border-t border-white/10 bg-[#081426]/90 py-16 sm:py-20">
+      <section id="contact" className="relative z-10 border-t border-white/10 bg-[#081426]/90 py-14 sm:py-16">
         <Container>
           <div className="grid gap-9 lg:grid-cols-[1fr_0.85fr] lg:items-center">
             <div>

@@ -107,49 +107,95 @@
   }
 
   .sariva-card,
-  .sariva-flash-card {
-    background: linear-gradient(180deg, rgba(15, 30, 54, 0.88), rgba(8, 18, 34, 0.90));
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  .sariva-card-soft,
+  .sariva-example-card,
+  .sariva-example-chip {
     transform: translate3d(0, 0, 0);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease, opacity 220ms ease;
     will-change: transform;
   }
 
-  .sariva-flash-card {
-    background:
-      radial-gradient(circle at top right, rgba(34, 211, 238, 0.12), transparent 15rem),
-      linear-gradient(180deg, rgba(16, 32, 58, 0.92), rgba(8, 18, 34, 0.92));
+  .sariva-card {
+    background: linear-gradient(180deg, rgba(15, 30, 54, 0.88), rgba(8, 18, 34, 0.90));
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
   }
 
   .sariva-card-soft {
     background: rgba(15, 30, 54, 0.54);
     border: 1px solid rgba(148, 163, 184, 0.14);
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
   }
 
   .sariva-card:hover,
-  .sariva-flash-card:hover {
-    transform: translate3d(0, -6px, 0);
-    border-color: rgba(96, 165, 250, 0.44);
+  .sariva-card-soft:hover {
+    transform: translate3d(0, -7px, 0);
+    border-color: rgba(96, 165, 250, 0.46);
     box-shadow: 0 30px 85px rgba(50, 103, 255, 0.18), 0 24px 70px rgba(0, 0, 0, 0.28);
   }
 
   .sariva-card-soft:hover {
-    transform: translate3d(0, -4px, 0);
-    border-color: rgba(34, 211, 238, 0.34);
-    box-shadow: 0 22px 64px rgba(34, 211, 238, 0.10);
-  }
-
-  .sariva-flash-card:hover .sariva-card-arrow {
-    transform: translateX(4px);
+    border-color: rgba(34, 211, 238, 0.36);
+    box-shadow: 0 22px 64px rgba(34, 211, 238, 0.12);
   }
 
   .sariva-card-arrow {
     display: inline-block;
     transition: transform 220ms ease;
+  }
+
+  .sariva-card:hover .sariva-card-arrow,
+  .sariva-example-card:hover .sariva-card-arrow {
+    transform: translateX(5px);
+  }
+
+  .sariva-example-stage {
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sariva-example-viewport {
+    position: relative;
+    min-height: 430px;
+  }
+
+  .sariva-example-card {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at top right, rgba(34, 211, 238, 0.12), transparent 16rem),
+      radial-gradient(circle at bottom left, rgba(50, 103, 255, 0.14), transparent 16rem),
+      linear-gradient(180deg, rgba(16, 32, 58, 0.94), rgba(8, 18, 34, 0.94));
+    border: 1px solid rgba(148, 163, 184, 0.20);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    animation: sariva-example-cycle 36s infinite;
+    animation-delay: calc(var(--card-index) * 6s);
+  }
+
+  .sariva-example-card:hover {
+    transform: translate3d(0, -7px, 0) scale(1.006);
+    border-color: rgba(96, 165, 250, 0.48);
+    box-shadow: 0 34px 92px rgba(50, 103, 255, 0.20), 0 28px 70px rgba(0, 0, 0, 0.32);
+  }
+
+  .sariva-example-chip {
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(15, 30, 54, 0.46);
+    animation: sariva-chip-cycle 36s infinite;
+    animation-delay: calc(var(--chip-index) * 6s);
+  }
+
+  .sariva-example-chip:hover {
+    transform: translate3d(0, -4px, 0);
+    border-color: rgba(34, 211, 238, 0.34);
+    background: rgba(34, 211, 238, 0.08);
+  }
+
+  .sariva-example-stage:hover .sariva-example-card,
+  .sariva-example-stage:hover .sariva-example-chip {
+    animation-play-state: paused;
   }
 
   .sariva-glow {
@@ -169,6 +215,53 @@
   }
 }
 
+@keyframes sariva-example-cycle {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+    pointer-events: none;
+  }
+  3% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    pointer-events: auto;
+  }
+  13.5% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    pointer-events: auto;
+  }
+  16.5% {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0) scale(0.985);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0) scale(0.985);
+    pointer-events: none;
+  }
+}
+
+@keyframes sariva-chip-cycle {
+  0%, 16.5%, 100% {
+    border-color: rgba(148, 163, 184, 0.14);
+    background: rgba(15, 30, 54, 0.46);
+    box-shadow: none;
+  }
+  3%, 13.5% {
+    border-color: rgba(34, 211, 238, 0.40);
+    background: rgba(34, 211, 238, 0.09);
+    box-shadow: 0 16px 46px rgba(34, 211, 238, 0.08);
+  }
+}
+
+@media (max-width: 640px) {
+  .sariva-example-viewport {
+    min-height: 570px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -179,13 +272,30 @@
 
   .sariva-card,
   .sariva-card-soft,
-  .sariva-flash-card {
+  .sariva-example-card,
+  .sariva-example-chip {
     will-change: auto;
   }
 
   .sariva-card:hover,
   .sariva-card-soft:hover,
-  .sariva-flash-card:hover {
+  .sariva-example-card:hover,
+  .sariva-example-chip:hover {
     transform: none;
+  }
+
+  .sariva-example-card {
+    position: relative;
+    display: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .sariva-example-card:first-child {
+    display: block;
+  }
+
+  .sariva-example-viewport {
+    min-height: auto;
   }
 }
