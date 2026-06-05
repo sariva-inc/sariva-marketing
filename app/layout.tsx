@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  icons: { icon: \"/sariva-favicon.svg\" },
   title: "Sariva — AI operations layer for Kafka and Flink",
   description:
     "Sariva helps platform teams observe, diagnose, and safely operate Kafka, Flink, Confluent Cloud, MSK, and cloud-native streaming infrastructure through Slack, CLI, REST, and MCP.",
