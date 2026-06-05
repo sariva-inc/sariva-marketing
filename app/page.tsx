@@ -5,6 +5,7 @@ const navItems = [
   { label: "Patterns", href: "#patterns" },
   { label: "Scenarios", href: "#scenarios" },
   { label: "Integrations", href: "#integrations" },
+  { label: "Docs", href: "https://sariva.mintlify.app/", external: true },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -625,7 +626,13 @@ export default function Home() {
             </a>
             <nav className="hidden items-center gap-6 md:flex">
               {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="text-sm font-semibold text-slate-300 transition hover:text-white">
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noreferrer" : undefined}
+                  className="text-sm font-semibold text-slate-300 transition hover:text-white"
+                >
                   {item.label}
                 </a>
               ))}
