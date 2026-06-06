@@ -627,9 +627,9 @@ function SlackProductDemo() {
               <div className="sariva-slack-app">
                 <aside className="sariva-slack-app-sidebar">
                   <div className="sariva-slack-workspace">S</div>
-                  <div className="sariva-slack-nav active"># platform</div>
-                  <div className="sariva-slack-nav"># incidents</div>
-                  <div className="sariva-slack-nav"># deployments</div>
+                  <div className="sariva-slack-nav nav-platform"># platform</div>
+                  <div className="sariva-slack-nav nav-incidents"># incidents</div>
+                  <div className="sariva-slack-nav nav-deployments"># deployments</div>
                 </aside>
 
                 <main className="sariva-slack-app-main">
@@ -675,16 +675,16 @@ function SlackProductDemo() {
                           <div className="min-w-0 flex-1">
                             <div className="sariva-mini-name">Sariva</div>
                             <div className="sariva-mini-response">
-                              <div className="flex items-start justify-between gap-3">
+                              <div className="sariva-mini-response-head">
                                 <div>
                                   <div className="sariva-mini-title">{item.title}</div>
                                   <p>{item.detail}</p>
                                 </div>
                                 <span>evidence</span>
                               </div>
-                              <div className="sariva-mini-action">{item.action}</div>
-                              <div className="mt-3 flex flex-wrap gap-2">
-                                <button className="sariva-mini-button primary">Open</button>
+                              <div className="sariva-mini-action compact">{item.action}</div>
+                              <div className="sariva-mini-actions">
+                                <button className="sariva-mini-button primary">Open PR</button>
                                 <button className="sariva-mini-button">Evidence</button>
                                 <button className="sariva-mini-button">Notify</button>
                               </div>

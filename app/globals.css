@@ -1590,4 +1590,194 @@
     }
   }
 
+  /* Slack demo refinement: rotating channel highlight + compact response fit */
+  .sariva-slack-nav {
+    position: relative;
+    transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease;
+  }
+
+  .sariva-slack-nav::before {
+    content: "";
+    position: absolute;
+    left: 0.35rem;
+    top: 50%;
+    height: 0.35rem;
+    width: 0.35rem;
+    transform: translateY(-50%) scale(0);
+    border-radius: 999px;
+    background: #67e8f9;
+    box-shadow: 0 0 16px rgba(34,211,238,0.72);
+    transition: transform 220ms ease;
+  }
+
+  .sariva-slack-nav.nav-platform,
+  .sariva-slack-nav.nav-incidents,
+  .sariva-slack-nav.nav-deployments {
+    padding-left: 1rem;
+    animation: sarivaNavInactive 18s linear infinite;
+  }
+
+  .sariva-slack-nav.nav-platform {
+    animation-name: sarivaNavPlatform;
+  }
+
+  .sariva-slack-nav.nav-incidents {
+    animation-name: sarivaNavIncidents;
+  }
+
+  .sariva-slack-nav.nav-deployments {
+    animation-name: sarivaNavDeployments;
+  }
+
+  .sariva-slack-nav.nav-platform::before {
+    animation: sarivaNavDotPlatform 18s linear infinite;
+  }
+
+  .sariva-slack-nav.nav-incidents::before {
+    animation: sarivaNavDotIncidents 18s linear infinite;
+  }
+
+  .sariva-slack-nav.nav-deployments::before {
+    animation: sarivaNavDotDeployments 18s linear infinite;
+  }
+
+  .sariva-demo-window {
+    max-width: 720px;
+  }
+
+  .sariva-slack-app {
+    min-height: 430px;
+  }
+
+  .sariva-slack-stage {
+    min-height: 330px;
+    padding: 0.82rem;
+  }
+
+  .sariva-thread {
+    inset: 0.82rem;
+  }
+
+  .sariva-mini-message + .sariva-mini-message {
+    margin-top: 0.58rem;
+  }
+
+  .sariva-mini-avatar {
+    height: 1.72rem;
+    width: 1.72rem;
+    flex-basis: 1.72rem;
+    border-radius: 0.62rem;
+    font-size: 0.66rem;
+  }
+
+  .sariva-mini-name {
+    margin-bottom: 0.22rem;
+    font-size: 0.66rem;
+  }
+
+  .sariva-mini-bubble {
+    max-width: 100%;
+    padding: 0.52rem 0.65rem;
+    font-size: 0.68rem;
+    line-height: 1.35;
+  }
+
+  .sariva-mini-typing {
+    padding: 0.46rem 0.58rem;
+  }
+
+  .sariva-mini-response {
+    padding: 0.62rem;
+  }
+
+  .sariva-mini-response-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    align-items: start;
+  }
+
+  .sariva-mini-title {
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .sariva-mini-response p {
+    margin-top: 0.28rem;
+    font-size: 0.64rem;
+    line-height: 1.32;
+  }
+
+  .sariva-mini-response span {
+    padding: 0.18rem 0.36rem;
+    font-size: 0.52rem;
+  }
+
+  .sariva-mini-action.compact {
+    margin-top: 0.5rem;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.64rem;
+    line-height: 1.35;
+  }
+
+  .sariva-mini-actions {
+    margin-top: 0.55rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+  }
+
+  .sariva-mini-button {
+    padding: 0.3rem 0.46rem;
+    font-size: 0.58rem;
+  }
+
+  .sariva-slack-composer {
+    min-height: 2.4rem;
+    padding: 0.62rem 0.78rem;
+    font-size: 0.66rem;
+  }
+
+  @keyframes sarivaNavPlatform {
+    0%, 4% { background: transparent; color: rgba(203,213,225,0.62); }
+    8%, 30% { background: rgba(34,211,238,0.12); color: #e0f2fe; box-shadow: inset 0 0 0 1px rgba(34,211,238,0.10); }
+    34%, 100% { background: transparent; color: rgba(203,213,225,0.62); }
+  }
+
+  @keyframes sarivaNavIncidents {
+    0%, 34% { background: transparent; color: rgba(203,213,225,0.62); }
+    38%, 60% { background: rgba(34,211,238,0.12); color: #e0f2fe; box-shadow: inset 0 0 0 1px rgba(34,211,238,0.10); }
+    64%, 100% { background: transparent; color: rgba(203,213,225,0.62); }
+  }
+
+  @keyframes sarivaNavDeployments {
+    0%, 64% { background: transparent; color: rgba(203,213,225,0.62); }
+    68%, 90% { background: rgba(34,211,238,0.12); color: #e0f2fe; box-shadow: inset 0 0 0 1px rgba(34,211,238,0.10); }
+    94%, 100% { background: transparent; color: rgba(203,213,225,0.62); }
+  }
+
+  @keyframes sarivaNavDotPlatform {
+    0%, 4% { transform: translateY(-50%) scale(0); }
+    8%, 30% { transform: translateY(-50%) scale(1); }
+    34%, 100% { transform: translateY(-50%) scale(0); }
+  }
+
+  @keyframes sarivaNavDotIncidents {
+    0%, 34% { transform: translateY(-50%) scale(0); }
+    38%, 60% { transform: translateY(-50%) scale(1); }
+    64%, 100% { transform: translateY(-50%) scale(0); }
+  }
+
+  @keyframes sarivaNavDotDeployments {
+    0%, 64% { transform: translateY(-50%) scale(0); }
+    68%, 90% { transform: translateY(-50%) scale(1); }
+    94%, 100% { transform: translateY(-50%) scale(0); }
+  }
+
+  @media (max-width: 640px) {
+    .sariva-slack-stage {
+      min-height: 390px;
+    }
+  }
+
 }
