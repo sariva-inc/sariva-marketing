@@ -642,7 +642,7 @@ function SlackProductDemo() {
                       </div>
                       <div className="text-[0.68rem] font-bold text-slate-500">Sariva app connected</div>
                     </div>
-                    <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2 py-1 text-[0.62rem] font-black uppercase tracking-[0.12em] text-emerald-200">Live</span>
+                    <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2 py-1 text-[0.62rem] font-black uppercase tracking-[0.12em] text-cyan-200">Sariva app</span>
                   </div>
 
                   <div className="sariva-slack-stage">

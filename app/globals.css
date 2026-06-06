@@ -1780,4 +1780,28 @@
     }
   }
 
+  /* Slack window polish: keep channel labels inside sidebar and remove cramped look */
+  .sariva-slack-app {
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+
+  .sariva-slack-app-sidebar {
+    min-width: 132px;
+    padding: 0.85rem 0.65rem;
+  }
+
+  .sariva-slack-nav {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.64rem;
+    padding-right: 0.42rem;
+  }
+
+  .sariva-slack-nav.nav-platform,
+  .sariva-slack-nav.nav-incidents,
+  .sariva-slack-nav.nav-deployments {
+    padding-left: 0.92rem;
+  }
+
 }
