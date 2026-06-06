@@ -1118,4 +1118,157 @@
     }
   }
 
+  .sariva-real-slack {
+    border: 1px solid rgba(96,165,250,0.22);
+    background:
+      radial-gradient(circle at 20% 10%, rgba(59,130,246,0.16), transparent 18rem),
+      radial-gradient(circle at 90% 20%, rgba(34,211,238,0.10), transparent 16rem),
+      linear-gradient(180deg, rgba(8,19,36,0.96), rgba(3,7,18,0.94));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 34px 96px rgba(0,0,0,0.30);
+  }
+
+  .sariva-real-slack-window {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    min-height: 640px;
+    overflow: hidden;
+    border-radius: 1.35rem;
+    border: 1px solid rgba(148,163,184,0.14);
+    background: rgba(2,8,23,0.55);
+  }
+
+  .sariva-real-slack-sidebar {
+    border-right: 1px solid rgba(148,163,184,0.12);
+    background: linear-gradient(180deg, rgba(30, 22, 54, 0.82), rgba(15,23,42,0.74));
+    padding: 1rem;
+  }
+
+  .sariva-real-slack-main {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .sariva-real-slack-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(148,163,184,0.12);
+    background: rgba(15,23,42,0.42);
+    padding: 0.95rem 1.1rem;
+  }
+
+  .sariva-real-slack-thread {
+    flex: 1;
+    overflow: hidden;
+    padding: 1.1rem;
+  }
+
+  .sariva-real-message {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+
+  .sariva-real-message + .sariva-real-message {
+    margin-top: 1rem;
+  }
+
+  .sariva-slack-name span {
+    margin-left: 0.35rem;
+    font-size: 0.68rem;
+    color: rgba(148,163,184,0.68);
+  }
+
+  .sariva-real-bubble {
+    display: inline-block;
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.14);
+    background: rgba(255,255,255,0.045);
+    padding: 0.82rem 0.95rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: rgba(226,232,240,0.94);
+  }
+
+  .sariva-real-response-card {
+    border-radius: 1.25rem;
+    border: 1px solid rgba(34,211,238,0.18);
+    background: rgba(2,8,23,0.50);
+    padding: 1rem;
+  }
+
+  .sariva-real-evidence-block {
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.12);
+    background: rgba(255,255,255,0.035);
+    padding: 0.85rem;
+  }
+
+  .sariva-real-evidence-block div {
+    font-size: 0.74rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #67e8f9;
+  }
+
+  .sariva-real-evidence-block p {
+    margin-top: 0.45rem;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: rgba(203,213,225,0.74);
+  }
+
+  .sariva-real-composer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(148,163,184,0.12);
+    padding: 0.85rem 1rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: rgba(148,163,184,0.88);
+    background: rgba(15,23,42,0.42);
+  }
+
+  .sariva-real-typing {
+    animation: sarivaTypingInOut 2300ms ease 2200ms forwards;
+    opacity: 0;
+  }
+
+  .sariva-real-response {
+    animation: sarivaMessageIn 700ms ease 4700ms forwards;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .sariva-scenario-row {
+    border: 1px solid rgba(148,163,184,0.13);
+    background: rgba(255,255,255,0.035);
+    transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+  }
+
+  .sariva-scenario-row:hover {
+    transform: translateY(-3px);
+    border-color: rgba(34,211,238,0.28);
+    background: rgba(34,211,238,0.045);
+  }
+
+  @media (max-width: 768px) {
+    .sariva-real-slack-window {
+      grid-template-columns: 1fr;
+      min-height: 720px;
+    }
+
+    .sariva-real-slack-sidebar {
+      display: none;
+    }
+
+    .sariva-real-slack-thread {
+      padding: 0.85rem;
+    }
+  }
+
 }
