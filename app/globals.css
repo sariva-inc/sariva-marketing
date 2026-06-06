@@ -682,4 +682,182 @@
     background: rgba(255,255,255,0.035);
   }
 
+  .sariva-live-demo {
+    overflow: hidden;
+  }
+
+  .sariva-live-window {
+    position: relative;
+    min-height: 590px;
+    overflow: hidden;
+  }
+
+  .sariva-live-message {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: sarivaMessageIn 900ms ease forwards;
+  }
+
+  .sariva-live-message.user {
+    animation-delay: 300ms;
+  }
+
+  .sariva-live-message.typing {
+    margin-top: 1rem;
+    animation-delay: 2300ms;
+    animation-name: sarivaTypingInOut;
+    animation-duration: 2300ms;
+    animation-fill-mode: forwards;
+  }
+
+  .sariva-live-message.response-one {
+    margin-top: 1rem;
+    animation-delay: 4600ms;
+  }
+
+  .sariva-live-message.response-two {
+    margin-top: 1rem;
+    animation-delay: 6500ms;
+  }
+
+  .sariva-live-message.response-three {
+    margin-top: 1rem;
+    animation-delay: 8000ms;
+  }
+
+  .sariva-type-line {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+    animation: sarivaType 1500ms steps(52, end) 700ms forwards;
+  }
+
+  .sariva-type-line::after {
+    content: "";
+    display: inline-block;
+    height: 1.05em;
+    width: 2px;
+    margin-left: 2px;
+    vertical-align: -2px;
+    background: #67e8f9;
+    animation: sarivaCursor 800ms step-end infinite;
+  }
+
+  .sariva-typing-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(34,211,238,0.18);
+    background: rgba(2,8,23,0.50);
+    padding: 0.85rem 1rem;
+  }
+
+  .sariva-typing-bubble span {
+    height: 0.45rem;
+    width: 0.45rem;
+    border-radius: 999px;
+    background: #67e8f9;
+    opacity: 0.45;
+    animation: sarivaTypingDot 900ms ease-in-out infinite;
+  }
+
+  .sariva-typing-bubble span:nth-child(2) {
+    animation-delay: 140ms;
+  }
+
+  .sariva-typing-bubble span:nth-child(3) {
+    animation-delay: 280ms;
+  }
+
+  .sariva-sariva-response.compact {
+    padding: 1rem;
+  }
+
+  @keyframes sarivaMessageIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes sarivaTypingInOut {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    22% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    74% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-4px);
+      display: none;
+    }
+  }
+
+  @keyframes sarivaType {
+    to {
+      max-width: 34rem;
+    }
+  }
+
+  @keyframes sarivaCursor {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sarivaTypingDot {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 0.35;
+    }
+    50% {
+      transform: translateY(-3px);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sariva-live-message,
+    .sariva-type-line,
+    .sariva-typing-bubble span {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      max-width: none !important;
+    }
+
+    .sariva-live-message.typing {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .sariva-live-window {
+      min-height: 720px;
+    }
+
+    .sariva-type-line {
+      white-space: normal;
+      max-width: none;
+      animation: none;
+    }
+
+    .sariva-type-line::after {
+      display: none;
+    }
+  }
+
 }

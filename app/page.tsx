@@ -570,15 +570,15 @@ function SlackProductDemo() {
       <Container>
         <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
           <div>
-            <SectionHeader eyebrow="Product demo" title="From operational question to governed action.">
-              Sariva gives platform teams a Slack-native way to investigate Kafka and Flink issues, review evidence, and move toward safe GitOps-controlled remediation.
+            <SectionHeader eyebrow="Product demo" title="Watch Sariva work inside Slack.">
+              A live-style product example showing how a platform engineer asks a Kafka question, Sariva analyzes signals, and the team moves toward a governed next action.
             </SectionHeader>
 
             <div className="mt-7 grid gap-3">
               {[
-                ["Ask in plain English", "Teams can ask operational questions without jumping across dashboards, scripts, and runbooks."],
-                ["Get evidence, not guesses", "Sariva correlates Kafka metrics, app telemetry, CloudWatch logs, deployment history, and runbook context."],
-                ["Act through governance", "Write actions stay controlled through GitOps PRs, approval gates, audit trails, and rollback notes."],
+                ["Ask like a teammate", "Use natural language in Slack instead of jumping between dashboards, scripts, and runbooks."],
+                ["See the analysis unfold", "Sariva shows the signal, impact, likely cause, and supporting evidence in the same thread."],
+                ["Move to a safe action", "Recommended actions stay governed through GitOps PRs, evidence links, approval gates, and incident workflows."],
               ].map(([title, body]) => (
                 <div key={title} className="sariva-demo-point rounded-2xl p-4">
                   <strong>{title}</strong>
@@ -588,7 +588,7 @@ function SlackProductDemo() {
             </div>
           </div>
 
-          <div className="sariva-slack-demo rounded-[1.8rem] p-4 sm:p-5">
+          <div className="sariva-slack-demo sariva-live-demo rounded-[1.8rem] p-4 sm:p-5">
             <div className="sariva-slack-topbar">
               <div className="flex items-center gap-2">
                 <span className="h-3 w-3 rounded-full bg-red-400/80" />
@@ -598,16 +598,30 @@ function SlackProductDemo() {
               <div className="text-xs font-bold text-slate-400"># kafka-platform-ops</div>
             </div>
 
-            <div className="mt-5 space-y-4">
-              <div className="sariva-slack-message">
+            <div className="sariva-live-window mt-5">
+              <div className="sariva-live-message user">
                 <div className="sariva-avatar user">R</div>
                 <div>
                   <div className="sariva-slack-name">Platform engineer</div>
-                  <div className="sariva-slack-bubble">@sariva why is <strong>orders-consumer</strong> falling behind?</div>
+                  <div className="sariva-slack-bubble">
+                    <span className="sariva-type-line">@sariva why is <strong>orders-consumer</strong> falling behind?</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="sariva-slack-message">
+              <div className="sariva-live-message typing">
+                <div className="sariva-avatar bot">S</div>
+                <div>
+                  <div className="sariva-slack-name">Sariva</div>
+                  <div className="sariva-typing-bubble">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                </div>
+              </div>
+
+              <div className="sariva-live-message bot response-one">
                 <div className="sariva-avatar bot">S</div>
                 <div className="min-w-0 flex-1">
                   <div className="sariva-slack-name">Sariva</div>
@@ -615,7 +629,7 @@ function SlackProductDemo() {
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
                         <div className="text-sm font-extrabold text-white">Consumer lag spike detected</div>
-                        <p className="mt-1 text-xs leading-5 text-slate-400">Lag increased across two partitions after the last deployment window.</p>
+                        <p className="mt-1 text-xs leading-5 text-slate-400">orders-consumer is behind on two partitions after the latest deployment window.</p>
                       </div>
                       <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[0.68rem] font-black uppercase tracking-[0.12em] text-amber-200">High impact</span>
                     </div>
@@ -637,12 +651,26 @@ function SlackProductDemo() {
                         <p>ISR stable</p>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
 
-                    <div className="mt-4 rounded-2xl border border-cyan-300/15 bg-cyan-300/[0.045] p-4">
-                      <div className="text-xs font-black uppercase tracking-[0.14em] text-cyan-200">Recommended next action</div>
-                      <p className="mt-2 text-sm leading-6 text-slate-200">Scale <strong>orders-consumer</strong> from 3 to 5 pods, verify partition assignment balance, and attach evidence to the GitOps PR.</p>
-                    </div>
+              <div className="sariva-live-message bot response-two">
+                <div className="sariva-avatar bot">S</div>
+                <div className="min-w-0 flex-1">
+                  <div className="sariva-sariva-response compact">
+                    <div className="text-xs font-black uppercase tracking-[0.14em] text-cyan-200">Likely cause</div>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">Hot partition activity plus consumer CPU saturation. Broker ISR is healthy, so this is more likely consumer-side pressure than cluster instability.</p>
+                  </div>
+                </div>
+              </div>
 
+              <div className="sariva-live-message bot response-three">
+                <div className="sariva-avatar bot">S</div>
+                <div className="min-w-0 flex-1">
+                  <div className="sariva-sariva-response compact">
+                    <div className="text-xs font-black uppercase tracking-[0.14em] text-cyan-200">Recommended next action</div>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">Scale <strong>orders-consumer</strong> from 3 to 5 pods, verify partition assignment balance, and attach evidence to the GitOps PR.</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       <button className="sariva-demo-button primary">Open GitOps PR</button>
                       <button className="sariva-demo-button">View evidence</button>
@@ -655,9 +683,9 @@ function SlackProductDemo() {
 
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               {[
+                ["Live thread", "Prompt, analysis, response"],
                 ["Evidence", "Metrics, logs, deploy history"],
                 ["Governance", "PR, approval, rollback"],
-                ["Response", "Slack + PagerDuty"],
               ].map(([title, body]) => (
                 <div key={title} className="sariva-demo-mini rounded-2xl p-3">
                   <strong>{title}</strong>
