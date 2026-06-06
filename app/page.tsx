@@ -565,127 +565,132 @@ function IntegrationIcon({ title }: { title: string }) {
 }
 
 function SlackProductDemo() {
+  const examples = [
+    {
+      label: "Consumer lag",
+      prompt: "@sariva why is orders-consumer falling behind?",
+      result: "Lag spike detected",
+      evidence: "82k lag · CPU 94% · ISR healthy",
+    },
+    {
+      label: "Flink restart",
+      prompt: "@sariva why did fraud-detector restart?",
+      result: "TaskManager pressure found",
+      evidence: "3 restarts · checkpoint +280% · OOM signal",
+    },
+    {
+      label: "Schema failure",
+      prompt: "@sariva why did schema registration fail?",
+      result: "Compatibility issue found",
+      evidence: "Required field missing default · 4 impacted consumers",
+    },
+  ];
+
   return (
     <section id="demo" className="relative z-10 py-14 sm:py-16">
       <Container>
-        <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+        <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
           <div>
             <SectionHeader eyebrow="Product demo" title="Watch Sariva work inside Slack.">
-              A live-style product example showing how a platform engineer asks a Kafka question, Sariva analyzes signals, and the team moves toward a governed next action.
+              A compact live-style Slack demo showing how platform teams ask operational questions, review evidence, and move toward governed action.
             </SectionHeader>
 
             <div className="mt-7 grid gap-3">
-              {[
-                ["Ask like a teammate", "Use natural language in Slack instead of jumping between dashboards, scripts, and runbooks."],
-                ["See the analysis unfold", "Sariva shows the signal, impact, likely cause, and supporting evidence in the same thread."],
-                ["Move to a safe action", "Recommended actions stay governed through GitOps PRs, evidence links, approval gates, and incident workflows."],
-              ].map(([title, body]) => (
-                <div key={title} className="sariva-demo-point rounded-2xl p-4">
-                  <strong>{title}</strong>
-                  <p>{body}</p>
+              {examples.map((example, index) => (
+                <div key={example.label} className={`sariva-demo-example-card rounded-2xl p-4 demo-${index + 1}`}>
+                  <div className="flex items-start gap-3">
+                    <span className="sariva-demo-example-dot">{index + 1}</span>
+                    <div>
+                      <strong>{example.label}</strong>
+                      <p>{example.prompt}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="sariva-slack-demo sariva-live-demo rounded-[1.8rem] p-4 sm:p-5">
-            <div className="sariva-slack-topbar">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-400/80" />
-                <span className="h-3 w-3 rounded-full bg-yellow-300/80" />
-                <span className="h-3 w-3 rounded-full bg-emerald-400/80" />
-              </div>
-              <div className="text-xs font-bold text-slate-400"># kafka-platform-ops</div>
+          <div className="sariva-compact-slack-shell rounded-[1.8rem] p-4">
+            <div className="sariva-compact-slack-window">
+              <aside className="sariva-compact-slack-sidebar">
+                <div className="sariva-slack-workspace">S</div>
+                <div className="sariva-slack-channel active"># ops</div>
+                <div className="sariva-slack-channel"># kafka</div>
+                <div className="sariva-slack-channel"># deploys</div>
+              </aside>
+
+              <main className="sariva-compact-slack-main">
+                <div className="sariva-compact-slack-header">
+                  <div>
+                    <div className="text-sm font-extrabold text-white"># kafka-platform-ops</div>
+                    <div className="text-[0.68rem] font-bold text-slate-500">Sariva app connected</div>
+                  </div>
+                  <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-2 py-1 text-[0.62rem] font-black uppercase tracking-[0.12em] text-emerald-200">Live</span>
+                </div>
+
+                <div className="sariva-compact-slack-stream">
+                  {examples.map((example, index) => (
+                    <div key={example.label} className={`sariva-live-scenario scenario-${index + 1}`}>
+                      <div className="sariva-compact-message user">
+                        <div className="sariva-avatar user">R</div>
+                        <div>
+                          <div className="sariva-slack-name">Platform engineer</div>
+                          <div className="sariva-compact-bubble">
+                            <span>{example.prompt}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="sariva-compact-message typing">
+                        <div className="sariva-avatar bot">S</div>
+                        <div>
+                          <div className="sariva-slack-name">Sariva</div>
+                          <div className="sariva-typing-bubble compact">
+                            <span />
+                            <span />
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="sariva-compact-message bot">
+                        <div className="sariva-avatar bot">S</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="sariva-slack-name">Sariva</div>
+                          <div className="sariva-compact-response">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <div className="text-sm font-extrabold text-white">{example.result}</div>
+                              <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2 py-1 text-[0.62rem] font-black uppercase tracking-[0.12em] text-cyan-200">Evidence</span>
+                            </div>
+                            <p className="mt-2 text-xs leading-5 text-slate-400">{example.evidence}</p>
+                            <div className="mt-3 rounded-xl border border-cyan-300/15 bg-cyan-300/[0.045] p-3">
+                              <div className="text-[0.66rem] font-black uppercase tracking-[0.12em] text-cyan-200">Next action</div>
+                              <p className="mt-1 text-xs leading-5 text-slate-200">Open a GitOps PR with evidence, validation steps, and rollback notes.</p>
+                            </div>
+                            <div className="mt-3 flex flex-wrap gap-2">
+                              <button className="sariva-demo-button primary small">Open PR</button>
+                              <button className="sariva-demo-button small">Evidence</button>
+                              <button className="sariva-demo-button small">PagerDuty</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="sariva-compact-composer">
+                  <span className="text-slate-500">Message #kafka-platform-ops</span>
+                  <span className="sariva-composer-cursor" />
+                </div>
+              </main>
             </div>
 
-            <div className="sariva-live-window mt-5">
-              <div className="sariva-live-message user">
-                <div className="sariva-avatar user">R</div>
-                <div>
-                  <div className="sariva-slack-name">Platform engineer</div>
-                  <div className="sariva-slack-bubble">
-                    <span className="sariva-type-line">@sariva why is <strong>orders-consumer</strong> falling behind?</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="sariva-live-message typing">
-                <div className="sariva-avatar bot">S</div>
-                <div>
-                  <div className="sariva-slack-name">Sariva</div>
-                  <div className="sariva-typing-bubble">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                </div>
-              </div>
-
-              <div className="sariva-live-message bot response-one">
-                <div className="sariva-avatar bot">S</div>
-                <div className="min-w-0 flex-1">
-                  <div className="sariva-slack-name">Sariva</div>
-                  <div className="sariva-sariva-response">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-extrabold text-white">Consumer lag spike detected</div>
-                        <p className="mt-1 text-xs leading-5 text-slate-400">orders-consumer is behind on two partitions after the latest deployment window.</p>
-                      </div>
-                      <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[0.68rem] font-black uppercase tracking-[0.12em] text-amber-200">High impact</span>
-                    </div>
-
-                    <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                      <div className="sariva-evidence-tile">
-                        <span>Lag</span>
-                        <strong>82k</strong>
-                        <p>messages behind</p>
-                      </div>
-                      <div className="sariva-evidence-tile">
-                        <span>CPU</span>
-                        <strong>94%</strong>
-                        <p>consumer pods</p>
-                      </div>
-                      <div className="sariva-evidence-tile">
-                        <span>Broker health</span>
-                        <strong>OK</strong>
-                        <p>ISR stable</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="sariva-live-message bot response-two">
-                <div className="sariva-avatar bot">S</div>
-                <div className="min-w-0 flex-1">
-                  <div className="sariva-sariva-response compact">
-                    <div className="text-xs font-black uppercase tracking-[0.14em] text-cyan-200">Likely cause</div>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">Hot partition activity plus consumer CPU saturation. Broker ISR is healthy, so this is more likely consumer-side pressure than cluster instability.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="sariva-live-message bot response-three">
-                <div className="sariva-avatar bot">S</div>
-                <div className="min-w-0 flex-1">
-                  <div className="sariva-sariva-response compact">
-                    <div className="text-xs font-black uppercase tracking-[0.14em] text-cyan-200">Recommended next action</div>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">Scale <strong>orders-consumer</strong> from 3 to 5 pods, verify partition assignment balance, and attach evidence to the GitOps PR.</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <button className="sariva-demo-button primary">Open GitOps PR</button>
-                      <button className="sariva-demo-button">View evidence</button>
-                      <button className="sariva-demo-button">Create PagerDuty incident</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {[
-                ["Live thread", "Prompt, analysis, response"],
-                ["Evidence", "Metrics, logs, deploy history"],
-                ["Governance", "PR, approval, rollback"],
+                ["Rotating examples", "Lag, Flink, schema"],
+                ["Slack-native", "Threaded product flow"],
+                ["Governed action", "PR + evidence + incident"],
               ].map(([title, body]) => (
                 <div key={title} className="sariva-demo-mini rounded-2xl p-3">
                   <strong>{title}</strong>
